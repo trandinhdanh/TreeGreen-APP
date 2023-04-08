@@ -10,6 +10,7 @@ import CarouseItem from './CarouseItem';
 export default function CarouselHome() {
   return (
     <div className='container mx-auto mb:px-5 md:px-24 lg:px-24'>
+      {/* comment test git */}
         <Swiper
         modules={[Navigation]}
       spaceBetween={50}
