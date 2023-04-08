@@ -1,0 +1,20 @@
+
+.imgCarousel img{
+    transition: all 5s;
+    object-fit: cover;
+}
+
+.imgCarousel img:hover{
+    transform: scale(1.2);
+}
+.textCarousel h1{
+    font-family: 'Playfair Display', serif;
+}
+.textCarousel p{
+    font-family: 'Roboto Slab', serif;
+}
+.swiper-button-prev, .swiper-button-next{
+    color: #fff !important;
+    font-size: 15px;
+    padding: 0 20px;
+}

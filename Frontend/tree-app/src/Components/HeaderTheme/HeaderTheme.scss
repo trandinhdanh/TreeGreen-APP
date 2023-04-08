@@ -1,0 +1,24 @@
+header{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    .navItem{
+        transition: .35s;
+        cursor: pointer;
+        position: relative;
+    }
+    .navItem:hover{
+        color:#f34f3f;
+        // transform: scale(1.2);
+    }
+    .navItem::before{
+        content: "";
+        transition: all .5s;
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        width: 0%;
+        background-color: #f34f3f;
+    }
+    .navItem:hover::before{
+        width: 100%;
+    }
+}

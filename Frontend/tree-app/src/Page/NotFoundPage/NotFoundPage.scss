@@ -1,0 +1,53 @@
+.wrapperNotFound {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=874&q=80");
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.wrapperNotFound h1 {
+    font-size: 8rem;
+    background: #12c2e9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #003807, #009a54, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+
+}
+
+.wrapperNotFound p {
+    color: white;
+    font-size: 15px;
+    width: 500px;
+}
+
+.wrapperNotFound .buttons .btn {
+    background: transparent;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid white;
+    color: royalblue;
+    border-radius: 5px;
+    margin-top: 15px;
+    width: 130px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s all ease;
+}
+
+.wrapperNotFound .buttons .btn1 {
+    background: #245953;
+    color: white;
+}
+
+.wrapperNotFound .buttons .btn1:hover {
+    background: transparent;
+    color: #fff;
+}

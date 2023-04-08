@@ -1,0 +1,32 @@
+
+.productItem{
+    
+    .productImg{
+        img{
+            transition: transform 0.5s;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+        }
+        .productItemIcon{
+            padding: 10px;
+            bottom: -50px;
+            transition: all 0.5s;
+        }
+        width: 100%;
+        // height: 100%;
+        overflow: hidden;
+
+    }
+    &:hover img{
+        // transform: scale(1.3);
+    }
+    &:hover .productItemIcon{
+        background-color: #ffffffab;
+        border-radius: 5px;
+        bottom: 15px;
+    }
+   
+}
