@@ -24,6 +24,6 @@ public class BlogEntity extends BaseEntity {
     @OneToMany(mappedBy = "blog")
     private List<BlogCommentEntity> comments = new ArrayList<>();
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private OwnerEntity owner;
+    @JoinColumn(name = "shop_id")
+    private ShopEntity shop;
 }
