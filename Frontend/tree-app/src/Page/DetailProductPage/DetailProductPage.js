@@ -33,7 +33,7 @@ export default function DetailProductPage() {
      let item = getProduct(id);
       setItemProduct(item);
       getProduct(id)
-   },[])
+   },[id])
   return (
     <div className="pt-24  container mx-auto lg:px-24 md:px-24 sm:px-24 mb:px-5 pb-10">
         <div className="flex justify-between my-3">

@@ -13,7 +13,7 @@ module.exports = {
         montserrat: ['Montserrat'],
       },
       colors: {
-        primary: '#f34f3f',
+        primary: '#245953',
       }
     },
     
