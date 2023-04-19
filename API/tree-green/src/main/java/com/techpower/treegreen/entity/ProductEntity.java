@@ -27,8 +27,8 @@ public class ProductEntity extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private OwnerEntity owner;
+    @JoinColumn(name = "shop_id")
+    private ShopEntity shop;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
