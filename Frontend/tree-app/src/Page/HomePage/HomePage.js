@@ -9,8 +9,8 @@ export default function HomePage() {
     <div className='z-10 mt-16'>
         <CarouselHome/>
         <ProductHomPage/>
-        <JoinOurHomePage/>
         <FromBlogHomePage/>
+        <JoinOurHomePage/>
     </div>
   )
 }

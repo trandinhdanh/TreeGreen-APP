@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import {dataFake} from './dataFake'
 import ProductItem from './ProductItem'
+import { useTranslation } from 'react-i18next'
 const listBtn = ['all', 'popular', 'winter' , 'cactuses' ,'green']
 console.log(dataFake)
 export default function ProductHomPage() {
+  const {t} = useTranslation();
   const [data,setData] = useState(dataFake);
   const [statusFilter,setStatusFilter] = useState("all");
   const filterProduct = (filter) => { 

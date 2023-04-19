@@ -1,0 +1,26 @@
+.dropdownLanguage {
+    position: absolute;
+    width: 100px;
+    right: 80%;
+    top: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: hidden;
+    z-index: 99;
+}
+.dropdown {
+    position: absolute;
+    width: 150px;
+    right: 100%;
+    top: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: hidden;
+    z-index: 99;
+}
+
+.dropdownItem{
+    padding: 5px 2px;
+    font-size: 20px;  
+}
+.dropdownItem p{
+    margin-left: 10px;
+}
