@@ -4,10 +4,11 @@ header{
         transition: .35s;
         cursor: pointer;
         position: relative;
+        text-transform: uppercase;
     }
     .navItem:hover{
-        color:#f34f3f;
-        // transform: scale(1.2);
+        color:#245953;
+
     }
     .navItem::before{
         content: "";
@@ -16,7 +17,7 @@ header{
         bottom: 0;
         height: 2px;
         width: 0%;
-        background-color: #f34f3f;
+        background-color: #245953;
     }
     .navItem:hover::before{
         width: 100%;

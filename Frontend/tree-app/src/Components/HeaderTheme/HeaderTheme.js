@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./HeaderTheme.scss";
 import UserNav from "./UserNav";
+import { useTranslation } from "react-i18next";
 export default function HeaderTheme() {
+  const { t }= useTranslation()
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [navbar, setNavbar] = useState(false);
   let handleIsOpenMenu = () => {
@@ -21,7 +23,7 @@ export default function HeaderTheme() {
   window.addEventListener("scroll", changeBackground);
 
   return (
-    <header className={`w-full bg-white ${navbar ? "py-2" : "py-6"} fixed z-10 top-0 left-0 right-0 transition-all`}>
+    <header className={`w-full bg-white ${navbar ? "py-1" : "py-3"} fixed z-10 top-0 left-0 right-0 transition-all`}>
       <nav
         id="nav"
         className={`flex bg-white  w-full items-center py-3 justify-between  flex-wrap container mx-auto mb:px-5 sm:px-5 md:px-24 top-0 `}
@@ -49,7 +51,7 @@ export default function HeaderTheme() {
           </NavLink>
         </div>
         <div
-          className={`nav__menu w-full block overflow-hidden flex-grow lg:flex lg:items-center lg:w-auto text-[#867070] mb:order-1 sm:order-1 md:order-1 lg:order-none ${
+          className={`nav__menu w-full block lg:overflow-visible md:overflow-hidden sm:overflow-hidden mb:overflow-hidden flex-grow lg:flex lg:items-center lg:w-auto text-[#867070] mb:order-1 sm:order-1 md:order-1 lg:order-none ${
             isOpenMenu ? "mb:h-[320px] sm:h-[320px]" : "mb:h-0 sm:h-0"
           } transition-all ease-in  lg:h-full duration-300 lg:opacity-100 text-center`}
         >
@@ -58,28 +60,28 @@ export default function HeaderTheme() {
             <button className="navItem block mt-4 lg:inline-block lg:mt-0 mb:py-3 mb:ml-0 sm:ml-0 text-left sm:py-3 lg:py-0 mb:mr-0 sm:mr-0 lg:mr-4"
               href="#"
             >
-              Trang Chủ
+             {t('home')}
             </button>
             </NavLink>
             <NavLink to={"/shop"}>
             <button className="navItem block mt-4 lg:inline-block lg:mt-0 mb:py-3 mb:ml-0 sm:ml-0 text-left sm:py-3 lg:py-0 mb:mr-0 sm:mr-0 lg:mr-4"
               href="#"
             >
-              Cửa hàng
+              {t('cart')}
             </button>
             </NavLink>
           <NavLink to={"/blog"}>
             <button className="navItem block mt-4 lg:inline-block lg:mt-0 mb:py-3 mb:ml-0 sm:ml-0 text-left sm:py-3 lg:py-0 mb:mr-0 sm:mr-0 lg:mr-4"
                 href="#"
             >
-                Blog
+                {t('blog')}
             </button>
           </NavLink>
             <NavLink to={"/introduce"}>
             <button className="navItem block mt-4 lg:inline-block lg:mt-0 mb:py-3 mb:ml-0 sm:ml-0 text-left sm:py-3 lg:py-0 mb:mr-0 sm:mr-0 lg:mr-4"
               href="#"
             >
-              Giới thiệu
+             {t('intro')}
             </button>
             </NavLink>
           </div>

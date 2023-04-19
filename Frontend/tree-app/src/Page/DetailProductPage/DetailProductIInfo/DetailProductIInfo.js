@@ -12,7 +12,7 @@ export default function DetailProductIInfo(props) {
           <p className='font-roboto'>{props.data.des}</p>
          <div className='flex items-center my-3'>
               <InputNumber min={1} max={15} defaultValue={3} onChange={onChange} />
-              <button className='ml-3 px-2 py-1 rounded hover:bg-primary transition-all bg-[#000] text-white uppercase font-bold font-sans text-[15px]'>Thêm vào giỏ</button>
+              <button className='ml-3 px-2 py-1 rounded hover:bg-primary transition-all bg-primary text-white uppercase font-bold font-sans text-[15px]'>Thêm vào giỏ</button>
          </div>
          <div className='space-y-2 text-gray-400 mt-5'>
             <h3 className='text-[12px]'>Mã Sản phẩm: <span className='text-[#000]'>{props.data.id}</span></h3>
