@@ -1,12 +1,13 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination,Autoplay } from 'swiper';
+import SwiperCore,{ Navigation, Pagination,Autoplay } from 'swiper';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import CarouseItem from './CarouseItem';
+SwiperCore.use([Autoplay]);
 export default function CarouselHome() {
   return (
     <div className='container mx-auto mb:px-5 md:px-24 lg:px-24'>
@@ -17,7 +18,7 @@ export default function CarouselHome() {
       slidesPerView={1}
       loop={true}
       autoplay={{
-        delay: 2500,
+        delay: 3000,
         disableOnInteraction: false,
       }}
       navigation
