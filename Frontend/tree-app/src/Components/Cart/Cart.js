@@ -63,11 +63,11 @@ export default function Cart({openCart,handleCartClick }) {
                       {products.map(product => (
                         <tr key={product.id} className="border-b-2">
                           <td className="py-2 px-4 "><input type="checkbox" checked={selectedProducts.indexOf(product.id) !== -1} onChange={() => handleCheckboxChange(product.id)} /></td>
-                          <td className="py-2 px-4 "><img src={product.img} className='h-[100px] w-[100px]'/></td>
+                          <td className="py-2 px-4 "><img src={product.img} className='h-[100px] w-[100px] rounded-lg'/></td>
                           {/* <td className="py-2 px-4 "><input type="number" min="1" value={product.quantity} onChange={(e) => handleQuantityChange(product.id, e.target.value)} /></td> */}
                           <td className="py-2 px-4 "><InputNumber min={1} defaultValue={1} onChange={handleProductChange(product.id)} /></td>
                           <td className="py-2 px-4 ">{product.price}</td>
-                          <td className="py-2 px-4 "><BsTrash onClick={() => { handleRemoveClick(product.id) }} /></td>
+                          <td className="py-2 px-4 "><BsTrash className='hover:scale-125 transition-all text-[18px]' onClick={() => { handleRemoveClick(product.id) }} /></td>
                         </tr>
                       ))}
                     </tbody>

@@ -8,7 +8,7 @@ import ScrollToTop from 'react-scroll-to-top'
 
 export default function FooterHomePage() {
   return (
-    <footer className='footer  bg-[#e9e8e8]'>
+    <footer className='footer  bg-[#e9e8e8] rounded-t-[50px]'>
        <ScrollToTop
         smooth
         top={200}

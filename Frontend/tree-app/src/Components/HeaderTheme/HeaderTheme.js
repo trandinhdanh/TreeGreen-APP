@@ -51,7 +51,7 @@ export default function HeaderTheme() {
           </NavLink>
         </div>
         <div
-          className={`nav__menu w-full block lg:overflow-visible md:overflow-hidden sm:overflow-hidden mb:overflow-hidden flex-grow lg:flex lg:items-center lg:w-auto text-[#867070] mb:order-1 sm:order-1 md:order-1 lg:order-none ${
+          className={`nav__menu w-full block text-[#948080] lg:overflow-visible md:overflow-hidden sm:overflow-hidden mb:overflow-hidden flex-grow lg:flex lg:items-center lg:w-auto  mb:order-1 sm:order-1 md:order-1 lg:order-none ${
             isOpenMenu ? "mb:h-[320px] sm:h-[320px]" : "mb:h-0 sm:h-0"
           } transition-all ease-in  lg:h-full duration-300 lg:opacity-100 text-center`}
         >

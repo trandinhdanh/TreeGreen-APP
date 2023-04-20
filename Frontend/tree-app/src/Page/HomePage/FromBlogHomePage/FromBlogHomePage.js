@@ -12,7 +12,7 @@ export default function FromBlogHomePage() {
   
   return (
     <div className="fromBlog h-full  ">
-      <div className="pb-20 pt-10 container mx-auto mb:px-5 md:px-24 lg:px-24">
+      <div className="pb-10  container mx-auto mb:px-5 md:px-24 lg:px-24">
         <div className="fromBlogTitle text-center mb-8">
           <h1 className="font-bold font-montserrat text-3xl text-black">From  <span className="text-primary">Our Blog</span></h1>
           <p className="text-black font-serif text-[13px]">
@@ -49,9 +49,9 @@ export default function FromBlogHomePage() {
           >
             {arr.map((item,i) => { 
               return(
-                <SwiperSlide key={i}>
-                  <div className="px-3 py-5  ">
-                    <img className="" src={item.img}/>
+                <SwiperSlide key={i} className="py-3">
+                  <div className="px-3 py-5  rounded-lg hover:shadow-lg transition-all">
+                    <img className="rounded-lg " src={item.img} />
                     <h1 className="text-center text-[15px] mt-[10px] font-bold ">{item.title}</h1>
                     <p className="text-center text-[12px] text-gray-500">{item.des}</p>
                   </div>
