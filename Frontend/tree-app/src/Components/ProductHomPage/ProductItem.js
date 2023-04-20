@@ -5,10 +5,10 @@ import {BsCartPlus} from "react-icons/bs"
 import { Link, NavLink } from 'react-router-dom';
 export default function ProductItem(props) {
   return (
-    <div className='overflow-hidden w-full h-full productItem my-3'>
+    <div className='overflow-hidden w-full h-full productItem my-3 hover:shadow-md transition-all rounded-lg'>
         <div className='productImg relative'>
              {/* <img className='' src={`${props.data.img}`} /> */}
-             <Image width={'full'} height={'80'} src={`${props.data.img}`} className='w-full h-full'/>
+             <Image width={'full'} height={'80'} src={`${props.data.img}`} className='w-full h-full rounded-lg'/>
              <div className='productItemIcon absolute bottom-0 left-[10px] p-5 text-primary hover:scale-125'><BsCartPlus className='text-[20px]'/></div>
         </div>
         <Link to={`/product/${props.data.id}`}>

@@ -10,7 +10,7 @@ export default function ShopPage() {
         setIsFilter((current) => !current);
       };
   return (
-    <div className='z-10 mt-16 '>
+    <div className='z-10 my-16 '>
         <div className='w-full h-[150px] relative'>
             <img className='w-full h-full bg-cover' src='http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/05/Rublevoy_Steemit.png'/>
             <div className='font-mono  text-white text-center  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 '>
