@@ -14,7 +14,8 @@ export default function ProductItem(props) {
         <Link to={`/product/${props.data.id}`}>
         <div className='productContent text-center my-3 font-roboto'>
             <h1 className='capitalize text-[13px]'>{props.data.name}</h1>
-            <h1 className='text-[13px] font-bold'>{props.data.price} VNĐ</h1>
+            <h1 className='text-[13px] font-bold'>{props.data.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</h1>
+            
         </div>
         </Link>
     </div>

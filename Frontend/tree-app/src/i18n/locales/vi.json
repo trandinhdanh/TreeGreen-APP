@@ -13,7 +13,19 @@
     "Your Cart" : "Giỏ Hàng",
     "Product" : "Sản Phẩm",
     "Quantity" : "Số Lượng",
-    "Price" : "Giá"
-
+    "Price" : "Giá",
+    "desFooter" : "Thiên niên luôn mang lại cho cuộc sống của chúng ta thêm muôn màu. Hãy đến với chúng tôi để tận hưởng được nhiều thêm những giá trị mới...",
+    "adderssFooter" :"Trường Đại học Nông Lâm thành phố HCM",
+    "RegisterFooter" : "Đăng kí để nhận thông tin mới nhất từ chúng tôi",
+    "Send" : "Gửi",
+    "BlogOurHome" : "Đến với Blog của chúng tôi",
+    "BlogDesHome" : "Một sự pha trộn hoàn hảo của sự sáng tạo, năng lượng, giao tiếp, hạnh phúc và tình yêu. Hãy để chúng tôi sắp xếp một nụ cười cho bạn.",
+    "productPortfolio" : "Danh mục sản phẩm",
+    "filterPrice" : "Lọc theo giá",
+    "newPost" :   "Bài viết mới nhất",
+    "filter" : "Lọc",
+    "appIntro" : "Ứng dụng tiện lợi dành cho người yêu cây cảnh",
+    "desIntro" : "Không chỉ là nơi mua bán cây cảnh, đây cũng là nơi mà bạn có thể học hỏi nhiều về cây cối hơn qua các bài viết của mọi người",
+    "btnIntro" : "App miễn phí, tải về ngay nào!!!"
 
 }
