@@ -9,7 +9,7 @@ export default function BlogNew() {
     {arr.map((item,i) => { 
         return <NavLink key={i}>
              <div className='flex items-center'>
-            <img src={`${item.img}`} className='w-[40px] h-[40px] bg-cover mb-2 mr-2'/>
+            <img src={`${item.img}`} className='w-[40px] h-[40px] object-cover mb-2 mr-2 rounded-lg'/>
             <h1 className='text-[12px] font-serif'>{item.title}</h1>
         </div>
         </NavLink>
