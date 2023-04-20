@@ -1,11 +1,13 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { arr } from '../../HomePage/FromBlogHomePage/BlogFakedata'
+import { useTranslation } from 'react-i18next';
 
 export default function BlogNew() {
+  const {t} = useTranslation();
   return (
     <div className=''>
-    <h1 className='uppercase font-bold font-roboto text-[#867070]  mb-5'>Bài viết mới nhất</h1>
+    <h1 className='uppercase font-bold font-roboto text-[#867070]  mb-5'>{t('newPost')}</h1>
     {arr.map((item,i) => { 
         return <NavLink key={i}>
              <div className='flex items-center'>
