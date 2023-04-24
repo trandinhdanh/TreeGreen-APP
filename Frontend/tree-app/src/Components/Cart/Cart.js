@@ -42,7 +42,7 @@ export default function Cart({openCart,handleCartClick }) {
     return "";
    } 
   return (
-    <div className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037] `} >
+    <div  className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037] `} >
         <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] p-10 rounded-lg
         h-[80%] w-[80%] p-8'> 
         <AiOutlineClose className='absolute top-8 right-8 text-[20px]' onClick={handleCartClick}/>
@@ -71,10 +71,15 @@ export default function Cart({openCart,handleCartClick }) {
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot>
+                    <tfoot className=''>
                       <tr className="">
                         <td colSpan="3" className="py-2 px-4  text-right font-bold">Tổng cộng</td>
                         <td className="py-2 px-4  font-bold">{totalPrice}</td>
+                      </tr>
+                      <tr className="">
+                        <td  className="">
+                        <button className="bg-primary text-white px-5 py-2 font-bold rounded-lg">Shop Now</button>
+                        </td>     
                       </tr>
                     </tfoot>
                   </table>

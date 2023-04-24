@@ -7,6 +7,7 @@ import { arr } from "./BlogFakedata";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
 SwiperCore.use([Autoplay]);
 export default function FromBlogHomePage() {
   
@@ -49,12 +50,15 @@ export default function FromBlogHomePage() {
           >
             {arr.map((item,i) => { 
               return(
+                
                 <SwiperSlide key={i} className="py-3">
+                   <Link to={`/blog/${item.id}`}>
                   <div className="px-3 py-5  rounded-lg hover:shadow-lg transition-all">
                     <img className="rounded-lg " src={item.img} />
                     <h1 className="text-center text-[15px] mt-[10px] font-bold ">{item.title}</h1>
                     <p className="text-center text-[12px] text-gray-500">{item.des}</p>
                   </div>
+                  </Link>
                 </SwiperSlide>
               )
              })}

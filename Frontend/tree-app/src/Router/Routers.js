@@ -8,6 +8,9 @@ import BlogPage from '../Page/BlogPage/BlogPage'
 import IntroducePage from '../Page/IntroducePage/IntroducePage'
 import DetailProductPage from '../Page/DetailProductPage/DetailProductPage'
 import MainLayout from '../Layout/MainLayout'
+import BlogDetailPage from '../Page/BlogDetailPage/BlogDetailPage'
+import ManagerPage from '../Page/Manager/ManagerPage/ManagerPage'
+import RegisterPage from '../Page/RegisterPage/RegisterPage'
 
 export default function Routers() {
   return (
@@ -20,8 +23,11 @@ export default function Routers() {
                     <Route path='/blog' element={<BlogPage/>} />
                     <Route path='/introduce' element={<IntroducePage/>} />
                     <Route path='/product/:id' element={<DetailProductPage/>} />
+                    <Route path='/blog/:id' element={<BlogDetailPage/>} />
                 </Route>
                 <Route path='/login' element = {<LoginPage/>} />
+                <Route path='/Register' element = {<RegisterPage/>} />
+                <Route path='/manage' element = {<ManagerPage/>} />
                 <Route path='/*' element = {<NotFoundPage/>} />
             </Routes>
         </BrowserRouter>

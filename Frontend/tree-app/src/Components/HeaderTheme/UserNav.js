@@ -73,24 +73,24 @@ export default function UserNav() {
               open ? '' : 'hidden'
             } `}
           >
-            <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
                 <Link
                   to="/Register"
                   className="w-full text-black block h-full transition duration-100"
                 >
-                  <p>{t('Register')}</p>
+                  <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
+                        <p>{t('Register')}</p>
+                  </li>
                 </Link>
-            </li>
             
             
-            <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
                 <Link
                   to="/Login"
                   className="w-full block h-full transition duration-100"
                 >
-                 <p> {t('Login')}</p>
+                <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
+                    <p> {t('Login')}</p>
+                </li>
                 </Link>
-            </li>
            
             <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
               <p className="transition duration-100">{t('Become a seller')}</p>
