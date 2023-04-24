@@ -9,19 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "owner")
+@Table(name = "shop")
 @Getter
 @Setter
-public class OwnerEntity extends BaseEntity {
+public class ShopEntity extends BaseEntity {
     @Column
     private String name;
     @Column
     private String description;
     @Column
     private String avatar;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "shop")
     private List<ProductEntity> products = new ArrayList<>();
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "shop")
     private List<BlogEntity> blogs = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "user_id")

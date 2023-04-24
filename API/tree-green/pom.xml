@@ -17,11 +17,12 @@
         <java.version>17</java.version>
         <mysql.version>8.0.13</mysql.version>
         <lombok.version>1.18.26</lombok.version>
+        <cloudinary.version>1.33.0</cloudinary.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
@@ -55,6 +56,13 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Upload image -->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>${cloudinary.version}</version>
         </dependency>
 
     </dependencies>
