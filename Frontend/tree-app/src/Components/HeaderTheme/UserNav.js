@@ -35,7 +35,7 @@ export default function UserNav() {
           <ul
             className={`${
               openLanguage ? '' : 'hidden'
-            } animate__animated animate__fadeInUp bg-white dropdownLanguage rounded-md border border-gray-300 transition duration-500`}
+            } animate__animated animate__jackInTheBox bg-white dropdownLanguage rounded-md border border-gray-300 transition duration-500`}
           >
             <li
               onClick={() => handleChangeLanguage('vi')}
@@ -69,28 +69,28 @@ export default function UserNav() {
             </div>
         <div className="dropdownMenu relative">
           <ul
-            className={`animate__animated animate__fadeInUp text-left   bg-white dropdown rounded-xl border border-gray-300 transition duration-500 ${
+            className={`animate__animated animate__zoomIn text-left   bg-white dropdown rounded-xl border border-gray-300 transition duration-500 ${
               open ? '' : 'hidden'
             } `}
           >
-            <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
                 <Link
                   to="/Register"
                   className="w-full text-black block h-full transition duration-100"
                 >
-                  <p>{t('Register')}</p>
+                  <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
+                        <p>{t('Register')}</p>
+                  </li>
                 </Link>
-            </li>
             
             
-            <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
                 <Link
                   to="/Login"
                   className="w-full block h-full transition duration-100"
                 >
-                 <p> {t('Login')}</p>
+                <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
+                    <p> {t('Login')}</p>
+                </li>
                 </Link>
-            </li>
            
             <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
               <p className="transition duration-100">{t('Become a seller')}</p>

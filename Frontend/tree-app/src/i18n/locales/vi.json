@@ -8,6 +8,9 @@
     "Login" : "Đăng Nhập",
     "Register" : "Đăng Kí",
     "Help" : "Trợ Giúp",
+    "Welcome" : "Welcome!",
+    "WelcomeBack" : "Welcome Back!!!",
+    "Foget Password" : "Quên Mật Khẩu",
     "Become a seller" : "Trở Thành Người Bán",
     "all" : "Tất cả",
     "Your Cart" : "Giỏ Hàng",
@@ -26,6 +29,12 @@
     "filter" : "Lọc",
     "appIntro" : "Ứng dụng tiện lợi dành cho người yêu cây cảnh",
     "desIntro" : "Không chỉ là nơi mua bán cây cảnh, đây cũng là nơi mà bạn có thể học hỏi nhiều về cây cối hơn qua các bài viết của mọi người",
-    "btnIntro" : "App miễn phí, tải về ngay nào!!!"
+    "btnIntro" : "App miễn phí, tải về ngay nào!!!",
+    "nature" : "Thiên nhiên trong tầm tay với những loại cây cối đa dạng",
+    "natureDes" : "Khám phá và đem thiên nhiên vào ngôi nhà của bạn với những loại cây cối đa dạng, từ những cây cối cảnh quan lớn đến những cây cối trong nhà nhỏ xinh, mang lại không khí trong lành và giúp tạo nên một không gian sống đầy tươi mới.",
+    "No Products Found" : "Không tìm thấy sản phẩm",
+    "No Products" : "Không có sản phẩm",
+    "Pay" : "Thanh Toán",
+    "Remove All" : "Xóa tất cả"
 
 }
