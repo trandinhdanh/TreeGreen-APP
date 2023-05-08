@@ -16,10 +16,10 @@ export default function DetailProductImg(props) {
       modules={[Pagination]}
       className="mySwiper"
     >
-      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.img}`} /></SwiperSlide>
-      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.img1}`} /></SwiperSlide>
-      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.img2}`} /></SwiperSlide>
-      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.img3}`} /></SwiperSlide>
+      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.image}`} /></SwiperSlide>
+      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.image}`} /></SwiperSlide>
+      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.image}`} /></SwiperSlide>
+      <SwiperSlide><img className='w-full h-[500px] object-cover' src={`${props.data.image}`} /></SwiperSlide>
   
     </Swiper>
   </>

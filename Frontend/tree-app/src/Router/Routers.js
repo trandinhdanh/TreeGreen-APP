@@ -8,9 +8,11 @@ import BlogPage from '../Page/BlogPage/BlogPage'
 import IntroducePage from '../Page/IntroducePage/IntroducePage'
 import DetailProductPage from '../Page/DetailProductPage/DetailProductPage'
 import MainLayout from '../Layout/MainLayout'
+import ManagerLayout from '../Layout/ManagerLayout'
 import BlogDetailPage from '../Page/BlogDetailPage/BlogDetailPage'
 import ManagerPage from '../Page/Manager/ManagerPage/ManagerPage'
 import RegisterPage from '../Page/RegisterPage/RegisterPage'
+import PaymentPage from '../Page/PaymentPage/PaymentPage'
 
 export default function Routers() {
   return (
@@ -24,10 +26,15 @@ export default function Routers() {
                     <Route path='/introduce' element={<IntroducePage/>} />
                     <Route path='/product/:id' element={<DetailProductPage/>} />
                     <Route path='/blog/:id' element={<BlogDetailPage/>} />
+                    <Route path='/payment' element={<PaymentPage/>} />
                 </Route>
+                <Route path='/manager' element = {<ManagerLayout/>} >
+                    <Route path="/manager" element={<ManagerPage/>} />
+                </Route>
+
                 <Route path='/login' element = {<LoginPage/>} />
                 <Route path='/Register' element = {<RegisterPage/>} />
-                <Route path='/manage' element = {<ManagerPage/>} />
+                
                 <Route path='/*' element = {<NotFoundPage/>} />
             </Routes>
         </BrowserRouter>

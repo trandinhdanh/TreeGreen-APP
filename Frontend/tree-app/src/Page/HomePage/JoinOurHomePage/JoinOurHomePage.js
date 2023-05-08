@@ -7,7 +7,7 @@ export default function JoinOurHomePage() {
   const { t }= useTranslation()
   const navigate = useNavigate();
   return (
-    <div className="joinOur w-full h-auto mb-10 container mx-auto lg:px-24 md:px-24 sm:px-5 mb:px-5">
+    <div className="joinOur w-full h-auto mb-10 container mx-auto lg:px-24 md:px-24 sm:px-5 mb:px-5 ">
         <div className="lg:flex flex-wrap bg-[#e9e8e8] rounded-[20px]">
             <div className="lg:w-1/2 md:w-full">
               <div className="p-10">

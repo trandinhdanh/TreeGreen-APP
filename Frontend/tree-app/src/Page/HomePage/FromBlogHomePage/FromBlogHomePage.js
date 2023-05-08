@@ -50,7 +50,6 @@ export default function FromBlogHomePage() {
           >
             {arr.map((item,i) => { 
               return(
-                
                 <SwiperSlide key={i} className="py-3">
                    <Link to={`/blog/${item.id}`}>
                   <div className="px-3 py-5  rounded-lg hover:shadow-lg transition-all">

@@ -13,27 +13,28 @@ import "swiper/css/thumbs";
 
 
 // import required modules
-import { Pagination, Navigation } from "swiper";
 import DetailProductImg from "./DetailProductImg/DetailProductImg";
 import DetailProductIInfo from "./DetailProductIInfo/DetailProductIInfo";
-import DetailProductSimilar from "./DetailProductSimilar/DetailProductSimilar";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { productService } from "../../services/productService";
 
 export default function DetailProductPage() {
- const {id} = useParams();
- const [itemProduct,setItemProduct] = useState({});
- const getProduct = (id) => { 
-      for (let index = 0; index < dataFake.length; index++) {
-                if(id == dataFake[index].id){
+  const { id } = useParams();
+  const [itemProduct, setItemProduct] = useState({});
 
-                return dataFake[index]
-            }
-          }
-        }
-    useEffect(() => { 
-     let item = getProduct(id);
-      setItemProduct(item);
-      getProduct(id)
-   },[id])
+  useEffect(() => {
+    const getProduct = async (id) => {
+      try {
+        const item = await productService.getProductId(id);
+        setItemProduct(item);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getProduct(id);
+  }, [id]);
   return (
     <div className="pt-24  container mx-auto lg:px-24 md:px-24 sm:px-24 mb:px-5 pb-10">
         <div className="flex justify-between my-3">
@@ -42,7 +43,7 @@ export default function DetailProductPage() {
               <Link to={`/product/${id-1}`}>
                   <BsArrowLeftCircle className="hover:text-primary transition-all"/>
               </Link>
-              <Link to={`/product/${parseInt(id)}`}>
+              <Link to={`/product/${parseInt(id) + 1}`}>
                   <BsArrowRightCircle  className="hover:text-primary transition-all"/>
               </Link>
             </div>
@@ -51,7 +52,7 @@ export default function DetailProductPage() {
             <div className="lg:col-span-5 md:col-span-6 sm:col-span-12 mb:col-span-12"><DetailProductImg data={itemProduct} /></div>
             <div className="col-span-7 md:col-span-6 sm:col-span-12 mb:col-span-12"><DetailProductIInfo data={itemProduct}/></div>
         </div>
-        <DetailProductSimilar data={itemProduct}/>
+        {/* <DetailProductSimilar data={itemProduct}/> */}
   </div>
   );
 }

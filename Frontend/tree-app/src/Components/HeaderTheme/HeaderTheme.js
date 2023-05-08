@@ -59,7 +59,7 @@ export default function HeaderTheme() {
             isOpenMenu ? "mb:h-[320px] sm:h-[320px]" : "mb:h-0 sm:h-0"
           } transition-all ease-in  lg:h-full duration-300 lg:opacity-100 text-center`}
         >
-          <div className="navCenter font-montserrat uppercase justify-center font-bold nav__links text-[12px] lg:flex-grow mb:mr-0 sm:mr-0 lg:mr-5 lg:flex">
+          <div className="navCenter font-montserrat capitalize justify-center font-bold nav__links text-[12px] lg:flex-grow mb:mr-0 sm:mr-0 lg:mr-5 lg:flex">
             <NavLink to={"/"}>
             <button className="navItem block mt-4 lg:inline-block lg:mt-0 mb:py-3 mb:ml-0 sm:ml-0 text-left sm:py-3 lg:py-0 mb:mr-0 sm:mr-0 lg:mr-4"
               href="#"

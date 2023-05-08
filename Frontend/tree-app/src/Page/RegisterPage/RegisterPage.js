@@ -21,9 +21,16 @@ export default function RegisterPage() {
               </p>
           </Link>
         </div>
+        <div className="rightLogin h-full w-1/2 md:hidden sm:hidden mb:hidden lg:block">
+          <img
+            className="w-full h-full object-cover rounded-r-3xl "
+            src="https://images.pexels.com/photos/1903965/pexels-photo-1903965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            alt=""
+          />
+        </div>
         <div className="leftLogin lg:w-1/2 md:w-full sm:w-full mb:w-full ">
           <div className="flex flex-col w-2/3 mx-auto items-center">
-            <h1 className="text-2xl mb-5 font-mono">Welcome!</h1>
+            <h1 className="text-2xl mb-5 font-mono">{t('Welcome')}</h1>
             <Form
               name="basic"
               className="form-login "
@@ -90,20 +97,21 @@ export default function RegisterPage() {
                 size="large"
                 htmlType="submit"
               >
-                {t('Resgiter')}
+                {t('Register')}
               </Button>
-              
+              <div className="w-full flex justify-between">
+              <Link to="/login" className="mt-2 w-full inline text-left text-sm font-mono hover:text-blue-500">
+                {t('Login')}
+              </Link>
+              <Link to="/" className="mt-2  w-full inline text-right text-sm font-mono hover:text-blue-500">
+                {t('home')}
+              </Link>
+            </div>
             </Form>
           </div>
         </div>
-        {/* md:hidden sm:hidden mb:hidden lg:block  */}
-        <div className="rightLogin h-full w-1/2 md:hidden sm:hidden mb:hidden lg:block">
-          <img
-            className="w-full h-full object-cover rounded-tl-3xl rounded-bl-3xl "
-            src="https://images.pexels.com/photos/1903965/pexels-photo-1903965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt=""
-          />
-        </div>
+      
+       
       </div>
     </div>
   );

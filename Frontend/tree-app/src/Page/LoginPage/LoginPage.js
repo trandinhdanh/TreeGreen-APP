@@ -2,7 +2,9 @@ import React from "react";
 import { Button, Form, Input, Select } from "antd";
 import { Link, useNavigate } from 'react-router-dom';
 import "./LoginPage.scss";
+import { useTranslation } from "react-i18next";
 export default function LoginPage() {
+  const {t} = useTranslation()
   const onFinish = (values) => {
     // dispatch(on_loading(12));
   };
@@ -21,7 +23,7 @@ export default function LoginPage() {
         </div>
         <div className="leftLogin lg:w-1/2 md:w-full sm:w-full mb:w-full ">
           <div className="flex flex-col w-2/3 mx-auto items-center">
-            <h1 className="text-2xl mb-5 font-mono">Welcome Back!</h1>
+            <h1 className="text-2xl mb-5 font-mono"> {t('WelcomeBack')}</h1>
             <Form
               name="basic"
               className="form-login "
@@ -74,14 +76,14 @@ export default function LoginPage() {
                 size="large"
                 htmlType="submit"
               >
-                Login
+                {t('Login')}
               </Button>
               <div className="w-full flex justify-between">
               <Link to="/Register" className="mt-2 w-full inline text-left text-sm font-mono hover:text-blue-500">
-                Register
+                {t('Register')}
               </Link>
               <a to="/" className="mt-2  w-full inline text-right text-sm font-mono hover:text-blue-500">
-                Forget Password
+              {t('Foget Password')}
               </a>
             </div>
             </Form>
