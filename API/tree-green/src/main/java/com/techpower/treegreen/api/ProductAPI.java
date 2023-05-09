@@ -57,8 +57,11 @@ public class ProductAPI {
         dto.setCategory(categoryDTO);
 
         List<String> imagesDTO = new ArrayList<>();
-        for (MultipartFile imageDetail : images) {
-            imagesDTO.add(cloudinaryService.uploadImage(imageDetail));
+        if (images.size() > 0) {
+            for (MultipartFile imageDetail : images) {
+                if (!imageDetail.isEmpty())
+                    imagesDTO.add(cloudinaryService.uploadImage(imageDetail));
+            }
         }
         dto.setImages(imagesDTO);
 
