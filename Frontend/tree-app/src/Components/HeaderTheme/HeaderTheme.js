@@ -47,15 +47,19 @@ export default function HeaderTheme() {
         </div>
         <div className="flex items-center flex-shrink-0 lg:mr-6">
           <NavLink to="/">
-          <img className='w-[170px]' src='http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/logo-fiorello.png' />
+          {/* <img className='w-[170px]' src='http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/logo-fiorello.png' /> */}
+              <p className="font-playfair text-[18px] tracking-wider m-0 text-[#263A29]"> 
+                <span className="text-primary font-bold">GREEN </span> 
+              EARTH
+              </p>
           </NavLink>
         </div>
         <div
-          className={`nav__menu w-full block text-[#948080] lg:overflow-visible md:overflow-hidden sm:overflow-hidden mb:overflow-hidden flex-grow lg:flex lg:items-center lg:w-auto  mb:order-1 sm:order-1 md:order-1 lg:order-none ${
+          className={`nav__menu w-full block text-[#263A29] lg:overflow-visible md:overflow-hidden sm:overflow-hidden mb:overflow-hidden flex-grow lg:flex lg:items-center lg:w-auto  mb:order-1 sm:order-1 md:order-1 lg:order-none ${
             isOpenMenu ? "mb:h-[320px] sm:h-[320px]" : "mb:h-0 sm:h-0"
           } transition-all ease-in  lg:h-full duration-300 lg:opacity-100 text-center`}
         >
-          <div className="navCenter font-montserrat uppercase justify-center font-bold nav__links text-[12px] lg:flex-grow mb:mr-0 sm:mr-0 lg:mr-5 lg:flex">
+          <div className="navCenter font-montserrat capitalize justify-center font-bold nav__links text-[12px] lg:flex-grow mb:mr-0 sm:mr-0 lg:mr-5 lg:flex">
             <NavLink to={"/"}>
             <button className="navItem block mt-4 lg:inline-block lg:mt-0 mb:py-3 mb:ml-0 sm:ml-0 text-left sm:py-3 lg:py-0 mb:mr-0 sm:mr-0 lg:mr-4"
               href="#"
