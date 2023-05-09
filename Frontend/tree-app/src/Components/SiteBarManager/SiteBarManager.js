@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { RiAccountCircleFill } from "react-icons/ri";
+import { AiOutlineHome } from "react-icons/ai";
 import { IoBeerOutline,IoBagOutline,IoPersonOutline,IoPencil } from "react-icons/io5";
 export default function SiteBarManager() {
     
@@ -20,7 +21,17 @@ export default function SiteBarManager() {
 
                 <li>
                   <Link
-                    to="/Manager/user"
+                    to="/manager"
+                    href="#"
+                    className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+                  >
+                    <AiOutlineHome className='text-[20px]'/>
+                    <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">Home</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/manager/product"
                     href="#"
                     className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
                   >
@@ -31,12 +42,12 @@ export default function SiteBarManager() {
 
                 <li>
                   <Link
-                    to="/Manager/user"
+                    to="/manager/order"
                     href="#"
                     className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
                   >
                     <IoBagOutline className='text-[20px]'/>
-                    <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">Booth</span>
+                    <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">Order</span>
                   </Link>
                 </li>
 

@@ -13,6 +13,8 @@ import BlogDetailPage from '../Page/BlogDetailPage/BlogDetailPage'
 import ManagerPage from '../Page/Manager/ManagerPage/ManagerPage'
 import RegisterPage from '../Page/RegisterPage/RegisterPage'
 import PaymentPage from '../Page/PaymentPage/PaymentPage'
+import ProductManagerPage from '../Page/Manager/ProductManagerPage/ProductManagerPage'
+import OderPage from '../Page/Manager/OderPage/OderPage'
 
 export default function Routers() {
   return (
@@ -30,6 +32,8 @@ export default function Routers() {
                 </Route>
                 <Route path='/manager' element = {<ManagerLayout/>} >
                     <Route path="/manager" element={<ManagerPage/>} />
+                    <Route path="/manager/product" element={<ProductManagerPage/>} />
+                    <Route path="/manager/order" element={<OderPage/>} />
                 </Route>
 
                 <Route path='/login' element = {<LoginPage/>} />
