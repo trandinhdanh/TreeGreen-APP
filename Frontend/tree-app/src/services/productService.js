@@ -18,5 +18,13 @@ export let productService = {
   } catch (error) {
       console.log(error);      
   }
+  },
+  deleteProduct : async (ids) => { 
+      try{
+        const reponse = await axios.delete(BASE_URL , {data : ids});
+        console.log('Product deleted successfully');
+      }catch(error){
+        console.error('Failed to delete product:', error);
+      }
    }
 };

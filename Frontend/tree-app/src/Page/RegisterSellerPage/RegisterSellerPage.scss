@@ -1,0 +1,31 @@
+.loginPage{
+    // background-image: url("https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.login-wrapper{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; 
+
+}
+.login-with::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    background-color: black;
+    width: 100%;
+    top: 50%;
+    opacity: 0.4;
+    margin-left: 10px;
+}
+
+.login-with::before {
+    content: "";
+    margin-right: 10px;
+    right: 100%;
+    top: 50%;
+    position: absolute;
+    height: 1px;
+    background-color: black;
+    width: 100%;
+    opacity: 0.4;
+}

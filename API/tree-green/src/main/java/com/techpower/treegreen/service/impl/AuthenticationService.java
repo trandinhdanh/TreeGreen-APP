@@ -42,25 +42,48 @@ public class AuthenticationService implements IAuthenticationService {
         );
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return OutputAuthentication.builder()
-                .token(jwtToken)
-                .build();
+        List<String> roles = new ArrayList<>();
+        String shopName = "";
+        for (RoleEntity roleEntity : user.getRoles()) {
+            roles.add(roleEntity.getCode());
+            if (roleEntity.getCode().equalsIgnoreCase("SELLER")) {
+                ShopEntity shop = shopRepository.findOneByUser(user);
+                shopName = shop.getName();
+            }
     }
-
-    @Override
-    public OutputAuthentication registerUser(InputRegistrationUser request) {
-        var user = UserEntity.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .status(UserConstant.ACTIVE)
-                .fullName(request.getFullName())
-                .roles(addRole(RoleConstant.USER))
-                .build();
-        userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
         return OutputAuthentication.builder()
+                .roles(roles)
+                .username(user.getUsername())
+                .password(request.getPassword())
+                .fullName(user.getFullName())
+                .shopName(shopName)
                 .token(jwtToken)
-                .build();
+                .build();}
+
+
+        @Override
+        public OutputAuthentication registerUser(InputRegistrationUser request) {
+            var user = UserEntity.builder()
+                    .username(request.getUsername())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .status(UserConstant.ACTIVE)
+                    .fullName(request.getFullName())
+                    .roles(addRole(RoleConstant.USER))
+                    .build();
+            UserEntity userEntity = userRepository.save(user);
+            List<String> roles = new ArrayList<>();
+            for (RoleEntity roleEntity : userEntity.getRoles()) {
+                roles.add(roleEntity.getCode());
+            }
+            var jwtToken = jwtService.generateToken(user);
+            return OutputAuthentication.builder()
+                    .roles(roles)
+                    .username(user.getUsername())
+                    .password(request.getPassword())
+                    .fullName(user.getFullName())
+                    .shopName("")
+                    .token(jwtToken)
+                    .build();
     }
 
     @Override
@@ -78,8 +101,17 @@ public class AuthenticationService implements IAuthenticationService {
                 .user(userEntity)
                 .build();
         shopRepository.save(shop);
+        List<String> roles = new ArrayList<>();
+        for (RoleEntity roleEntity : userEntity.getRoles()) {
+            roles.add(roleEntity.getCode());
+        }
         var jwtToken = jwtService.generateToken(user);
         return OutputAuthentication.builder()
+                .roles(roles)
+                .username(user.getUsername())
+                .password(request.getPassword())
+                .fullName(user.getFullName())
+                .shopName(shop.getName())
                 .token(jwtToken)
                 .build();
     }
