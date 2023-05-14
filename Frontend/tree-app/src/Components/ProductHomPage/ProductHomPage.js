@@ -17,6 +17,7 @@ export default function ProductHomPage() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.productList.allProduct); 
   const loading = useSelector((state) => state.products.productList.loading); 
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   useEffect(() => { 
     dispatch(getAllProduct());
    },[dispatch])
@@ -38,7 +39,7 @@ export default function ProductHomPage() {
                 </>
               ) : (
                 products?.slice(0, 8).map((item, i) => {
-                  return <ProductItem key={i} data={item} />;
+                  return <ProductItem key={i} data={item} isLoggedIn={isLoggedIn} />;
                 })
               )}
             </div>

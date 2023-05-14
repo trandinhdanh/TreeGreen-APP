@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import UserNav from "./UserNav";
 import { NavLink } from "react-router-dom";
 import "./HeaderTheme.scss";
 import UserNav from "./UserNav";
 import { useTranslation } from "react-i18next";
 export default function HeaderTheme() {
-  const { t }= useTranslation()
+  const { t }= useTranslation();
+  const [scrollPercentage, setScrollPercentage] = useState(0);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [navbar, setNavbar] = useState(false);
   let handleIsOpenMenu = () => {
     setIsOpenMenu((current) => !current);
     setNavbar(true);
   };
-
+  
   const changeBackground = () => {
     if (window.scrollY >= 100) {
       setNavbar(true);
@@ -21,7 +22,20 @@ export default function HeaderTheme() {
     }
   };
   window.addEventListener("scroll", changeBackground);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (window.scrollY / scrollHeight) * 100;
+      setScrollPercentage(scrolled);
+    };
 
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   return (
     <header className={`w-full bg-white ${navbar ? "py-1" : "py-3"} fixed z-10 top-0 left-0 right-0 transition-all`}>
       <nav
@@ -94,6 +108,9 @@ export default function HeaderTheme() {
           </div>
         </div>
       </nav>
+      {/* <div className="absolute top-full left-0 w-full h-[3px] bg-[#fff] ">
+          <div className="h-full bg-primary transition-all" style={{ width: `${scrollPercentage}%`, transition: 'width 0.1s' }}></div>
+      </div> */}
     </header>
     
   );

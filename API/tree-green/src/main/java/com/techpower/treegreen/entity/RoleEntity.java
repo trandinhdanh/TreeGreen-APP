@@ -1,8 +1,7 @@
 package com.techpower.treegreen.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +9,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "role")
 @Getter

@@ -8,7 +8,7 @@ export default function MainLayout() {
             <div className="">
               <SiteBarManager />
             </div>
-            <div className=" px-7 py-4 w-full">
+            <div className=" px-7 py-6 w-full h-[90vh] overflow-scroll  ">
               <Outlet />
             </div>
         </div>

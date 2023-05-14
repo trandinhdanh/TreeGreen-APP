@@ -10,7 +10,7 @@ export default function SiteBarManager() {
       <div className="w-[200px] h-full ">
         <aside className="w-full " aria-label="Sidebar">
           <div className="overflow-y-auto px-3 bg-gray-50 rounded-xl  h-[90vh]">
-            <ul className="py-10  h-[90vh] flex flex-col justify-between">
+            <ul className="py-6  h-[90vh] flex flex-col justify-between">
               <div className="space-y-2">
                 <Link to="/">
                     <p className="font-playfair text-[18px] tracking-wider m-0 text-[#263A29]"> 

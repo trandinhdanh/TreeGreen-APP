@@ -1,15 +1,25 @@
 import React from 'react'
-import { Image } from 'antd';
+import { Image, message } from 'antd';
 import "./ProductHomPage.scss"
 import {BsCartPlus} from "react-icons/bs"
-import { Link, NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCart } from '../../Redux/cart/cartList';
 export default function ProductItem(props) {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
   const handleClick = () => {
-    dispatch(addItemToCart(props.data));
+    if (props.isLoggedIn) {
+      dispatch(addItemToCart(props.data));
+    } else {
+      message.error('Please log in to add products to the cart');
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
+    }
   };
+
   return (
     <div className='overflow-hidden w-full h-full productItem my-3 hover:shadow-md transition-all rounded-lg'>
         <div className='productImg relative w-full'>

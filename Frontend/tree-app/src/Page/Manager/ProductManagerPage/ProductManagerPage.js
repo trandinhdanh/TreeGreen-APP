@@ -5,11 +5,15 @@ import { Table, Tag, Space, Pagination,Modal } from 'antd';
 import {AiOutlineEdit,AiOutlineDelete} from 'react-icons/ai'
 import "./ProductManagerPage.scss"
 import {IoIosAddCircleOutline} from "react-icons/io"
+import productList from '../../../Redux/products/productList';
+import { productService } from '../../../services/productService';
+import axios from 'axios';
 export default function ProductManagerPage() {
   const { Column } = Table;
   const dispatch = useDispatch();
   const [page, setPage] = useState(1); // state để lưu trang hiện tại
   const [pageSize, setPageSize] = useState(3); // state để lưu số sản phẩm trên 1 trang
+  const [idsProduct,setIdsProduct] = useState([]);
   const products = useSelector((state) => state.products.productList.allProduct); 
   useEffect(() => { 
     dispatch(getAllProduct());
@@ -36,6 +40,17 @@ export default function ProductManagerPage() {
 const confirmDelete = () => {
     setModalVisible(false);
   };
+  const handleDeleteProduct = async (ids) => {
+    try {
+     await productService.deleteProduct(ids)
+      console.log('Product deleted successfully');
+      // Xử lý khi xóa sản phẩm thành công
+    } catch (error) {
+      console.error('Failed to delete product:', error);
+      // Xử lý khi có lỗi xóa sản phẩm
+    }
+  };
+  
   return (
     <div className='w-full'>
       <div className="headerManager font-roboto mb-5 flex justify-between">
@@ -79,6 +94,7 @@ const confirmDelete = () => {
           )}
         />
       </Table>
+      
       <Modal
       title={`Xóa sản phẩm ${selectedProduct?.name} ?`}
       visible={modalVisible}

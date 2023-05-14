@@ -15,6 +15,7 @@ import RegisterPage from '../Page/RegisterPage/RegisterPage'
 import PaymentPage from '../Page/PaymentPage/PaymentPage'
 import ProductManagerPage from '../Page/Manager/ProductManagerPage/ProductManagerPage'
 import OderPage from '../Page/Manager/OderPage/OderPage'
+import RegisterSellerPage from '../Page/RegisterSellerPage/RegisterSellerPage'
 
 export default function Routers() {
   return (
@@ -37,7 +38,8 @@ export default function Routers() {
                 </Route>
 
                 <Route path='/login' element = {<LoginPage/>} />
-                <Route path='/Register' element = {<RegisterPage/>} />
+                <Route path='/register' element = {<RegisterPage/>} />
+                <Route path='/registerSeller' element = {<RegisterSellerPage/>} />
                 
                 <Route path='/*' element = {<NotFoundPage/>} />
             </Routes>

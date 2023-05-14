@@ -1,0 +1,130 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
+import { localStorageService } from '../../services/localStorageService';
+import { https } from '../../services/configAxios';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const initialState = {
+  accessToken: null,
+  isloading: false,
+  isLoggedIn: !!localStorageService.get('USER'),
+  registerSuccess: false,
+  isRegisterAccountSuccess: false,
+};
+//LOGIN
+export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAPI) => {
+    try {
+        const res = await axios.post(`http://localhost:8081/auth/login`, user);
+
+    localStorageService.set('accessToken', res.data.token);
+    localStorageService.set('USER', res.data);
+    message.success('Login Success');
+    console.log(res)
+    return res.data;
+  } catch (error) {
+    message.error('Login Failed');
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
+//LOGINOUT
+export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunkAPI) => {
+  try {
+    localStorageService.remove('USER')
+    localStorageService.remove('accessToken')
+    message.success('Logout Success');
+    return user;
+  } catch (error) {
+    message.error('Login Failed');
+  }
+});
+
+//REGISTER
+export const registerUser = createAsyncThunk('auth/registerUser', async (infor, thunkAPI) => {
+  try {
+    const res = await https.post('/api/auth/signup', infor);
+    message.success('Register success');
+    return res.data;
+  } catch (error) {
+    message.error('Register Failed');
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    reset: (state) => {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    },
+  },
+  extraReducers: (builder) => {
+    return builder
+      .addCase(loginUser.pending, (state) => {
+        return {
+          ...state,
+          isLoading: true,
+        };
+      })
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+          return {
+              ...state,
+              isLoading: false,
+              accessToken: payload.token,
+              isLoggedIn: !!payload,
+            };
+      })
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        return {
+          ...state,
+          isLoading: false,
+          accessToken: payload.token,
+          isLoggedIn: false,
+        };
+      })
+      .addCase(logoutUser.pending, (state) => {
+        return {
+          ...state,
+          isLoading: true,
+        };
+      })
+      .addCase(logoutUser.fulfilled, (state, { payload }) => {
+        return {
+          ...state,
+          isLoading: false,
+          isLoggedIn: false,
+        };
+      })
+      .addCase(registerUser.pending, (state) => {
+        return {
+          ...state,
+          isLoading: true,
+        };
+      })
+      .addCase(registerUser.fulfilled, (state, { payload }) => {
+        return {
+          ...state,
+          isLoading: false,
+          registerSuccess: true,
+        };
+      })
+      .addCase(registerUser.rejected, (state, { payload }) => {
+        return {
+          ...state,
+          isLoading: false,
+          registerSuccess: false,
+          isRegisterAccountSuccess: true,
+        };
+      });
+  },
+});
+// Action creators are generated for each case reducer function
+export const { reset } = authSlice.actions;
+
+export default authSlice.reducer;
