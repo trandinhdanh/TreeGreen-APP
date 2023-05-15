@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins =  "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/product")
 public class ProductAPI {
@@ -31,6 +31,11 @@ public class ProductAPI {
     @GetMapping("/list")
     public List<ProductDTO> getAll() {
         return iProductService.getAll();
+    }
+
+    @GetMapping("/list/{username}")
+    public List<ProductDTO> getAllByShop(@PathVariable("username") String username) {
+        return iProductService.getAllByShop(username);
     }
 
     @PostMapping("")

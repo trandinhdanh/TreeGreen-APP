@@ -61,6 +61,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+
     @Override
     public OutputAuthentication registerUser(InputRegistrationUser request) {
         var user = UserEntity.builder()

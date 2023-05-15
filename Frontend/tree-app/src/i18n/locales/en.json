@@ -6,9 +6,10 @@
     "sendTree" : "Send Tree Like You Mean It",
     "carouselDes" : "Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris.",
     "Login" : "Login",
+    "Logout" : "Logout",
     "Register" : "Register",
     "Help" : "Help",
-    "Welcome" : "Welcome!",
+    "Welcome" : "Welcome ",
     "WelcomeBack" : "Welcome Back!!!",
     "Foget Password" : "Foget Password",
     "Become a seller" : "Become a seller",
@@ -35,7 +36,10 @@
     "No Products Found" : "No Products Found",
     "No Products" : "No Products",
     "Pay" : "Pay",
-    "Remove All" : "Remove All"
-
+    "Remove All" : "Remove All",
+    "From": "From",
+    "Our Blog": "Our Blog",
+    "A perfect blend of creativity, energy," : "A perfect blend of creativity, energy,",
+    "communication" : "communication, happiness and love. Let us arrange a smile for you."
 
 }

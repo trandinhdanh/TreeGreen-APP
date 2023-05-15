@@ -27,25 +27,20 @@ export default function Cart({openCart,handleCartClick }) {
     ? cart.reduce((acc, product) => acc + (product.quantity * product.price), 0)
     : 0;
      
-  //   change số lượng
-  // const onChange = (productId, quantity) => {
-  //   setProducts(products.map(product => {
-  //     if (product.id === productId) {
-  //       return { ...product, quantity: quantity };
-  //     }
-  //     return product;
-  //   }));
-  //   console.log(products)
-  // };
-  // //Gián tiếp để truyền id vào onchange
   const handleProductChange = (productId, quantity) => {
     dispatch(updateItemQuantity({ id: productId, quantity }));
   }
+  const handleClickOutsideCart = (event) => {
+    if (event.target.classList.contains('cartModal')) {
+      handleCartClick();
+    }
+  };
    if(!openCart){
     return "";
    } 
   return (
-    <div  className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037]  animate__animated animate__fadeIn`} >
+   <div className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037]  animate__animated animate__fadeIn`}
+    onClick={handleClickOutsideCart} >
         <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] p-10 rounded-lg
         h-[80%] w-[80%] p-8'> 
         <AiOutlineClose className='absolute top-8 right-8 text-[20px]' onClick={handleCartClick}/>

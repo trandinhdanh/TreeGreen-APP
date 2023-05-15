@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { Link, useNavigate } from 'react-router-dom';
 import "./LoginPage.scss";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../Redux/auth/authSlice";
 export default function LoginPage() {
-  const {t} = useTranslation()
+  const {t} = useTranslation();
+  const dispatch = useDispatch()
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
   const onFinish = (values) => {
-    // dispatch(on_loading(12));
+    console.log(values)
+    dispatch(loginUser(values))
+  
   };
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/"); // Chuyển hướng đến trang dashboard khi đăng nhập thành công
+    }
+  }, [isLoggedIn, navigate]);
   const onFinishFailed = (errorInfo) => {};
 
   return (
@@ -41,16 +53,16 @@ export default function LoginPage() {
               autoComplete="off"
             >
               <Form.Item 
-              name="email"
+              name="username"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your email!",
+                    message: "Please input your username!",
                   },
                 ]}>
                 <Input
                   className="input border px-[9px] py-[9px] rounded-[0.5rem] w-[320px] input-user"
-                  placeholder="Input your email/phone number"
+                  placeholder="Input your user name"
                 />
               </Form.Item>
 
@@ -72,7 +84,7 @@ export default function LoginPage() {
 
               <Button
                 className="hover:blacks w-full rounded-[0.5rem] bg-[#000] btn-login text-white"
-                type="primary"
+                type="primay"
                 size="large"
                 htmlType="submit"
               >

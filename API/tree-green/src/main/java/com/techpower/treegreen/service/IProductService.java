@@ -1,6 +1,7 @@
 package com.techpower.treegreen.service;
 
 import com.techpower.treegreen.dto.ProductDTO;
+import com.techpower.treegreen.entity.ShopEntity;
 
 import java.util.List;
 
@@ -8,6 +9,8 @@ public interface IProductService {
     public ProductDTO getProductDetail(long id);
 
     public List<ProductDTO> getAll();
+
+    public List<ProductDTO> getAllByShop(String username);
 
     public ProductDTO save(ProductDTO dto);
 

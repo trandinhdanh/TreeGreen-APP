@@ -6,9 +6,10 @@
     "sendTree" : "Cây trồng yêu thích của tôi",
     "carouselDes" : "Cây trồng là nguồn cảm hứng của chúng tôi để tạo ra những kỷ niệm lâu dài. Bất kể dịp nào, những bông hoa của chúng tôi sẽ khiến nó trở nên đặc biệt.",
     "Login" : "Đăng Nhập",
+    "Logout" : "Đăng Xuất",
     "Register" : "Đăng Kí",
     "Help" : "Trợ Giúp",
-    "Welcome" : "Welcome!",
+    "Welcome" : "Chào Mừng ",
     "WelcomeBack" : "Welcome Back!!!",
     "Foget Password" : "Quên Mật Khẩu",
     "Become a seller" : "Trở Thành Người Bán",
@@ -35,6 +36,10 @@
     "No Products Found" : "Không tìm thấy sản phẩm",
     "No Products" : "Không có sản phẩm",
     "Pay" : "Thanh Toán",
-    "Remove All" : "Xóa tất cả"
+    "Remove All" : "Xóa tất cả",
+    "From": "Đến với",
+    "Our Blog": "Blog của chúng tôi",
+    "A perfect blend of creativity, energy," : "Một sự pha trộn hoàn hảo của sự sáng tạo, năng lượng,",
+    "communication" : "giao tiếp, hạnh phúc và tình yêu. Hãy để chúng tôi sắp xếp một nụ cười cho bạn."
 
 }
