@@ -25,34 +25,34 @@ public class AuthAPI {
 
     @PostMapping("/login")
     public ResponseEntity<OutputAuthentication> authenticate(@RequestBody InputAuthentication request) {
-        if (!userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.badRequest().body(new OutputAuthentication("Username does not exist!"));
-        }
+//        if (!userRepository.existsByUsername(request.getUsername())) {
+//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username does not exist!"));
+//        }
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @PostMapping("/register/u")
     public ResponseEntity<OutputAuthentication> registerUser(@RequestBody InputRegistrationUser request) {
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            return ResponseEntity.badRequest().body(new OutputAuthentication("Password incorrect!"));
-        }
-        if (userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.badRequest().body(new OutputAuthentication("Username available!"));
-        }
+//        if (!request.getPassword().equals(request.getConfirmPassword())) {
+//            return ResponseEntity.badRequest().body(new OutputAuthentication("Password incorrect!"));
+//        }
+//        if (userRepository.existsByUsername(request.getUsername())) {
+//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username available!"));
+//        }
         return ResponseEntity.ok(authenticationService.registerUser(request));
     }
 
     @PostMapping("/register/s")
     public ResponseEntity<OutputAuthentication> registerSeller(@RequestBody InputRegistrationSeller request) {
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            return ResponseEntity.badRequest().body(new OutputAuthentication("Password incorrect!"));
-        }
-        if (userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.badRequest().body(new OutputAuthentication("Username available!"));
-        }
-        if (shopRepository.existsByName(request.getShopName())) {
-            return ResponseEntity.badRequest().body(new OutputAuthentication("Store name already exists!"));
-        }
+//        if (!request.getPassword().equals(request.getConfirmPassword())) {
+//            return ResponseEntity.badRequest().body(new OutputAuthentication("Password incorrect!"));
+//        }
+//        if (userRepository.existsByUsername(request.getUsername())) {
+//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username available!"));
+//        }
+//        if (shopRepository.existsByName(request.getShopName())) {
+//            return ResponseEntity.badRequest().body(new OutputAuthentication("Store name already exists!"));
+//        }
         return ResponseEntity.ok(authenticationService.registerSeller(request));
     }
 }
