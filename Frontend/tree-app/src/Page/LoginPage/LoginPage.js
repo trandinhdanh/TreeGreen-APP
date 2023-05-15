@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { Link, useNavigate } from 'react-router-dom';
 import "./LoginPage.scss";
@@ -13,10 +13,13 @@ export default function LoginPage() {
   const onFinish = (values) => {
     console.log(values)
     dispatch(loginUser(values))
-    if(isLoggedIn){
-      navigate('/')
-    }
+  
   };
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/"); // Chuyển hướng đến trang dashboard khi đăng nhập thành công
+    }
+  }, [isLoggedIn, navigate]);
   const onFinishFailed = (errorInfo) => {};
 
   return (
