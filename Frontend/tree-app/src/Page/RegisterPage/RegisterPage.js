@@ -1,14 +1,27 @@
 import React from "react";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select,Col, Row, message } from "antd";
 import { Link, useNavigate } from 'react-router-dom';
 // import "./ResgisterPage.scss";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { authService } from "../../services/authService";
+import { loginUser } from "../../Redux/auth/authSlice";
 export default function RegisterPage() {
-  const {t} = useTranslation()
-  const onFinish = (values) => {
-    // dispatch(on_loading(12));
+  const {t} = useTranslation();
+  const dispatch = useDispatch();
+  const onFinish = async (values) => {
+    try {
+      const register = await authService.registerUser(values);
+      const infoLogin = {username: values.username,password : values.password}
+        dispatch(loginUser(infoLogin))
+        console.log(values)
+      } catch (error) {
+        console.log(error);
+      }
   };
-  const onFinishFailed = (errorInfo) => {};
+  const onFinishFailed = (errorInfo) => {
+    message.error('Please Enter Full Information')
+  };
 
   return (
     <div className="loginPage flex items-center justify-center w-full h-screen bg-[#ece6e6]">
@@ -33,72 +46,85 @@ export default function RegisterPage() {
             <h1 className="text-2xl mb-5 font-mono">{t('Welcome')}</h1>
             <Form
               name="basic"
-              className="form-login "
-              labelCol={{
-                span: 0,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              initialValues={{
-                remember: true,
-              }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
-              autoComplete="off"
+              layout="vertical"
             >
-              <Form.Item 
-              name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your email!",
-                  },
-                ]}>
-                <Input
-                  className="input border px-[9px] py-[9px] rounded-[0.5rem] w-[320px] input-user"
-                  placeholder="Input your email/phone number"
-                />
-              </Form.Item>
-
-              <Form.Item
-              wrapperCol={{ span: 16 }}
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password
-                  className="border password px-[9px] py-[9px] rounded-[0.5rem] w-[320px] "
-                  placeholder="Input your email/phone number"
-                />
-              </Form.Item>
-              <Form.Item
-              wrapperCol={{ span: 16 }}
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password
-                  className="border password px-[9px] py-[9px] rounded-[0.5rem] w-[320px] "
-                  placeholder="Input your email/phone number"
-                />
-              </Form.Item>
-              <Button
-                className="hover:blacks w-full rounded-[0.5rem] bg-[#000] btn-login text-white"
-                type="primary"
-                size="large"
-                htmlType="submit"
-              >
+              <Row gutter={[16, 0]}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Full Name"
+                    name="fullName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your full name!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Username"
+                    name="username"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your username!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[16, 0]}>
+                
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your password!",
+                      },
+                    ]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please confirm your password!",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("password") === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error("The two passwords do not match!")
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item>
+                <Button className="w-full" type="primary" htmlType="submit">
                 {t('Register')}
-              </Button>
+                </Button>
               <div className="w-full flex justify-between">
               <Link to="/login" className="mt-2 w-full inline text-left text-sm font-mono hover:text-blue-500">
                 {t('Login')}
@@ -107,6 +133,7 @@ export default function RegisterPage() {
                 {t('home')}
               </Link>
             </div>
+              </Form.Item>
             </Form>
           </div>
         </div>

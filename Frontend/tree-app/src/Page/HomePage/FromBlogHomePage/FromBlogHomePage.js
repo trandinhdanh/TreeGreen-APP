@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useTransition } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore,{ Pagination, Autoplay } from "swiper";
 import { arr } from "./BlogFakedata";
@@ -8,19 +8,18 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 SwiperCore.use([Autoplay]);
 export default function FromBlogHomePage() {
-  
+  const {t} = useTranslation()
   return (
     <div className="fromBlog h-full  ">
       <div className="pb-10  container mx-auto mb:px-5 md:px-24 lg:px-24">
         <div className="fromBlogTitle text-center mb-8">
-          <h1 className="font-bold font-montserrat text-3xl text-black">From  <span className="text-primary">Our Blog</span></h1>
+          <h1 className="font-bold font-montserrat text-3xl text-black">{t('From')}  <span className="text-primary">{t('Our Blog')}</span></h1>
           <p className="text-black font-serif text-[13px]">
-            A perfect blend of creativity, energy,
-            <br /> communication, happiness and love. Let us arrange a smile for
-            you.
-          </p>
+            {t('A perfect blend of creativity, energy,')}
+            <br /> {t('communication')}</p>
         </div>
         <div className="swiperSlider">
           <Swiper

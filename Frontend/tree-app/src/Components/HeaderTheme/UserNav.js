@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiUser } from "react-icons/fi";
 import { BsCart2 } from "react-icons/bs";
 import { TbWorld } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import "./UserNav.scss";
 import { useTranslation } from "react-i18next";
 import { changeLanguage } from "i18next";
@@ -11,11 +11,13 @@ import { localStorageService } from "../../services/localStorageService";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../Redux/auth/authSlice";
 export default function UserNav() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
+  const [user,setUser] = useState(localStorageService.get("USER"))
   const [openCart, setOpenCart] = useState(false);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const dispatch = useDispatch()
   const { t, i18n } = useTranslation();
   const handleChangeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -26,6 +28,70 @@ export default function UserNav() {
   };
   const handleLogOut = () => { 
     dispatch(logoutUser())
+  }
+  const handleRole = () => { 
+    if(isLoggedIn){
+     return ( 
+     <>
+      <Link
+         to={user.roles[0] === "SELLER" ? "/manager" : "/"}
+        className="w-full text-black block h-full transition duration-100"
+      >
+        <li  className="dropdownItem  hover:bg-gray-200 transition duration-300">
+          <p>{t('Welcome')}{user.fullName}</p>
+        </li>
+      </Link>
+      {user.roles[0] === "USER" && (
+          <Link
+            to="/registerSeller"
+            className="w-full block h-full transition duration-100"
+          >
+            <li className="dropdownItem hover:bg-gray-200 transition duration-300">
+              <p> {t("Become a seller")}</p>
+            </li>
+          </Link>
+        )}  
+      <Link
+        to=""
+        className="w-full text-black block h-full transition duration-100"
+      >
+        <li onClick={handleLogOut} className="dropdownItem  hover:bg-gray-200 transition duration-300">
+          <p>{t("Logout")}</p>
+        </li>
+      </Link>  
+     
+      </>
+      )
+    }else{
+      return(
+        <>
+      <Link
+        to="/Register"
+        className="w-full text-black block h-full transition duration-100"
+      >
+        <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
+          <p>{t("Register")}</p>
+        </li>
+      </Link>
+       <Link
+       to="/Login"
+       className="w-full block h-full transition duration-100"
+     >
+       <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
+         <p> {t("Login")}</p>
+       </li>
+     </Link>
+     <Link
+            to="/registerSeller"
+            className="w-full block h-full transition duration-100"
+          >
+            <li className="dropdownItem hover:bg-gray-200 transition duration-300">
+              <p> {t("Become a seller")}</p>
+            </li>
+          </Link>
+     </>
+      )
+    }
    }
   return (
     <div className=" flex items-center justify-end relative">
@@ -94,63 +160,9 @@ export default function UserNav() {
             open ? "" : "hidden"
           } `}
         >
-          {isLoggedIn ? (
-            <>
-            <Link
-              to=""
-              className="w-full text-black block h-full transition duration-100"
-            >
-              <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
-                <p>{t("Welcome")}</p>
-              </li>
-            </Link>
-            <Link
-              to=""
-              className="w-full text-black block h-full transition duration-100"
-            >
-              <li onClick={handleLogOut} className="dropdownItem  hover:bg-gray-200 transition duration-300">
-                <p>{t("Logout")}</p>
-              </li>
-            </Link>    
-            </>
-          ) : (
-            <>
-            <Link
-              to="/Register"
-              className="w-full text-black block h-full transition duration-100"
-            >
-              <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
-                <p>{t("Register")}</p>
-              </li>
-            </Link>
-             <Link
-             to="/Login"
-             className="w-full block h-full transition duration-100"
-           >
-             <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
-               <p> {t("Login")}</p>
-             </li>
-           </Link>
-           </>
-          )}
+          {handleRole()}
+          
 
-         
-
-          <Link
-            to="/registerSeller"
-            className="w-full block h-full transition duration-100"
-          >
-            <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
-              <p> {t("Become a seller")}</p>
-            </li>
-          </Link>
-
-          {/* <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
-              <p className="transition duration-100">
-                {' '}
-                {t('Organize the experience')}
-              </p>
-            </li> */}
           <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
             <p className="transition duration-100">{t("Help")}</p>
           </li>

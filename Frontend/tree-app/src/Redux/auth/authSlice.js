@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { message } from 'antd';
 import { localStorageService } from '../../services/localStorageService';
 import { https } from '../../services/configAxios';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 
 const initialState = {
   accessToken: null,
@@ -12,6 +12,7 @@ const initialState = {
   registerSuccess: false,
   isRegisterAccountSuccess: false,
 };
+
 //LOGIN
 export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAPI) => {
     try {
@@ -19,11 +20,11 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAP
 
     localStorageService.set('accessToken', res.data.token);
     localStorageService.set('USER', res.data);
-    message.success('Login Success');
+    openNotificationIcon('success', 'Success', 'Login Success!');
     console.log(res)
     return res.data;
   } catch (error) {
-    message.error('Login Failed');
+    openNotificationIcon('erorr', 'Erorr', 'Login Failed!');
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
@@ -33,10 +34,10 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunk
   try {
     localStorageService.remove('USER')
     localStorageService.remove('accessToken')
-    message.success('Logout Success');
+    openNotificationIcon('success', 'Success', 'Logout Success!');
     return user;
   } catch (error) {
-    message.error('Login Failed');
+    openNotificationIcon('erorr', 'Erorr', 'Login Erorr!');
   }
 });
 
@@ -44,10 +45,10 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunk
 export const registerUser = createAsyncThunk('auth/registerUser', async (infor, thunkAPI) => {
   try {
     const res = await https.post('/api/auth/signup', infor);
-    message.success('Register success');
+    openNotificationIcon('success', 'Success', 'Register Success!');
     return res.data;
   } catch (error) {
-    message.error('Register Failed');
+    openNotificationIcon('erorr', 'Erorr', 'Register Failed!');
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });

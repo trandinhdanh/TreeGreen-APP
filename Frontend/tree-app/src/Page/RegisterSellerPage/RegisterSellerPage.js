@@ -1,27 +1,29 @@
 import React from "react";
-import { Form, Input, Button, Row,Col } from 'antd';
+import { Form, Input, Button, Row,Col, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 // import "./ResgisterPage.scss";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { authService } from "../../services/authService";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../Redux/auth/authSlice";
 export default function RegisterSellerPage() {
-  const {t} = useTranslation()
-  const url = 'http://localhost:8081/auth/register/s';
-  const onFinish = (values) => {
-    console.log(values)
-    axios.post(url, values)
-    .then(response => {
-      console.log(response.data); // xử lý dữ liệu trả về
-      return response.data;
-    })
-    .catch(error => {
-      console.error(error); // xử lý lỗi
-      throw error;
-    });
+  const {t} = useTranslation();
+  const dispatch = useDispatch();
+  const onFinish = async (values) => {
+    try {
+      const register = await authService.registerSeller(values);
+      const infoLogin = {username: values.username,password : values.password}
+        dispatch(loginUser(infoLogin))
+        console.log(values)
+      } catch (error) {
+        console.log(error);
+      }
   };
-
-  const onFinishFailed = (errorInfo) => {};
+  const onFinishFailed = (errorInfo) => {
+    message.error('Please Enter Full Information')
+  };
 
   return (
     <div className="loginPage flex items-center justify-center w-full h-screen bg-[#ece6e6]">
@@ -45,103 +47,103 @@ export default function RegisterSellerPage() {
           <div className="flex flex-col w-2/3 mx-auto items-center">
             <h1 className="text-2xl mb-5 font-mono">{t('Become a seller')}!!!</h1>
             <Form
-      name="basic"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      layout="vertical"
-    >
-      <Row gutter={[16, 0]}>
-        <Col xs={24} sm={12}>
-          <Form.Item
-            label="Shop Name"
-            name="shopName"
-            rules={[
-              {
-                required: true,
-                message: "Please input your shop name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={12}>
-          <Form.Item
-            label="Full Name"
-            name="fullName"
-            rules={[
-              {
-                required: true,
-                message: "Please input your full name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={[16, 0]}>
-        <Col xs={24} sm={12}>
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={12}>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={[16, 0]}>
-        <Col xs={24} sm={12}>
-          <Form.Item
-            label="Confirm Password"
-            name="confirmPassword"
-            rules={[
-              {
-                required: true,
-                message: "Please confirm your password!",
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(
-                    new Error("The two passwords do not match!")
-                  );
-                },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Form.Item>
-        <Button className="w-full" type="primary" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+              name="basic"
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              layout="vertical"
+            >
+              <Row gutter={[16, 0]}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Shop Name"
+                    name="shopName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your shop name!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Full Name"
+                    name="fullName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your full name!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[16, 0]}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Username"
+                    name="username"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your username!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your password!",
+                      },
+                    ]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={[16, 0]}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please confirm your password!",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("password") === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error("The two passwords do not match!")
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item>
+                <Button className="w-full" type="primary" htmlType="submit">
+                  {t('Register')}
+                </Button>
+              </Form.Item>
+            </Form>
           </div>
         </div>  
       </div>
