@@ -24,6 +24,8 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeRequests()
+                .antMatchers("/auth/password").authenticated()
+                .antMatchers("/user/profile/**").authenticated()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/product/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/category/**").permitAll()

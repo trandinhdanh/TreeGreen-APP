@@ -16,6 +16,7 @@ public class UserConverter {
         dto.setModifiedDate(entity.getModifiedDate());
         dto.setUsername(entity.getUsername());
         dto.setFullName(entity.getFullName());
+        dto.setAvatar(entity.getAvatar());
         dto.setStatus(entity.getStatus());
         dto.setEmail(entity.getEmail());
         dto.setNumberPhone(entity.getNumberPhone());
@@ -29,6 +30,17 @@ public class UserConverter {
         entity.setUsername(dto.getUsername());
         entity.setFullName(dto.getFullName());
         entity.setStatus(dto.getStatus());
+        entity.setAvatar(dto.getAvatar());
+        entity.setEmail(dto.getEmail());
+        entity.setNumberPhone(dto.getNumberPhone());
+        entity.setAddress(dto.getAddress());
+        return entity;
+    }
+
+    public UserEntity toEntity(UserDTO dto, UserEntity entity) {
+        entity.setId(dto.getId());
+        entity.setFullName(dto.getFullName());
+        entity.setAvatar(dto.getAvatar());
         entity.setEmail(dto.getEmail());
         entity.setNumberPhone(dto.getNumberPhone());
         entity.setAddress(dto.getAddress());

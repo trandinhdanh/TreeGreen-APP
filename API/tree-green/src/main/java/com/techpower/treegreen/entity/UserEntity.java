@@ -26,6 +26,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column
     private String fullName;
     @Column
+    private String avatar;
+    @Column
     private String status;
     @Column
     private String email;

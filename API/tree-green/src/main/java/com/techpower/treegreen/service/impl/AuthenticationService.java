@@ -4,6 +4,7 @@ import com.techpower.treegreen.api.input.InputRegistrationSeller;
 import com.techpower.treegreen.api.input.InputAuthentication;
 import com.techpower.treegreen.api.output.OutputAuthentication;
 import com.techpower.treegreen.api.input.InputRegistrationUser;
+import com.techpower.treegreen.constant.ImageConstant;
 import com.techpower.treegreen.constant.RoleConstant;
 import com.techpower.treegreen.constant.UserConstant;
 import com.techpower.treegreen.entity.RoleEntity;
@@ -56,6 +57,10 @@ public class AuthenticationService implements IAuthenticationService {
                 .username(user.getUsername())
                 .password(request.getPassword())
                 .fullName(user.getFullName())
+                .email(user.getEmail())
+                .numberPhone(user.getNumberPhone())
+                .address(user.getAddress())
+                .avatar(user.getAvatar())
                 .shopName(shopName)
                 .token(jwtToken)
                 .build();
@@ -69,6 +74,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .status(UserConstant.ACTIVE)
                 .fullName(request.getFullName())
+                .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.USER))
                 .build();
         UserEntity userEntity = userRepository.save(user);
@@ -82,6 +88,10 @@ public class AuthenticationService implements IAuthenticationService {
                 .username(user.getUsername())
                 .password(request.getPassword())
                 .fullName(user.getFullName())
+                .email(user.getEmail())
+                .numberPhone(user.getNumberPhone())
+                .address(user.getAddress())
+                .avatar(user.getAvatar())
                 .shopName("")
                 .token(jwtToken)
                 .build();
@@ -94,6 +104,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .status(UserConstant.ACTIVE)
                 .fullName(request.getFullName())
+                .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.SELLER))
                 .build();
         UserEntity userEntity = userRepository.save(user);
@@ -112,6 +123,10 @@ public class AuthenticationService implements IAuthenticationService {
                 .username(user.getUsername())
                 .password(request.getPassword())
                 .fullName(user.getFullName())
+                .email(user.getEmail())
+                .numberPhone(user.getNumberPhone())
+                .address(user.getAddress())
+                .avatar(user.getAvatar())
                 .shopName(shop.getName())
                 .token(jwtToken)
                 .build();

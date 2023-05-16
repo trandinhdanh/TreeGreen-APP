@@ -11,10 +11,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutputAuthentication {
+    private String token;
     private List<String> roles;
     private String username;
     private String password;
+    private String avatar;
     private String fullName;
     private String shopName;
-    private String token;
+    private String email;
+    private String numberPhone;
+    private String address;
 }
