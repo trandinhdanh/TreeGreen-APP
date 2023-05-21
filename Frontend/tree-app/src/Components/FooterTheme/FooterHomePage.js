@@ -6,6 +6,7 @@ import {MdEmail} from "react-icons/md"
 import {FaInstagramSquare} from "react-icons/fa"
 import ScrollToTop from 'react-scroll-to-top'
 import { useTranslation } from 'react-i18next'
+import { NavLink } from 'react-router-dom'
 
 export default function FooterHomePage() {
   const {t} = useTranslation();
@@ -20,7 +21,15 @@ export default function FooterHomePage() {
       />
         <div className='grid mb:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pt-7 container mx-auto mb:mx-5 md:px-24 lg:px-24 '>
             <div className='col'>
-                <img className='w-[170px]' src='http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/logo-fiorello.png' />
+            <div className="flex items-center flex-shrink-0 lg:mr-6">
+              <NavLink to="/">
+              {/* <img className='w-[170px]' src='http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/logo-fiorello.png' /> */}
+                  <p className="font-playfair text-[18px] tracking-wider m-0 text-[#263A29]"> 
+                    <span className="text-primary font-bold">GREEN </span> 
+                  EARTH
+                  </p>
+              </NavLink>
+              </div>
                 <p> {t('desFooter')}</p>
             </div>
             <div className='col'>

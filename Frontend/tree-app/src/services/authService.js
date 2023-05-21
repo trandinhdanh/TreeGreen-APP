@@ -1,7 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
-
-const BASE_URL = "http://localhost:8081";
+import { BASE_URL } from "../utils/baseURL";
 
 export let authService = {
   registerSeller: async (values) => {

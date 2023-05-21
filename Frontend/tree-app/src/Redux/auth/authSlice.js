@@ -4,6 +4,7 @@ import { https } from '../../services/configAxios';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
+import { BASE_URL } from '../../utils/baseURL';
 
 const initialState = {
   accessToken: null,
@@ -16,8 +17,7 @@ const initialState = {
 //LOGIN
 export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAPI) => {
     try {
-        const res = await axios.post(`http://localhost:8081/auth/login`, user);
-
+        const res = await axios.post(BASE_URL + `/auth/login`, user);
     localStorageService.set('accessToken', res.data.token);
     localStorageService.set('USER', res.data);
     openNotificationIcon('success', 'Success', 'Login Success!');
@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAP
   }
 });
 
-//LOGINOUT
+//LOGOUT
 export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunkAPI) => {
   try {
     localStorageService.remove('USER')
@@ -42,16 +42,16 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunk
 });
 
 //REGISTER
-export const registerUser = createAsyncThunk('auth/registerUser', async (infor, thunkAPI) => {
-  try {
-    const res = await https.post('/api/auth/signup', infor);
-    openNotificationIcon('success', 'Success', 'Register Success!');
-    return res.data;
-  } catch (error) {
-    openNotificationIcon('erorr', 'Erorr', 'Register Failed!');
-    return thunkAPI.rejectWithValue(error.response.data);
-  }
-});
+// export const registerUser = createAsyncThunk('auth/registerUser', async (infor, thunkAPI) => {
+//   try {
+//     const res = await https.post('/api/auth/signup', infor);
+//     openNotificationIcon('success', 'Success', 'Register Success!');
+//     return res.data;
+//   } catch (error) {
+//     openNotificationIcon('erorr', 'Erorr', 'Register Failed!');
+//     return thunkAPI.rejectWithValue(error.response.data);
+//   }
+// });
 
 
 const authSlice = createSlice({
@@ -102,27 +102,27 @@ const authSlice = createSlice({
           isLoggedIn: false,
         };
       })
-      .addCase(registerUser.pending, (state) => {
-        return {
-          ...state,
-          isLoading: true,
-        };
-      })
-      .addCase(registerUser.fulfilled, (state, { payload }) => {
-        return {
-          ...state,
-          isLoading: false,
-          registerSuccess: true,
-        };
-      })
-      .addCase(registerUser.rejected, (state, { payload }) => {
-        return {
-          ...state,
-          isLoading: false,
-          registerSuccess: false,
-          isRegisterAccountSuccess: true,
-        };
-      });
+      // .addCase(registerUser.pending, (state) => {
+      //   return {
+      //     ...state,
+      //     isLoading: true,
+      //   };
+      // })
+      // .addCase(registerUser.fulfilled, (state, { payload }) => {
+      //   return {
+      //     ...state,
+      //     isLoading: false,
+      //     registerSuccess: true,
+      //   };
+      // })
+      // .addCase(registerUser.rejected, (state, { payload }) => {
+      //   return {
+      //     ...state,
+      //     isLoading: false,
+      //     registerSuccess: false,
+      //     isRegisterAccountSuccess: true,
+      //   };
+      // });
   },
 });
 // Action creators are generated for each case reducer function

@@ -5,7 +5,7 @@ export default function IntroducePage() {
   const {t} = useTranslation()
   return (
    <div>
-     <div className="intro bg-[url('https://images.unsplash.com/photo-1463320898484-cdee8141c787?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')] w-full h-full bg-cover" id="gioiThieu">
+     <div className="intro h-screen bg-[url('https://images.unsplash.com/photo-1463320898484-cdee8141c787?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')] w-full h-full bg-cover" id="gioiThieu">
     <div className="container mx-auto p-12">
       <div className="flex items-center justify-around lg:flex md:flex-col sm:flex-col mb:flex-col">
         <div className="introLeft w-50 text-center">
@@ -20,14 +20,14 @@ export default function IntroducePage() {
           </button>
         </div>
         <div className="introRight w-50 ">
-          <div className=" w-full">
+          {/* <div className=" w-full">
             <img
             className="object-contain"
             style={{height:"400px", width:"100%"}}
               src="https://res.cloudinary.com/dvzingci9/image/upload/v1664007780/My-portfolio/iPhone_12_Pro_Max_1_xilech.png?fbclid=IwAR3shyANOUmzxQ56gj3lFpdTCJSTchfvrA6Y8AYjrs-QwX1hOJcgoYs59QI"
               alt=""
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

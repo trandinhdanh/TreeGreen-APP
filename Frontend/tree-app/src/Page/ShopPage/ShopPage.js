@@ -15,15 +15,17 @@ export default function ShopPage() {
   const [isFilter, setIsFilter] = useState(false);
   const [valueProducts, setValueProducts] = useState([0, 5000000]);
   const [filterProducts, setFilterProducts] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const products = useSelector((state) => state.products.productList.allProduct);
-
+const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const handleIsFilter = () => {
     setIsFilter((current) => !current);
   };
 
-  const handleFilterChange = (newFilter) => {
+  const handleFilterChange = (newFilter,newSearchValue) => {
     setValueProducts(newFilter);
+    setSearchValue(newSearchValue);
   };
 
   const handlePageChange = (page, pageSize) => {
@@ -33,15 +35,20 @@ export default function ShopPage() {
 
   useEffect(() => {
     const filtered = products.filter((product) => {
-      return product.price >= valueProducts[0] && product.price <= valueProducts[1];
+      return (
+        product.price >= valueProducts[0] &&
+        product.price <= valueProducts[1] &&
+        product.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
     });
-
+  
     setTotalProducts(filtered.length);
-
+  
     const startIdx = (currentPage - 1) * pageSize;
     const endIdx = startIdx + pageSize;
     setFilterProducts(filtered.slice(startIdx, endIdx));
-  }, [currentPage, pageSize, products, valueProducts]);
+  }, [currentPage, pageSize, products, valueProducts, searchValue]);
+  
 
   return (
     <div className='z-10 my-16'>
@@ -59,7 +66,7 @@ export default function ShopPage() {
               <p className='text-[16px] m-0 font-roboto'>{t('No Products Found')}</p>
             ) : (
               filterProducts.map((item, i) => {
-                return <ProductItem key={i} data={item} />;
+                return <ProductItem key={i} data={item} isLoggedIn={isLoggedIn} />;
               })
             )}
           </div>

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 export default function FilterShopPage({onFilterChange}) {
     const {t} = useTranslation();
     const listBtn = ['all', 'popular', 'winter' , 'cactuses' ,'green']; 
+    const [searchValue, setSearchValue] = useState("");
     const [price,setPrice] = useState([0,5000000]);
     let timeout = 0.5;
     function onChange(value) {
@@ -15,18 +16,27 @@ export default function FilterShopPage({onFilterChange}) {
           clearTimeout(timeout);
         }
         timeout = setTimeout(() => {
-          console.log('Giá trị mới:', value);
           setPrice(value);
-          
         }, 500);
         return value;
       }
       const handleFilter = () => { 
-        onFilterChange(price)
+        onFilterChange(price , searchValue)
        }
+       const handleSearch = (e) => {
+        setSearchValue(e.target.value);
+        onFilterChange(price, e.target.value);
+      };
   return (
     <>
         <div className=''>
+          <input
+              type="text"
+              placeholder={t('Search')}
+              value={searchValue}
+              onChange={handleSearch}
+              className="my-2 px-2 py-1 w-full border border-gray-300 rounded"
+            />
             <h1 className='uppercase font-bold font-roboto text-primary'>{t('productPortfolio')}</h1>
             <div className=''>
                 {listBtn.map((item,i) => { 
@@ -42,7 +52,7 @@ export default function FilterShopPage({onFilterChange}) {
             </div>
                 <button className='px-5 py-2 mt-3 text-[12px] hover:scale-125 transition-all text-white font-roboto font-bold uppercase rounded-lg bg-primary' onClick={() => { handleFilter() }}>{t('filter')}</button>
         </div>
-        <BlogNew/>   
+        {/* <BlogNew/>    */}
         
     </>
   )

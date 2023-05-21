@@ -51,7 +51,7 @@ export default function FromBlogHomePage() {
               return(
                 <SwiperSlide key={i} className="py-3">
                    <Link to={`/blog/${item.id}`}>
-                  <div className="px-3 py-5  rounded-lg hover:shadow-lg transition-all">
+                  <div className="px-3 py-5  rounded-lg hover:shadow-md transition-all">
                     <img className="rounded-lg " src={item.img} />
                     <h1 className="text-center text-[15px] mt-[10px] font-bold ">{item.title}</h1>
                     <p className="text-center text-[12px] text-gray-500">{item.des}</p>
