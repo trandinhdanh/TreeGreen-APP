@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +26,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/auth/password").authenticated()
+                .antMatchers("/api/carts/**").permitAll()
                 .antMatchers("/user/profile/**").authenticated()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/product/**").permitAll()
@@ -33,8 +35,7 @@ public class SecurityConfig {
                 .antMatchers("/category").access("hasAnyAuthority('ADMIN')")
                 .antMatchers("/user/**").access("hasAnyAuthority('ADMIN')")
                 .antMatchers("/product**").access("hasAnyAuthority('SELLER')")
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -9,7 +9,6 @@ public class UserConverter {
     public UserDTO toDTO(UserEntity entity) {
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
-        dto.setId(entity.getId());
         dto.setCreateBy(entity.getCreateBy());
         dto.setCreateDate(entity.getCreateDate());
         dto.setModifiedBy(entity.getModifiedBy());
