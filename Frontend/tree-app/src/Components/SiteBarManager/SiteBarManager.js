@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { AiOutlineHome } from "react-icons/ai";
 import {
@@ -9,8 +9,16 @@ import {
   IoPencil,
 } from "react-icons/io5";
 import { localStorageService } from "../../services/localStorageService";
+import { message } from "antd";
 export default function SiteBarManager() {
+  const navigate = useNavigate()
     const [user,setUser] = useState(localStorageService.get("USER"))
+    useEffect(() => {
+      if (user.roles[0] === "USER") {
+        navigate("/"); 
+        message.error('Not Have Access')
+      }
+    }, [user.roles[0], navigate]);
   const renderByUser = () => {
     return (
       <>
@@ -110,7 +118,7 @@ export default function SiteBarManager() {
                   >
                     <RiAccountCircleFill className=" text-[30px]" />
                     <span className="flex-1 ml-3 whitespace-nowrap text-[20px] font-bold">
-                      dinhdanh
+                      {user.username}
                     </span>
                   </Link>
                 </li>

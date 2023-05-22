@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 /** State **/
 const initialState = {
   items: [],
@@ -22,12 +23,12 @@ const cartListSlice = createSlice({
         // nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
         state.items.push({ ...item, quantity: 1 });
       }
-      message.success('Add Product Success')
+      openNotificationIcon('success', 'Success', 'Add Product Success!');
     },
     removeItemFromCart(state, action) {
       const id = action.payload;
       state.items = state.items.filter((i) => i.id !== id);
-      message.success('Delete Product Success')
+      openNotificationIcon('success', 'Success', 'Delete Product Success!');
     },
     updateItemQuantity(state, action) {
       const { id, quantity } = action.payload;
@@ -36,7 +37,8 @@ const cartListSlice = createSlice({
       if (item) {
         item.quantity = quantity;
       }
-      message.success('Update Product Success')
+      openNotificationIcon('success', 'Success', 'Update Product Success!');
+
     },
     clearCart(state) {
       state.items = [];
