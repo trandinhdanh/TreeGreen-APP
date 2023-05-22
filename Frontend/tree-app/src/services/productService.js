@@ -6,7 +6,7 @@ import { BASE_URL } from "../utils/baseURL";
 
 const getAuthConfig = () => ({
   headers: {
-    Authorization: `Bearer ${localStorageService.get("accessToken")}`
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaW5oZGFuaHMiLCJpYXQiOjE2ODQ3NDIwNDAsImV4cCI6MTY4NDc0MzQ4MH0.rSJeNZocRTJvPiNOrHNR1HXU5mJt4w77hV6IzPtTFB8`
   }
 });
 export let productService = {
@@ -29,7 +29,10 @@ export let productService = {
 
   create: async (values) => {
     try {
-      const response = await https.post(`/product`,values)
+      const response = await axios.post(BASE_URL + `/product`,values,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
       console.log(response);
     } catch (error) {
       console.log(error);
