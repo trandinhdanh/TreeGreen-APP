@@ -32,7 +32,7 @@ public class ProductAPI {
         return iProductService.getAll();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/shop/{username}")
     public List<ProductDTO> getAllByShop(@PathVariable("username") String username) {
         return iProductService.getAllByShop(username);
     }
