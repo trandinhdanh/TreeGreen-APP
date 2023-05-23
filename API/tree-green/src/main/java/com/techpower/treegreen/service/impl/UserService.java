@@ -1,16 +1,14 @@
 package com.techpower.treegreen.service.impl;
 
-import com.techpower.treegreen.api.input.InputAuthentication;
 import com.techpower.treegreen.api.input.InputChangePassword;
 import com.techpower.treegreen.constant.UserConstant;
 import com.techpower.treegreen.converter.UserConverter;
 import com.techpower.treegreen.dto.UserDTO;
 import com.techpower.treegreen.entity.UserEntity;
+import com.techpower.treegreen.jwt.JWTUtil;
 import com.techpower.treegreen.repository.UserRepository;
 import com.techpower.treegreen.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +24,7 @@ public class UserService implements IUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private JwtService jwtService;
+    private JWTUtil jwtService;
 
     @Override
     public List<UserDTO> getAllUser(String role) {
