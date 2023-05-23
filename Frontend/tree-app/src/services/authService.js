@@ -5,7 +5,7 @@ import { BASE_URL } from "../utils/baseURL";
 export let authService = {
   registerSeller: async (values) => {
     try {
-        const response = await axios.post(BASE_URL + "/auth/register/s",values);
+        const response = await axios.post(BASE_URL + "/api/v1/auth/register/s",values);
         message.success("Register Success")
         return response.data
     } catch (error) {
@@ -15,7 +15,7 @@ export let authService = {
   },
   registerUser: async (values) => {
     try {
-        const response = await axios.post(BASE_URL + "/auth/register/u",values);
+        const response = await axios.post(BASE_URL + "/api/v1/auth/register/u",values);
         message.success("Register Success")
         return response.data
     } catch (error) {

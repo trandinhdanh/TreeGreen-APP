@@ -17,7 +17,7 @@ const initialState = {
 //LOGIN
 export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAPI) => {
     try {
-        const res = await axios.post(BASE_URL + `/auth/login`, user);
+        const res = await axios.post(BASE_URL + `/api/v1/auth/login`, user);
     localStorageService.set('accessToken', res.data.token);
     localStorageService.set('USER', res.data);
     openNotificationIcon('success', 'Success', 'Login Success!');

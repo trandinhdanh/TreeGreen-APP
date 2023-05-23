@@ -5,7 +5,7 @@ import { BASE_URL, getAuthConfig } from "../utils/baseURL";
 export let productService = {
   getAllProduct: async () => {
     try {
-        const response = await axios.get(BASE_URL + "/product/list");
+        const response = await axios.get(BASE_URL + "/api/v1/products");
         return response.data
     } catch (error) {
         console.log(error);      
@@ -13,7 +13,7 @@ export let productService = {
   },
   getProductId: async (id) => { 
     try {
-      const response = await axios.get(BASE_URL + `/product/${id}`);
+      const response = await axios.get(BASE_URL + `/api/v1/products/${id}`);
       return response.data
   } catch (error) {
       console.log(error);      
@@ -30,7 +30,7 @@ export let productService = {
   // },
   create: async (values) => {
     try {
-      const response = await axios.post(BASE_URL + `/product`,values,{
+      const response = await axios.post(BASE_URL + `/api/v1/products`,values,{
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })
@@ -42,7 +42,7 @@ export let productService = {
   delete: async (values) => {
     console.log(values);
     try {
-      const response = await axios.delete(BASE_URL + `/product`,values,{
+      const response = await axios.delete(BASE_URL + `/api/v1/products`,values,{
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })
@@ -53,7 +53,7 @@ export let productService = {
   },
     getCategory: async () => {
     try {
-        const response = await axios.get(BASE_URL + "/category/list");
+        const response = await axios.get(BASE_URL + "/api/v1/categorys");
         return response.data
     } catch (error) {
         console.log(error);      
