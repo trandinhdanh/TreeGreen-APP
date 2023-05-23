@@ -25,20 +25,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .csrf()
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/password").authenticated()
-                .antMatchers("/api/v1/api/carts/**").permitAll()
-                .antMatchers("/api/v1/user/profile/**").authenticated()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/product/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/category/**").permitAll()
-                .antMatchers("/api/v1/category/**").access("hasAnyAuthority('ADMIN')")
-                .antMatchers("/api/v1/category").access("hasAnyAuthority('ADMIN')")
-                .antMatchers("/api/v1/user/**").access("hasAnyAuthority('ADMIN')")
-                .antMatchers("/api/v1/product**").access("hasAnyAuthority('SELLER')")
+//                .antMatchers("/api/v1/api/carts/**").permitAll()
+//                .antMatchers("/api/v1/user/profile/**").authenticated()
+//                .antMatchers("/api/v1/category/**").access("hasAnyAuthority('ADMIN')")
+//                .antMatchers("/api/v1/category").access("hasAnyAuthority('ADMIN')")
+//                .antMatchers("/api/v1/user/**").access("hasAnyAuthority('ADMIN')")
+//                .antMatchers("/api/v1/product**").access("hasAnyAuthority('SELLER')")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -48,16 +48,16 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        config.setAllowCredentials(true);
-        source.registerCorsConfiguration("/api/v1/**", config);
-        return new CorsFilter(source);
-    }
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.addAllowedOrigin("http://localhost:3000");
+//        config.addAllowedMethod("*");
+//        config.addAllowedHeader("*");
+//        config.setAllowCredentials(true);
+//        source.registerCorsConfiguration("/api/**", config);
+//        return new CorsFilter(source);
+//    }
 
 }
