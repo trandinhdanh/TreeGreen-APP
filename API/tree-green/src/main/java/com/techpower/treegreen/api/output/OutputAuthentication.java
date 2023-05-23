@@ -1,9 +1,9 @@
 package com.techpower.treegreen.api.output;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.techpower.treegreen.dto.UserDTO;
+import lombok.*;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -12,10 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutputAuthentication {
-    private List<String> roles;
-    private String username;
-    private String password;
-    private String fullName;
-    private String shopName;
     private String token;
+    private List<String> roles;
+    private UserDTO userDTO;
+    private String shopName;
+
 }

@@ -4,11 +4,15 @@ import com.techpower.treegreen.api.input.InputRegistrationSeller;
 import com.techpower.treegreen.api.input.InputAuthentication;
 import com.techpower.treegreen.api.output.OutputAuthentication;
 import com.techpower.treegreen.api.input.InputRegistrationUser;
+import com.techpower.treegreen.constant.ImageConstant;
 import com.techpower.treegreen.constant.RoleConstant;
 import com.techpower.treegreen.constant.UserConstant;
+import com.techpower.treegreen.converter.UserConverter;
+import com.techpower.treegreen.entity.CartEntity;
 import com.techpower.treegreen.entity.RoleEntity;
 import com.techpower.treegreen.entity.ShopEntity;
 import com.techpower.treegreen.entity.UserEntity;
+import com.techpower.treegreen.repository.CartRepository;
 import com.techpower.treegreen.repository.RoleRepository;
 import com.techpower.treegreen.repository.ShopRepository;
 import com.techpower.treegreen.repository.UserRepository;
@@ -29,8 +33,10 @@ public class AuthenticationService implements IAuthenticationService {
     private final RoleRepository roleRepository;
     private final ShopRepository shopRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CartRepository cartRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserConverter userConverter;
 
     @Override
     public OutputAuthentication authenticate(InputAuthentication request) {
@@ -50,40 +56,44 @@ public class AuthenticationService implements IAuthenticationService {
                 ShopEntity shop = shopRepository.findOneByUser(user);
                 shopName = shop.getName();
             }
-    }
+        }
         return OutputAuthentication.builder()
                 .roles(roles)
-                .username(user.getUsername())
-                .password(request.getPassword())
-                .fullName(user.getFullName())
+                .userDTO(userConverter.toDTO(user))
                 .shopName(shopName)
                 .token(jwtToken)
-                .build();}
+                .build();
+    }
 
 
-        @Override
-        public OutputAuthentication registerUser(InputRegistrationUser request) {
-            var user = UserEntity.builder()
-                    .username(request.getUsername())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .status(UserConstant.ACTIVE)
-                    .fullName(request.getFullName())
-                    .roles(addRole(RoleConstant.USER))
-                    .build();
-            UserEntity userEntity = userRepository.save(user);
-            List<String> roles = new ArrayList<>();
-            for (RoleEntity roleEntity : userEntity.getRoles()) {
-                roles.add(roleEntity.getCode());
-            }
-            var jwtToken = jwtService.generateToken(user);
-            return OutputAuthentication.builder()
-                    .roles(roles)
-                    .username(user.getUsername())
-                    .password(request.getPassword())
-                    .fullName(user.getFullName())
-                    .shopName("")
-                    .token(jwtToken)
-                    .build();
+    @Override
+    public OutputAuthentication registerUser(InputRegistrationUser request) {
+        var user = UserEntity.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .status(UserConstant.ACTIVE)
+                .fullName(request.getFullName())
+                .avatar(ImageConstant.AVATAR_DEFAULT)
+                .roles(addRole(RoleConstant.USER))
+                .build();
+        UserEntity userEntity = userRepository.save(user);
+
+        CartEntity cartEntity = new CartEntity();
+        cartEntity.setUser(userEntity);
+        cartEntity.setTotalPrice(0.0);
+        cartRepository.save(cartEntity);
+
+        List<String> roles = new ArrayList<>();
+        for (RoleEntity roleEntity : userEntity.getRoles()) {
+            roles.add(roleEntity.getCode());
+        }
+        var jwtToken = jwtService.generateToken(user);
+        return OutputAuthentication.builder()
+                .roles(roles)
+                .userDTO(userConverter.toDTO(userEntity))
+                .shopName("")
+                .token(jwtToken)
+                .build();
     }
 
     @Override
@@ -93,6 +103,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .status(UserConstant.ACTIVE)
                 .fullName(request.getFullName())
+                .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.SELLER))
                 .build();
         UserEntity userEntity = userRepository.save(user);
@@ -108,9 +119,7 @@ public class AuthenticationService implements IAuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return OutputAuthentication.builder()
                 .roles(roles)
-                .username(user.getUsername())
-                .password(request.getPassword())
-                .fullName(user.getFullName())
+                .userDTO(userConverter.toDTO(userEntity))
                 .shopName(shop.getName())
                 .token(jwtToken)
                 .build();

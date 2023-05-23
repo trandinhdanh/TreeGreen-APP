@@ -1,14 +1,7 @@
 import axios from "axios";
-import { localStorageService } from "./localStorageService";
-import { https } from "./configAxios";
-import { BASE_URL } from "../utils/baseURL";
+import { BASE_URL, getAuthConfig } from "../utils/baseURL";
 
 
-const getAuthConfig = () => ({
-  headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaW5oZGFuaHMiLCJpYXQiOjE2ODQ3NDIwNDAsImV4cCI6MTY4NDc0MzQ4MH0.rSJeNZocRTJvPiNOrHNR1HXU5mJt4w77hV6IzPtTFB8`
-  }
-});
 export let productService = {
   getAllProduct: async () => {
     try {
@@ -27,6 +20,14 @@ export let productService = {
   }
   },
 
+  // create: async (values) => {
+    //   try {
+      //     const response = await https.post(`/product`,values)
+      //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
   create: async (values) => {
     try {
       const response = await axios.post(BASE_URL + `/product`,values,{
@@ -39,11 +40,23 @@ export let productService = {
     }
   },
   delete: async (values) => {
+    console.log(values);
     try {
-      const response = await https.delete(`/product`,values)
+      const response = await axios.delete(BASE_URL + `/product`,values,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
       console.log(response);
     } catch (error) {
       console.log(error);
+    }
+  },
+    getCategory: async () => {
+    try {
+        const response = await axios.get(BASE_URL + "/category/list");
+        return response.data
+    } catch (error) {
+        console.log(error);      
     }
   },
 };

@@ -63,7 +63,7 @@ export default function SiteBarManager() {
         </li>
         <li>
           <Link
-            to="/Manager/user"
+            to="/manager/blog"
             href="#"
             className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
           >
@@ -77,7 +77,7 @@ export default function SiteBarManager() {
       : 
       <li>
           <Link
-            to="/Manager/user"
+            to="/manager/user"
             href="#"
             className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
           >
@@ -118,7 +118,7 @@ export default function SiteBarManager() {
                   >
                     <RiAccountCircleFill className=" text-[30px]" />
                     <span className="flex-1 ml-3 whitespace-nowrap text-[20px] font-bold">
-                      {user.username}
+                      {user.userDTO.username}
                     </span>
                   </Link>
                 </li>
