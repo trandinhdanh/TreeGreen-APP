@@ -12,7 +12,7 @@ public interface IProductService {
 
     public List<ProductDTO> getAllByShop(String username);
 
-    public ProductDTO save(ProductDTO dto);
+    public ProductDTO save(ProductDTO dto,long idUser);
 
     public ProductDTO update(ProductDTO dto);
 

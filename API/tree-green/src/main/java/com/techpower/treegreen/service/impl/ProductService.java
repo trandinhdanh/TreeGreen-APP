@@ -72,7 +72,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductDTO save(ProductDTO dto) {
+    public ProductDTO save(ProductDTO dto,long idUser) {
         ProductEntity entity = productConverter.toEntity(dto);
         CategoryEntity categoryEntity = categoryRepository.findByCode(dto.getCategory().getCode());
         entity.setCategory(categoryEntity);
@@ -91,6 +91,7 @@ public class ProductService implements IProductService {
             productImageRepository.save(productImageEntity);
         }
         entity.setImages(productImageRepository.findAllByProduct(entity));
+        entity.setShop(shopRepository.findOneByUser(userRepository.findOneById(idUser)));
         productRepository.save(entity);
         ProductDTO productDTO = productConverter.toDTO(entity);
         productDTO.setCategory(categoryConverter.toDTO(categoryEntity));

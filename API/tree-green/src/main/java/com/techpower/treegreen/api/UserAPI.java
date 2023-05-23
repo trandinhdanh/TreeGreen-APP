@@ -6,6 +6,7 @@ import com.techpower.treegreen.dto.UserDTO;
 import com.techpower.treegreen.service.IUserService;
 import com.techpower.treegreen.service.impl.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,34 +22,57 @@ public class UserAPI {
     private CloudinaryService cloudinaryService;
 
     @GetMapping("/{role}")
-    public List<UserDTO> getAll(@PathVariable("role") String role) {
-        return iUserService.getAllUser(role);
+    public ResponseEntity<List<UserDTO>> getAll(@PathVariable("role") String role) {
+        List<UserDTO> users = iUserService.getAllUser(role);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @PutMapping("/{id}")
-    public UserDTO delete(@PathVariable("id") long id) {
-        return iUserService.delete(id);
+    public ResponseEntity<UserDTO> delete(@PathVariable("id") long id) {
+        UserDTO deletedUser = iUserService.delete(id);
+        if (deletedUser != null) {
+            return ResponseEntity.ok(deletedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/password")
-    public UserDTO changePassword(@RequestBody InputChangePassword changePassword) {
-        return iUserService.changePassword(changePassword);
+    public ResponseEntity<UserDTO> changePassword(@RequestBody InputChangePassword changePassword) {
+        UserDTO updatedUser = iUserService.changePassword(changePassword);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/profile/{username}")
-    public UserDTO update(@PathVariable("username") String username,
-                          @RequestParam("avatar") MultipartFile avatar,
-                          @RequestParam("fullName") String fullName,
-                          @RequestParam("email") String email,
-                          @RequestParam("numberPhone") String numberPhone,
-                          @RequestParam("address") String address) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(username);
-        userDTO.setAvatar(cloudinaryService.uploadImage(avatar));
-        userDTO.setFullName(fullName);
-        userDTO.setEmail(email);
-        userDTO.setNumberPhone(numberPhone);
-        userDTO.setAddress(address);
-        return iUserService.update(userDTO);
+    public ResponseEntity<UserDTO> update(@PathVariable("username") String username,
+                                          @RequestParam("avatar") MultipartFile avatar,
+                                          @RequestParam("fullName") String fullName,
+                                          @RequestParam("email") String email,
+                                          @RequestParam("numberPhone") String numberPhone,
+                                          @RequestParam("address") String address) {
+        UserDTO user = UserDTO.builder()
+                .username(username)
+                .avatar(cloudinaryService.uploadImage(avatar))
+                .fullName(fullName)
+                .email(email)
+                .numberPhone(numberPhone)
+                .address(address)
+                .build();
+        UserDTO updatedUser = iUserService.update(user);
+
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }

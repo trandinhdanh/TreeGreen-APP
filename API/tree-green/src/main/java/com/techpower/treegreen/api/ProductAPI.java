@@ -6,8 +6,11 @@ import com.techpower.treegreen.dto.ProductDTO;
 import com.techpower.treegreen.service.IProductService;
 import com.techpower.treegreen.service.impl.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,65 +26,86 @@ public class ProductAPI {
     private CloudinaryService cloudinaryService;
 
     @GetMapping("/{id}")
-    public ProductDTO getProductDetail(@PathVariable long id) {
-        return iProductService.getProductDetail(id);
+    public ResponseEntity<ProductDTO> getProductDetail(@PathVariable long id) {
+        ProductDTO product = iProductService.getProductDetail(id);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("")
-    public List<ProductDTO> getAll() {
-        return iProductService.getAll();
+    public ResponseEntity<List<ProductDTO>> getAll() {
+        List<ProductDTO> products = iProductService.getAll();
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/shop/{username}")
-    public List<ProductDTO> getAllByShop(@PathVariable("username") String username) {
-        return iProductService.getAllByShop(username);
+    public ResponseEntity<List<ProductDTO>> getAllByShop(@PathVariable("username") String username) {
+        List<ProductDTO> products = iProductService.getAllByShop(username);
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @PostMapping("")
-    public ProductDTO save(@RequestParam("name") String name,
-                           @RequestParam("code") String code,
-                           @RequestParam("image") MultipartFile image,
-                           @RequestParam("price") double price,
-                           @RequestParam("quantity") Long quantity,
-                           @RequestParam("shortDescription") String shortDescription,
-                           @RequestParam("description") String description,
-                           @RequestParam("category") String category,
-                           @RequestParam("images") List<MultipartFile> images) {
-        ProductDTO dto = new ProductDTO();
-        dto.setName(name);
-        dto.setCode(code);
-        dto.setImage(cloudinaryService.uploadImage(image));
-        dto.setPrice(price);
-        dto.setQuantity(quantity);
-        dto.setShortDescription(shortDescription);
-        dto.setDescription(description);
 
+    @PostMapping("/{idUser}")
+    public ResponseEntity<ProductDTO> save(@PathVariable("idUser") long idUser,
+                                           @RequestParam("name") String name,
+                                           @RequestParam("code") String code,
+                                           @RequestParam("image") MultipartFile image,
+                                           @RequestParam("price") double price,
+                                           @RequestParam("quantity") Long quantity,
+                                           @RequestParam("shortDescription") String shortDescription,
+                                           @RequestParam("description") String description,
+                                           @RequestParam("category") String category,
+                                           @RequestParam(value = "images", required = false) List<MultipartFile> images) {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCode(category);
-        dto.setCategory(categoryDTO);
 
         List<String> imagesDTO = new ArrayList<>();
-        if (images.size() > 0) {
+        if (images != null && !images.isEmpty()) {
             for (MultipartFile imageDetail : images) {
                 if (!imageDetail.isEmpty())
                     imagesDTO.add(cloudinaryService.uploadImage(imageDetail));
             }
         }
-        dto.setImages(imagesDTO);
 
-        return iProductService.save(dto);
+        ProductDTO product = ProductDTO.builder()
+                .name(name)
+                .code(code)
+                .image(cloudinaryService.uploadImage(image))
+                .price(price)
+                .quantity(quantity)
+                .shortDescription(shortDescription)
+                .description(description)
+                .category(categoryDTO)
+                .images(imagesDTO)
+                .build();
+
+        ProductDTO savedProduct = iProductService.save(product, idUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
     }
 
+
     @PutMapping("/{id}")
-    public ProductDTO updateProduct(@PathVariable("id") long id,
-                                    @RequestParam("name") String name,
-                                    @RequestParam("code") String code,
-                                    @RequestParam("image") MultipartFile image,
-                                    @RequestParam("price") double price,
-                                    @RequestParam("quantity") Long quantity,
-                                    @RequestParam("shortDescription") String shortDescription,
-                                    @RequestParam("description") String description,
-                                    @RequestParam("category") String category) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable("id") long id,
+                                                    @RequestParam("name") String name,
+                                                    @RequestParam("code") String code,
+                                                    @RequestParam("image") MultipartFile image,
+                                                    @RequestParam("price") double price,
+                                                    @RequestParam("quantity") Long quantity,
+                                                    @RequestParam("shortDescription") String shortDescription,
+                                                    @RequestParam("description") String description,
+                                                    @RequestParam("category") String category) {
         ProductDTO dto = new ProductDTO();
         dto.setId(id);
         dto.setName(name);
@@ -96,11 +120,21 @@ public class ProductAPI {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCode(category);
         dto.setCategory(categoryDTO);
-        return iProductService.update(dto);
+
+        ProductDTO updatedProduct = iProductService.update(dto);
+
+        if (updatedProduct != null) {
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
+
     @DeleteMapping("")
-    public void deleteProduct(@RequestBody long[] ids) {
+    public ResponseEntity<Void> deleteProduct(@RequestBody long[] ids) {
         iProductService.delete(ids);
+        return ResponseEntity.noContent().build();
     }
+
 }

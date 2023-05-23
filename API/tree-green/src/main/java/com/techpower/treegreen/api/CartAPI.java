@@ -47,13 +47,24 @@ public class CartAPI {
     }
 
     @DeleteMapping("/item/{idUser}/{idProduct}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("idUser") long idUser,
-                                           @PathVariable("idProduct") long idProduct) {
-        return ResponseEntity.ok(iCartService.deleteCartItem(idUser, idProduct));
+    public ResponseEntity<Boolean> deleteProduct(@PathVariable("idUser") long idUser,
+                                                 @PathVariable("idProduct") long idProduct) {
+        boolean isDeleted = iCartService.deleteCartItem(idUser, idProduct);
+        if (isDeleted) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{idUser}")
-    public ResponseEntity<?> deleteAllProduct(@PathVariable("idUser") long idUser) {
-        return ResponseEntity.ok(iCartService.deleteAllCartItem(idUser));
+    public ResponseEntity<Boolean> deleteAllProduct(@PathVariable("idUser") long idUser) {
+        boolean isDeleted = iCartService.deleteAllCartItem(idUser);
+        if (isDeleted) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }
