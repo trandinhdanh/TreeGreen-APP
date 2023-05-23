@@ -15,7 +15,7 @@ export default function ProductManagerPage() {
   const navigate = useNavigate()
   const [page, setPage] = useState(1); // state để lưu trang hiện tại
   const [pageSize, setPageSize] = useState(3); // state để lưu số sản phẩm trên 1 trang
-  const [idsProduct,setIdsProduct] = useState([]);
+  const [idsProduct, setIdsProduct] = useState([]);
   const products = useSelector((state) => state.products.productList.allProduct); 
   useEffect(() => { 
     dispatch(getAllProduct());
@@ -23,15 +23,15 @@ export default function ProductManagerPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  
+  const [selectAll, setSelectAll] = useState(false);
   const onSelectChange = (selectedRowKeys) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
-    console.log(selectedRowKeys);
+    setSelectAll(false); // Thêm dòng này để đảm bảo rằng chỉ một sản phẩm được chọn
   };
   
   const rowSelection = {
-    selectedRowKeys,
+    selectedRowKeys: selectAll ? products.map((product) => product.key) : selectedRowKeys,
     onChange: onSelectChange,
   };
   //open model confim delete 
@@ -40,14 +40,13 @@ export default function ProductManagerPage() {
     setModalVisible(true);
   };
   
-  // xac nhan xoa san pham -----BUG
-  const handleDeleteProduct = async (ids) => {
+  const handleDeleteProduct = async () => {
     try {
-     await productService.delete([1])
-      console.log('Product deleted successfully');
+      await productService.delete([25]);
+      console.log('Products deleted successfully');
       // Xử lý khi xóa sản phẩm thành công
     } catch (error) {
-      console.error('Failed to delete product:', error);
+      console.error('Failed to delete products:', error);
       // Xử lý khi có lỗi xóa sản phẩm
     }
     setModalVisible(false);
@@ -91,7 +90,9 @@ export default function ProductManagerPage() {
           render={(text, record) => (
             <Space size="middle">
                 <AiOutlineEdit className=' text-[20px] hover:scale-125 transition-all'/>
-                <AiOutlineDelete onClick={() => handleDelete(record)} className='text-[20px] hover:scale-125 hover:text-red-700 transition-all'/>
+                <AiOutlineDelete onClick={() => { 
+                  handleDelete(record)
+                 }} className='text-[20px] hover:scale-125 hover:text-red-700 transition-all'/>
             </Space>
           )}
         />
