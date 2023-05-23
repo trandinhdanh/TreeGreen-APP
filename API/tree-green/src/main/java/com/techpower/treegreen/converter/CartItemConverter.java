@@ -20,7 +20,7 @@ public class CartItemConverter {
         dto.setModifiedDate(entity.getModifiedDate());
 
         dto.setQuantity(entity.getQuantity());
-        dto.setTotalPrice(entity.getTotalPrice());
+        dto.setPrice(entity.getPrice());
         return dto;
     }
 

@@ -29,16 +29,16 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/auth/password").authenticated()
-                .antMatchers("/api/carts/**").permitAll()
-                .antMatchers("/user/profile/**").authenticated()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/product/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/category/**").permitAll()
-                .antMatchers("/category/**").access("hasAnyAuthority('ADMIN')")
-                .antMatchers("/category").access("hasAnyAuthority('ADMIN')")
-                .antMatchers("/user/**").access("hasAnyAuthority('ADMIN')")
-                .antMatchers("/product**").access("hasAnyAuthority('SELLER')")
+                .antMatchers("/api/v1/auth/password").authenticated()
+                .antMatchers("/api/v1/api/carts/**").permitAll()
+                .antMatchers("/api/v1/user/profile/**").authenticated()
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/product/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/category/**").permitAll()
+                .antMatchers("/api/v1/category/**").access("hasAnyAuthority('ADMIN')")
+                .antMatchers("/api/v1/category").access("hasAnyAuthority('ADMIN')")
+                .antMatchers("/api/v1/user/**").access("hasAnyAuthority('ADMIN')")
+                .antMatchers("/api/v1/product**").access("hasAnyAuthority('SELLER')")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -56,7 +56,7 @@ public class SecurityConfig {
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/api/v1/**", config);
         return new CorsFilter(source);
     }
 

@@ -34,6 +34,7 @@ public class CartService implements ICartService {
     @Autowired
     private CartItemConverter cartItemConverter;
     private CartItemEntity cartItemEntity;
+    private double totalPrice;
 
     @Override
     public CartDTO getCart(long idUser) {
@@ -51,11 +52,12 @@ public class CartService implements ICartService {
         ProductEntity productEntity = productRepository.findOneById(idProduct);
         CartItemEntity cartItemEntity = cartItemRepository.findOneByCartAndProduct(cartEntity, productEntity);
         if (cartItemEntity == null) {
-            cartItemEntity = new CartItemEntity();
-            cartItemEntity.setProduct(productEntity);
-            cartItemEntity.setCart(cartEntity);
-            cartItemEntity.setQuantity(quantity);
-            cartItemEntity.setTotalPrice(productEntity.getPrice());
+            cartItemEntity = CartItemEntity.builder()
+                    .product(productEntity)
+                    .cart(cartEntity)
+                    .quantity(quantity)
+                    .price(productEntity.getPrice())
+                    .build();
         } else {
             cartItemEntity.setQuantity(cartItemEntity.getQuantity() + quantity);
         }
@@ -64,7 +66,7 @@ public class CartService implements ICartService {
         double totalPrice = 0;
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItemEntity cartItem : cartItemRepository.findAllByCart(cartEntity)) {
-            totalPrice = totalPrice + (cartItem.getTotalPrice() * cartItem.getQuantity());
+            totalPrice = totalPrice + (cartItem.getPrice() * cartItem.getQuantity());
             cartItemDTOS.add(cartItemConverter.toDTO(cartItem));
         }
         cartEntity.setTotalPrice(totalPrice);
@@ -74,7 +76,40 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public CartDTO updateProductQuantity(long idUser, long idProduct, int quantity) {
-        return null;
+    public boolean deleteCartItem(long idUser, long idProduct) {
+        CartItemEntity cartItem = cartItemRepository.findOneByCartAndProduct(
+                cartRepository.findOneByUser(userRepository.findOneById(idUser)),
+                productRepository.findOneById(idProduct)
+        );
+        if (cartItem != null) {
+            cartItemRepository.delete(cartItem);
+            autoUpdatePrice(idUser);
+            return true;
+        } else
+            return false;
+    }
+
+    @Override
+    public boolean deleteAllCartItem(long idUser) {
+        CartEntity cartEntity = cartRepository.findOneByUser(userRepository.findOneById(idUser));
+        List<CartItemEntity> cartItems = cartItemRepository.findAllByCart(cartEntity);
+        if (cartItems != null) {
+            cartItemRepository.deleteAllByCart(cartEntity);
+            autoUpdatePrice(idUser);
+            return true;
+        } else
+            return false;
+    }
+
+    @Override
+    public void autoUpdatePrice(long idUser) {
+        CartEntity cartEntity = cartRepository.findOneByUser(userRepository.findOneById(idUser));
+        List<CartItemEntity> cartItems = cartItemRepository.findAllByCart(cartEntity);
+        double totalPrice = 0;
+        for (CartItemEntity cartItem : cartItems) {
+            totalPrice = totalPrice + (cartItem.getPrice() * cartItem.getQuantity());
+        }
+        cartEntity.setTotalPrice(totalPrice);
+        cartRepository.save(cartEntity);
     }
 }

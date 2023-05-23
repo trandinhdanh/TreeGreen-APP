@@ -8,5 +8,5 @@ import lombok.Setter;
 public class CartItemDTO extends AbstractDTO {
     private ProductDTO product;
     private int quantity;
-    private double totalPrice;
+    private double price;
 }

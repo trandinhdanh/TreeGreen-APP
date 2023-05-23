@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthAPI {
     @Autowired
     private AuthenticationService authenticationService;
@@ -25,12 +25,8 @@ public class AuthAPI {
 
     @PostMapping("/login")
     public ResponseEntity<OutputAuthentication> authenticate(@RequestBody InputAuthentication request) {
-//        if (!userRepository.existsByUsername(request.getUsername())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username does not exist!"));
-//        }
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
-
     @PostMapping("/register/u")
     public ResponseEntity<OutputAuthentication> registerUser(@RequestBody InputRegistrationUser request) {
 //        if (!request.getPassword().equals(request.getConfirmPassword())) {

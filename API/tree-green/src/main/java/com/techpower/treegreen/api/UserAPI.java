@@ -13,14 +13,14 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
 public class UserAPI {
     @Autowired
     private IUserService iUserService;
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    @GetMapping("/list/{role}")
+    @GetMapping("/{role}")
     public List<UserDTO> getAll(@PathVariable("role") String role) {
         return iUserService.getAllUser(role);
     }

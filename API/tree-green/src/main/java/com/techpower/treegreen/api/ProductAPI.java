@@ -8,13 +8,12 @@ import com.techpower.treegreen.service.impl.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/v1/products")
 public class ProductAPI {
     @Autowired
     private IProductService iProductService;
@@ -28,12 +27,12 @@ public class ProductAPI {
         return iProductService.getProductDetail(id);
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public List<ProductDTO> getAll() {
         return iProductService.getAll();
     }
 
-    @GetMapping("/list/{username}")
+    @GetMapping("/{username}")
     public List<ProductDTO> getAllByShop(@PathVariable("username") String username) {
         return iProductService.getAllByShop(username);
     }

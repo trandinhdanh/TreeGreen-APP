@@ -7,5 +7,8 @@ public interface ICartService {
 
     public CartDTO addProductToCart(long idUser, long idProduct, int quantity);
 
-    public CartDTO updateProductQuantity(long idUser, long idProduct, int quantity);
+    public boolean deleteCartItem(long idUser, long idProduct);
+
+    public boolean deleteAllCartItem(long idUser);
+    public void autoUpdatePrice(long idUser);
 }
