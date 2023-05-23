@@ -64,7 +64,7 @@ export default function Cart({openCart,handleCartClick }) {
                       {cart.map(product => (
                         <tr key={product.id} className="border-b-2">
                           <td className="py-2 px-4 " ><img src={product.image} className='h-[100px] w-[100px] object-cover rounded-lg' /></td>
-                          <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} onChange={(value) => handleProductChange(product.id, value)} /></td>
+                          <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} onChange={(value) => handleProductChange(product.id, value)}/></td>
                           {/* <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} /></td> */}
                           <td className="py-2 px-4 ">{product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</td>
                           <td className="py-2 px-4"><BsTrash className='hover:scale-125 transition-all text-[18px] mx-auto' onClick={() => { handleRemoveClick(product.id) }} /></td>

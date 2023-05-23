@@ -26,7 +26,15 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column
     private String fullName;
     @Column
+    private String avatar;
+    @Column
     private String status;
+    @Column
+    private String email;
+    @Column
+    private String numberPhone;
+    @Column
+    private String address;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleEntity> roles = new ArrayList<>();

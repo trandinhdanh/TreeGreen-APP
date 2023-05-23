@@ -1,25 +1,27 @@
-import { https } from './axiosClient';
+import axios from "axios";
+import { BASE_URL, getAuthConfig } from "../utils/baseURL";
+
 
 export let userService = {
-  getUserList: () => {
-    return https.get(`/api/users/`);
+  getByRole: async (role) => {
+    try {
+        const response = await axios.get(BASE_URL + `/user/list/${role}`,{
+            ...getAuthConfig(),
+          });
+        return response.data
+    } catch (error) {
+        console.log(error);      
+    }
   },
-  getUser: (id) => {
-    return https.get(`/api/users/${id}`);
+  delete: async (id) => { 
+    try {
+      const response = await axios.put(BASE_URL + `/user/${id}`,{
+        ...getAuthConfig(),
+      });
+      return response.data
+  } catch (error) {
+      console.log(error);      
+  }
   },
-  getSearchUser: (id) => {
-    return https.get(`/api/users/search/${id}`);
-  },
-  putUser: (idUser, user) => {
-    return https.put(`/api/users/${idUser}`, user);
-  },
-  uploadAvt: (formData) => {
-    return https.post(`/api/users/upload-avatar`, formData);
-  },
-  deleteUser: (idUser) => {
-    return https.delete(`/api/users?id=${idUser}`);
-  },
-  searchUser: (TenNguoiDung) => {
-    return https.get(`/api/users/search/${TenNguoiDung}`);
-  },
+
 };

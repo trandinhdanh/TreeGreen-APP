@@ -3,14 +3,8 @@ package com.techpower.treegreen.service.impl;
 import com.techpower.treegreen.converter.CategoryConverter;
 import com.techpower.treegreen.converter.ProductConverter;
 import com.techpower.treegreen.dto.ProductDTO;
-import com.techpower.treegreen.entity.CategoryEntity;
-import com.techpower.treegreen.entity.ProductEntity;
-import com.techpower.treegreen.entity.ProductImageEntity;
-import com.techpower.treegreen.entity.ProductViewEntity;
-import com.techpower.treegreen.repository.CategoryRepository;
-import com.techpower.treegreen.repository.ProductImageRepository;
-import com.techpower.treegreen.repository.ProductRepository;
-import com.techpower.treegreen.repository.ProductViewRepository;
+import com.techpower.treegreen.entity.*;
+import com.techpower.treegreen.repository.*;
 import com.techpower.treegreen.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +27,10 @@ public class ProductService implements IProductService {
     private ProductViewRepository productViewRepository;
     @Autowired
     private ProductImageRepository productImageRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ShopRepository shopRepository;
 
     @Override
     public ProductDTO getProductDetail(long id) {
@@ -53,6 +51,19 @@ public class ProductService implements IProductService {
     public List<ProductDTO> getAll() {
         List<ProductDTO> result = new ArrayList<>();
         for (ProductEntity entity : productRepository.findAll()) {
+            ProductDTO dto = productConverter.toDTO(entity);
+            dto.setCategory(categoryConverter.toDTO(entity.getCategory()));
+            result.add(dto);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ProductDTO> getAllByShop(String username) {
+        UserEntity userEntity = userRepository.findOneByUsername(username);
+        ShopEntity shopEntity = shopRepository.findOneByUser(userEntity);
+        List<ProductDTO> result = new ArrayList<>();
+        for (ProductEntity entity : productRepository.findAllByShop(shopEntity)) {
             ProductDTO dto = productConverter.toDTO(entity);
             dto.setCategory(categoryConverter.toDTO(entity.getCategory()));
             result.add(dto);

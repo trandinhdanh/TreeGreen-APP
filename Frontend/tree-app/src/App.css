@@ -1,0 +1,6 @@
+.ant-pagination .ant-pagination-item-active {
+    border-color: #245953 !important;
+}
+.ant-pagination .ant-pagination-item-active a{
+    color: #245953 !important;
+}

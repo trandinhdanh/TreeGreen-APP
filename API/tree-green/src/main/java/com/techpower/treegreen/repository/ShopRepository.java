@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShopRepository extends JpaRepository<ShopEntity, Long> {
     boolean existsByName(String name);
+
     ShopEntity findOneByUser(UserEntity userEntity);
 }

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { AiOutlineHome } from "react-icons/ai";
 import {
@@ -9,8 +9,16 @@ import {
   IoPencil,
 } from "react-icons/io5";
 import { localStorageService } from "../../services/localStorageService";
+import { message } from "antd";
 export default function SiteBarManager() {
+  const navigate = useNavigate()
     const [user,setUser] = useState(localStorageService.get("USER"))
+    useEffect(() => {
+      if (user.roles[0] === "USER") {
+        navigate("/"); 
+        message.error('Not Have Access')
+      }
+    }, [user.roles[0], navigate]);
   const renderByUser = () => {
     return (
       <>
@@ -55,7 +63,7 @@ export default function SiteBarManager() {
         </li>
         <li>
           <Link
-            to="/Manager/user"
+            to="/manager/blog"
             href="#"
             className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
           >
@@ -69,7 +77,7 @@ export default function SiteBarManager() {
       : 
       <li>
           <Link
-            to="/Manager/user"
+            to="/manager/user"
             href="#"
             className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
           >
@@ -110,7 +118,7 @@ export default function SiteBarManager() {
                   >
                     <RiAccountCircleFill className=" text-[30px]" />
                     <span className="flex-1 ml-3 whitespace-nowrap text-[20px] font-bold">
-                      dinhdanh
+                      {user.userDTO.username}
                     </span>
                   </Link>
                 </li>
