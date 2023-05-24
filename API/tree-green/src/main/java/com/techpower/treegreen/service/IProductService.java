@@ -10,7 +10,7 @@ public interface IProductService {
 
     public List<ProductDTO> getAll();
 
-    public List<ProductDTO> getAllByShop(long  idUser);
+    public List<ProductDTO> getAllByShop(long idUser);
 
     public ProductDTO save(ProductDTO dto,long idUser);
 

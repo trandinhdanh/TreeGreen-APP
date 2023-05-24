@@ -1,12 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/baseURL";
 
-
-// const getAuthConfig = () => ({
-//     headers: {
-//         Authorization: `Bearer ${localStorage.getItem("access_token")}`
-//     }
-// })
 export const https = axios.create({
     baseURL: BASE_URL,
     headers: {

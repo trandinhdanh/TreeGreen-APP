@@ -12,6 +12,7 @@ import com.techpower.treegreen.entity.CartEntity;
 import com.techpower.treegreen.entity.RoleEntity;
 import com.techpower.treegreen.entity.ShopEntity;
 import com.techpower.treegreen.entity.UserEntity;
+import com.techpower.treegreen.jwt.JWTUtil;
 import com.techpower.treegreen.repository.CartRepository;
 import com.techpower.treegreen.repository.RoleRepository;
 import com.techpower.treegreen.repository.ShopRepository;
@@ -34,7 +35,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final ShopRepository shopRepository;
     private final PasswordEncoder passwordEncoder;
     private final CartRepository cartRepository;
-    private final JwtService jwtService;
+    private final JWTUtil jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserConverter userConverter;
 

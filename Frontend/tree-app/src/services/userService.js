@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL, getAuthConfig } from "../utils/baseURL";
+import { message } from "antd";
 
 
 export let userService = {
@@ -15,12 +16,13 @@ export let userService = {
   },
   delete: async (id) => { 
     try {
-      const response = await axios.put(BASE_URL + `/users/${id}`,{
+      const response = await axios.put(BASE_URL + `/api/v1/users/${id}`,{
         ...getAuthConfig(),
       });
       return response.data
   } catch (error) {
-      console.log(error);      
+      console.log(error);    
+      message.error("error")  
   }
   },
 

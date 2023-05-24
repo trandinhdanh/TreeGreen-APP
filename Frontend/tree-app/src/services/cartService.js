@@ -16,7 +16,7 @@ export let cartService = {
 
   addToCart: async (idUser,idProduct,quantity) => {
     try {
-      const response = await axios.post(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}`,quantity,{
+      const response = await axios.post(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}`,{quantity},{
         ...getAuthConfig(),
       })
       console.log(response);

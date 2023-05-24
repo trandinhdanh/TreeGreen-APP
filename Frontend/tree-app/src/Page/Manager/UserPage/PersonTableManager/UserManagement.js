@@ -45,7 +45,12 @@ export default function UserManagement() {
         <Column title="ID" dataIndex="id" key="id" />
         <Column title="Username" dataIndex="username" key="username" />
         <Column title="Full Name" dataIndex="fullName" key="fullName" />
-        <Column title="Status" dataIndex="status" key="status" />
+        <Column
+          title="Status"
+          dataIndex="status"
+          key="status"
+          render={(status) => <Tag color="green">{status}</Tag>}
+        />
         <Column
           title="Action"
           key="action"

@@ -3,21 +3,20 @@ import { Image, message } from 'antd';
 import "./ProductHomPage.scss"
 import {BsCartPlus} from "react-icons/bs"
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItemToCart } from '../../Redux/cart/cartList';
 import { openNotificationIcon } from '../NotificationIcon/NotificationIcon';
 import { cartService } from '../../services/cartService';
 import { localStorageService } from '../../services/localStorageService';
 export default function ProductItem(props) {
-  const dispatch = useDispatch();
-  const [userID , setUserID] = useState(localStorageService.get('USER').userDTO.id)
+
   const navigate = useNavigate();
   const handleClick = async () => {
     if (props.isLoggedIn) {
+
       try {
-        console.log(props.data.id);
-        console.log(userID);
-        const response = await cartService.addToCart(userID, props.data.id, 1);
+        const productID = props.data.id
+        console.log(props.userID);
+        console.log(productID);
+         await cartService.addToCart(18, productID, 1);
         openNotificationIcon('success', 'Success', 'Add Product Success!');
       } catch (error) {
         console.log(error);
