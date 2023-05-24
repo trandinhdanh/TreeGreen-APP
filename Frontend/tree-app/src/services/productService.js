@@ -19,6 +19,14 @@ export let productService = {
       console.log(error);      
   }
   },
+  getProductByShop: async (userName) => { 
+    try {
+      const response = await axios.get(BASE_URL + `/api/v1/products/shop/${userName}`);
+      return response.data
+  } catch (error) {
+      console.log(error);      
+  }
+  },
 
   // create: async (values) => {
     //   try {
@@ -28,9 +36,9 @@ export let productService = {
   //     console.log(error);
   //   }
   // },
-  create: async (values) => {
+  create: async (idUser,values) => {
     try {
-      const response = await axios.post(BASE_URL + `/api/v1/products`,values,{
+      const response = await axios.post(BASE_URL + `/api/v1/products/${idUser}`,values,{
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })

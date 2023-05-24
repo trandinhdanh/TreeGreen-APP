@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllProduct } from '../../../Redux/products/productList';
 import { Table, Tag, Space, Pagination,Modal } from 'antd';
 import {AiOutlineEdit,AiOutlineDelete} from 'react-icons/ai'
 import "./ProductManagerPage.scss"
 import {IoIosAddCircleOutline} from "react-icons/io"
-import productList from '../../../Redux/products/productList';
 import { productService } from '../../../services/productService';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { localStorageService } from '../../../services/localStorageService';
 export default function ProductManagerPage() {
   const { Column } = Table;
-  const dispatch = useDispatch();
   const navigate = useNavigate()
-  const [page, setPage] = useState(1); // state để lưu trang hiện tại
   const [pageSize, setPageSize] = useState(3); // state để lưu số sản phẩm trên 1 trang
   const [idsProduct, setIdsProduct] = useState([]);
-  const products = useSelector((state) => state.products.productList.allProduct); 
-  useEffect(() => { 
-    dispatch(getAllProduct());
-  }, [dispatch]) 
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    const userName = localStorageService.get('USER').userDTO.id
+    const getProductByUserName = async () => {
+      try {
+        const items = await productService.getProductByShop(userName);
+        setProducts(items);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProductByUserName();
+  }, []);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);

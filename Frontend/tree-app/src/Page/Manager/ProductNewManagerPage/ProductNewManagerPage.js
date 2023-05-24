@@ -3,12 +3,14 @@ import { Form, Input, Upload, Button, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { productService } from '../../../services/productService';
+import { localStorageService } from '../../../services/localStorageService';
 
 export default function ProductNewManagerPage() {
   const [form] = Form.useForm();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [user,setUser] = useState(localStorageService.get("USER"))
   const onFinish = (values) => {
     console.log('Form submitted:', values);
     const formData = new FormData();
@@ -25,7 +27,7 @@ export default function ProductNewManagerPage() {
       formData.append(`images`, file);
     });
 
-    productService.create(formData)
+    productService.create(user.userDTO.id,formData)
       .then((res) => {
         console.log(res);
       })

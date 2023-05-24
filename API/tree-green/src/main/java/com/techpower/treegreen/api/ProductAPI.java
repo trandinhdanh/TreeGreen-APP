@@ -45,9 +45,9 @@ public class ProductAPI {
         }
     }
 
-    @GetMapping("/shop/{username}")
-    public ResponseEntity<List<ProductDTO>> getAllByShop(@PathVariable("username") String username) {
-        List<ProductDTO> products = iProductService.getAllByShop(username);
+    @GetMapping("/shop/{idUser}")
+    public ResponseEntity<List<ProductDTO>> getAllByShop(@PathVariable("idUser") long  idUser) {
+        List<ProductDTO> products = iProductService.getAllByShop(idUser);
         if (!products.isEmpty()) {
             return ResponseEntity.ok(products);
         } else {

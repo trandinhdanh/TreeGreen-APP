@@ -59,9 +59,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductDTO> getAllByShop(String username) {
-        UserEntity userEntity = userRepository.findOneByUsername(username);
-        ShopEntity shopEntity = shopRepository.findOneByUser(userEntity);
+    public List<ProductDTO> getAllByShop(long  idUser) {
+        ShopEntity shopEntity = shopRepository.findOneByUser(userRepository.findOneById(idUser));
         List<ProductDTO> result = new ArrayList<>();
         for (ProductEntity entity : productRepository.findAllByShop(shopEntity)) {
             ProductDTO dto = productConverter.toDTO(entity);
