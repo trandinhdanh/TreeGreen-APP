@@ -53,11 +53,16 @@ export default function CategoryManager() {
   };
 
   return (
-    <div>
-      <Button type="primary" onClick={handleAddClick}>
+    <div className='w-full'>
+      
+      <div className="headerManager font-roboto mb-5 flex justify-between">
+        <h1 className="font-bold text-[20px] uppercase ">
+        Category Management
+        </h1>
+        <Button type="primary" onClick={handleAddClick}>
         Add
       </Button>
-
+      </div>
       <Table dataSource={categories} rowKey="id">
         <Column title="ID" dataIndex="id" key="id" />
         <Column title="Name" dataIndex="name" key="name" />
