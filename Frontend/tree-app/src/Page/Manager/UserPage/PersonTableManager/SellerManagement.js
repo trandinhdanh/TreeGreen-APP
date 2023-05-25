@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { userService } from '../../../../services/userService';
-import { Table, Tag, Space, Modal } from 'antd';
+import { Table, Tag, Space, Modal, Button } from 'antd';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import { TbHandMiddleFinger } from 'react-icons/tb';
 import './PersonTableManager.scss'
 export default function SellerManagement() {
   const { Column } = Table;
   const [sellers, setSellers] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
-
+  
   useEffect(() => {
     const getSellers = async () => {
       try {
@@ -35,32 +36,46 @@ export default function SellerManagement() {
     }
     setModalVisible(false);
   };
+  const handleEdit = () => { 
 
+   }
   return (
     <div>
-      <Table dataSource={sellers}>
-        <Column title="ID" dataIndex="id" key="id" />
-        <Column title="Username" dataIndex="username" key="username" />
-        <Column title="Full Name" dataIndex="fullName" key="fullName" />
-        <Column
-          title="Status"
-          dataIndex="status"
-          key="status"
-          render={(status) => <Tag color="green">{status}</Tag>}
-        />
-        <Column
-          title="Action"
-          key="action"
-          render={(text, record) => (
-            <Space size="middle">
-              <AiOutlineDelete
-                onClick={() => handleDelete(record)}
-                className="text-[20px] hover:scale-125 hover:text-primary transition-all"
-              />
-            </Space>
-          )}
-        />
-      </Table>
+     <Table dataSource={sellers}>
+  <Column title="ID" dataIndex="id" key="id" />
+  <Column title="Username" dataIndex="username" key="username" />
+  <Column title="Full Name" dataIndex="fullName" key="fullName" />
+  <Column
+    title="Status"
+    dataIndex="status"
+    key="status"
+    render={(status) => (
+      <Tag color={status === "NON_ACTIVE" ? "red" : "green"}>{status}</Tag>
+    )}
+  />
+  <Column
+    title="Action"
+    key="action"
+    render={(text, record) => (
+      <Space size="middle">
+        {record.status === "NON_ACTIVE" ? (
+          // Hiển thị nút chỉnh sửa hoặc hành động tùy chọn khác
+
+          <TbHandMiddleFinger
+            onClick={() => handleEdit(record)}
+            className="text-[20px] hover:scale-125 hover:text-primary transition-all"
+          />
+        ) : (
+          // Hiển thị nút xóa
+          <AiOutlineDelete
+            onClick={() => handleDelete(record)}
+            className="text-[20px] hover:scale-125 hover:text-primary transition-all"
+          />
+        )}
+      </Space>
+    )}
+  />
+</Table>
 
       <Modal
         title={`Delete Seller ${selectedSeller?.fullName}?`}

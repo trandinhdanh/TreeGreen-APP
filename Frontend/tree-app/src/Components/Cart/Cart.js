@@ -39,6 +39,8 @@ export default function Cart({openCart,handleCartClick }) {
     try {
       await cartService.deleteToCart(idUser,productId);
       console.log('Products deleted successfully');
+      const updatedCart = await cartService.getAllCart(idUser);
+      setCart(updatedCart);
       // Xử lý khi xóa sản phẩm thành công
     } catch (error) {
       console.error('Failed to delete products:', error);
