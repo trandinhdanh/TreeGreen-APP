@@ -2,6 +2,7 @@ package com.techpower.treegreen.service.impl;
 
 import com.techpower.treegreen.converter.CartConverter;
 import com.techpower.treegreen.converter.CartItemConverter;
+import com.techpower.treegreen.converter.ProductConverter;
 import com.techpower.treegreen.dto.CartDTO;
 import com.techpower.treegreen.dto.CartItemDTO;
 import com.techpower.treegreen.entity.CartEntity;
@@ -33,6 +34,8 @@ public class CartService implements ICartService {
     private CartConverter cartConverter;
     @Autowired
     private CartItemConverter cartItemConverter;
+    @Autowired
+    private ProductConverter productConverter;
     private CartItemEntity cartItemEntity;
     private double totalPrice;
 
@@ -41,7 +44,12 @@ public class CartService implements ICartService {
         CartEntity cartEntity = cartRepository.findOneByUser(userRepository.findOneById(idUser));
         List<CartItemEntity> cartItemEntities = cartItemRepository.findAllByCart(cartEntity);
         CartDTO cartDTO = cartConverter.toDTO(cartEntity);
-        List<CartItemDTO> cartItemDTOS = cartItemConverter.toDTOs(cartItemEntities);
+        List<CartItemDTO> cartItemDTOS = new ArrayList<>();
+        for (CartItemEntity cartItem : cartItemEntities) {
+            CartItemDTO itemDTO = cartItemConverter.toDTO(cartItem);
+            itemDTO.setProduct(productConverter.toDTO(cartItem.getProduct()));
+            cartItemDTOS.add(itemDTO);
+        }
         cartDTO.setCartItems(cartItemDTOS);
         return cartDTO;
     }
