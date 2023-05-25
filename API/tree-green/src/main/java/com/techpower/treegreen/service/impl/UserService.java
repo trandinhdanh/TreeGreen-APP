@@ -1,7 +1,7 @@
 package com.techpower.treegreen.service.impl;
 
 import com.techpower.treegreen.api.input.InputChangePassword;
-import com.techpower.treegreen.constant.UserConstant;
+import com.techpower.treegreen.constant.StatusConstant;
 import com.techpower.treegreen.converter.UserConverter;
 import com.techpower.treegreen.dto.UserDTO;
 import com.techpower.treegreen.entity.UserEntity;
@@ -28,10 +28,10 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserDTO> getAllUser(String role) {
-        List<UserEntity> userEntities = userRepository.findAllByRoles_Code(role);
+        List<UserEntity> userEntities = userRepository.findByRoles_CodeOrderByStatus(role);
         List<UserDTO> result = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-            if (userEntity.getStatus().equalsIgnoreCase(UserConstant.ACTIVE)) {
+            if (userEntity.getStatus().equalsIgnoreCase(StatusConstant.ACTIVE)) {
                 result.add(userConverter.toDTO(userEntity));
             }
         }
@@ -41,8 +41,11 @@ public class UserService implements IUserService {
     @Override
     public UserDTO delete(long id) {
         UserEntity userEntity = userRepository.findOneById(id);
-        userEntity.setStatus(UserConstant.NON_ACTIVE);
-        return userConverter.toDTO(userRepository.save(userEntity));
+        if (userEntity != null) {
+            userEntity.setStatus(StatusConstant.NON_ACTIVE);
+            return userConverter.toDTO(userRepository.save(userEntity));
+        } else
+            return null;
     }
 
     @Override

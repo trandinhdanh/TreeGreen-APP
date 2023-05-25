@@ -36,8 +36,8 @@ public class CartService implements ICartService {
     private CartItemConverter cartItemConverter;
     @Autowired
     private ProductConverter productConverter;
-    private CartItemEntity cartItemEntity;
-    private double totalPrice;
+//    private CartItemEntity cartItemEntity;
+//    private double totalPrice;
 
     @Override
     public CartDTO getCart(long idUser) {
