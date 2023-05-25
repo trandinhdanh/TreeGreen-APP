@@ -14,10 +14,10 @@ export default function ProductItem(props) {
 
       try {
         const productID = props.data.id
-        console.log(props.userID);
+        console.log("userID" ,localStorageService.get('USER').userDTO.id);
         console.log(productID);
-         await cartService.addToCart(18, productID, 1);
-        openNotificationIcon('success', 'Success', 'Add Product Success!');
+       const reponse = await cartService.addToCart(localStorageService.get('USER').userDTO.id, productID, 1);
+        // openNotificationIcon('success', 'Success', 'Add Product Success!');
       } catch (error) {
         console.log(error);
         openNotificationIcon('error', 'Error', 'Failed to add product to cart!');

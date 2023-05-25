@@ -14,9 +14,20 @@ export let userService = {
         console.log(error);      
     }
   },
-  delete: async (id) => { 
+  lock: async (id) => { 
     try {
-      const response = await axios.put(BASE_URL + `/api/v1/users/${id}`,{
+      const response = await axios.put(BASE_URL + `/api/v1/users/${id}/0`,{
+        ...getAuthConfig(),
+      });
+      return response.data
+  } catch (error) {
+      console.log(error);    
+      message.error("error")  
+  }
+  },
+  unlock: async (id) => { 
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/users/${id}/1`,{
         ...getAuthConfig(),
       });
       return response.data
