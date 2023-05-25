@@ -13,10 +13,10 @@ export default function Cart({openCart,handleCartClick }) {
   const dispatch = useDispatch();
   const [cart,setCart] = useState([])
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
+  const [idUser, setIdUser] = useState()
   useEffect(() => {
     if(isLoggedIn){
-      const idUser = localStorageService.get('USER').userDTO.id;
+      setIdUser(localStorageService.get('USER').userDTO.id)
       const getAllProductInCart = async () => {
         try {
           const items = await cartService.getAllCart(idUser)
@@ -30,10 +30,21 @@ export default function Cart({openCart,handleCartClick }) {
       getAllProductInCart();
     }
 
-  }, []);
+  }, [idUser]);
 
-    const handleRemoveClick = (productId) => {
-    };
+
+      
+  const handleRemoveClick = async (idUser,productId) => {
+    console.log(productId);
+    try {
+      await cartService.deleteToCart(idUser,productId);
+      console.log('Products deleted successfully');
+      // Xử lý khi xóa sản phẩm thành công
+    } catch (error) {
+      console.error('Failed to delete products:', error);
+      // Xử lý khi có lỗi xóa sản phẩm
+    }
+  };
     const handleRemoveAllClick = () => {
      };
  
@@ -68,17 +79,17 @@ export default function Cart({openCart,handleCartClick }) {
                       </tr>
                     </thead>
                     {
-                     isLoggedIn ? cart?.cartItems.length === 0 
+                     isLoggedIn ? cart?.cartItems?.length === 0 
                      ? <p className='text-[16px]  font-roboto'>{t('No Products')}</p>
                      :  <>
                        <tbody className=''>
                      {cart?.cartItems.map(product => (
                        <tr key={product.id} className="border-b-2">
-                         <td className="py-2 px-4 " ><img src={product.image} className='h-[100px] w-[100px] object-cover rounded-lg' /></td>
+                         <td className="py-2 px-4 " ><img src={product.product.image} className='h-[100px] w-[100px] object-cover rounded-lg' /></td>
                          <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} onChange={(value) => handleProductChange(product.id, value)}/></td>
                          {/* <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} /></td> */}
                          <td className="py-2 px-4 ">{product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</td>
-                         <td className="py-2 px-4"><BsTrash className='hover:scale-125 transition-all text-[18px] mx-auto' onClick={() => { handleRemoveClick(product.id) }} /></td>
+                         <td className="py-2 px-4"><BsTrash className='hover:scale-125 transition-all text-[18px] mx-auto' onClick={() => { handleRemoveClick(idUser,product.product.id) }} /></td>
                        </tr>
                      ))
                      }

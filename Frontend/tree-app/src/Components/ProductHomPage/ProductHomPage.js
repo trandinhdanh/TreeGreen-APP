@@ -17,11 +17,9 @@ export default function ProductHomPage() {
     dispatch(getAllProduct());
     if (isLoggedIn) {
       setUserID(localStorageService.get('USER').userDTO.id)
+      console.log(userID);
     }
-   },[dispatch])
-   useEffect(() => {
-    console.log(userID);
-  }, [userID]);
+   },[dispatch,userID])
   return (
     <div className=' h-full container mx-auto mb:px-5 sm:px-5 md:px-24 lg:px-24 my-10'>
         <div className='productContainer'>

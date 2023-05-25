@@ -24,10 +24,10 @@ public class CartAPI {
         }
     }
 
-    @PostMapping("/item/{idUser}/{idProduct}")
+    @PostMapping("/item/{idUser}/{idProduct}/{quantity}")
     public ResponseEntity<CartDTO> addToCart(@PathVariable("idUser") long idUser,
                                              @PathVariable("idProduct") long idProduct,
-                                             @RequestBody int quantity) {
+                                             @PathVariable("quantity") int quantity) {
         CartDTO cartDTO = iCartService.addProductToCart(idUser, idProduct, quantity);
         if (cartDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -35,10 +35,10 @@ public class CartAPI {
         return ResponseEntity.ok(cartDTO);
     }
 
-    @PutMapping("/item/{idUser}/{idProduct}")
+    @PutMapping("/item/{idUser}/{idProduct}/{quantity}")
     public ResponseEntity<CartDTO> updateQuantity(@PathVariable("idUser") long idUser,
                                                   @PathVariable("idProduct") long idProduct,
-                                                  @RequestBody int quantity) {
+                                                  @PathVariable("quantity") int quantity) {
         CartDTO cartDTO = iCartService.addProductToCart(idUser, idProduct, quantity);
         if (cartDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

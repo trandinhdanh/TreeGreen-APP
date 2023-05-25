@@ -16,7 +16,7 @@ export let cartService = {
 
   addToCart: async (idUser,idProduct,quantity) => {
     try {
-      const response = await axios.post(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}`,{quantity},{
+      const response = await axios.post(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}/${quantity}`,{
         ...getAuthConfig(),
       })
       console.log(response);
@@ -37,9 +37,8 @@ export let cartService = {
   },
   deleteToCart: async (idUser,idProduct) => {
     try {
-      const response = await axios.delete(BASE_URL + `/api/v1/api/carts/item/${idUser}/${idProduct}`,{
+      const response = await axios.delete(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}`,{
         ...getAuthConfig(),
-        'Content-Type': 'multipart/form-data'
       })
       console.log(response);
     } catch (error) {
