@@ -48,8 +48,8 @@ public class AuthenticationService implements IAuthenticationService {
                 )
         );
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
-        if (user.getStatus().equals(StatusConstant.NON_ACTIVE)){
-            return null;
+        if (user.getStatus().equals(StatusConstant.NON_ACTIVE)) {
+           return null;
         }
         var jwtToken = jwtService.generateToken(user);
         List<String> roles = new ArrayList<>();

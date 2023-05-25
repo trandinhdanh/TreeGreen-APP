@@ -11,16 +11,13 @@ export default function ProductItem(props) {
   const navigate = useNavigate();
   const handleClick = async () => {
     if (props.isLoggedIn) {
-
       try {
         const productID = props.data.id
         console.log("userID" ,localStorageService.get('USER').userDTO.id);
         console.log(productID);
        const reponse = await cartService.addToCart(localStorageService.get('USER').userDTO.id, productID, 1);
-        // openNotificationIcon('success', 'Success', 'Add Product Success!');
       } catch (error) {
         console.log(error);
-        openNotificationIcon('error', 'Error', 'Failed to add product to cart!');
       }
     } else {
       message.error('Please log in to add products to the cart');

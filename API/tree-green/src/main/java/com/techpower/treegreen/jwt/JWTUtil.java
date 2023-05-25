@@ -13,9 +13,11 @@ import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class JWTUtil {
     private static final String SECRET_KEY = "66556A586E3272357538782F413F4428472B4B6150645367566B597033733676";
@@ -43,9 +45,13 @@ public class JWTUtil {
                 .getBody();
     }
 
+//    private Key getSignInkey() {
+//        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+//        return Keys.hmacShaKeyFor(keyBytes);
+//    }
+
     private Key getSignInkey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
 
@@ -53,13 +59,27 @@ public class JWTUtil {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    //    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+//        return Jwts
+//                .builder()
+//                .setClaims(extraClaims)
+//                .setSubject(userDetails.getUsername())
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+//                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
+//                .compact();
+//    }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(2,DAYS)))
+                .setExpiration(
+                        Date.from(
+                                Instant.now().plus(2, DAYS)
+                        )
+                )
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -80,5 +100,6 @@ public class JWTUtil {
                 .build().parseClaimsJws(token)
                 .getBody();
     }
+
 
 }

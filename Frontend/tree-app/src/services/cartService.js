@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL, getAuthConfig } from "../utils/baseURL";
+import { openNotificationIcon } from "../Components/NotificationIcon/NotificationIcon";
 
 
 export let cartService = {
@@ -19,16 +20,17 @@ export let cartService = {
       const response = await axios.post(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}/${quantity}`,{
         ...getAuthConfig(),
       })
+      openNotificationIcon('success', 'Success', 'Add Product Success!');
       console.log(response);
     } catch (error) {
+      openNotificationIcon('error', 'Error', 'Failed to add product to cart!');
       console.log(error);
     }
   },
   updateToCart: async (idUser,idProduct,quantity) => {
     try {
-      const response = await axios.put(BASE_URL + `/api/v1/api/carts/item/${idUser}/${idProduct}`,quantity,{
+      const response = await axios.put(BASE_URL + `/api/v1/carts/item/${idUser}/${idProduct}/${quantity}`,{
         ...getAuthConfig(),
-        'Content-Type': 'multipart/form-data'
       })
       console.log(response);
     } catch (error) {

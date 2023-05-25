@@ -31,7 +31,7 @@ public class UserService implements IUserService {
         List<UserEntity> userEntities = userRepository.findByRoles_CodeOrderByStatus(role);
         List<UserDTO> result = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-                result.add(userConverter.toDTO(userEntity));
+            result.add(userConverter.toDTO(userEntity));
         }
         return result;
     }
