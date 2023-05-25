@@ -132,7 +132,7 @@ public class ProductAPI {
 
 
     @DeleteMapping("")
-    public ResponseEntity<Void> deleteProduct(@RequestBody long[] ids) {
+    public ResponseEntity<?> deleteProduct(@RequestBody long[] ids) {
         iProductService.delete(ids);
         return ResponseEntity.noContent().build();
     }
