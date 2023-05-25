@@ -13,6 +13,12 @@ public class OrderDetailConverter {
 
     public OrderDetailDTO toDTO(OrderDetailEntity entity) {
         OrderDetailDTO dto = new OrderDetailDTO();
+        dto.setId(entity.getId());
+        dto.setCreateBy(entity.getCreateBy());
+        dto.setCreateDate(entity.getCreateDate());
+        dto.setModifiedBy(entity.getModifiedBy());
+        dto.setModifiedDate(entity.getModifiedDate());
+
         dto.setPrice(entity.getPrice());
         dto.setQuantity(entity.getQuantity());
         return dto;

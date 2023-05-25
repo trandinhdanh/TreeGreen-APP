@@ -2,17 +2,16 @@ package com.techpower.treegreen.service.impl;
 
 import com.techpower.treegreen.api.input.InputOrder;
 import com.techpower.treegreen.constant.StatusConstant;
-import com.techpower.treegreen.converter.OrderDetailConverter;
-import com.techpower.treegreen.converter.PaymentMethodConverter;
-import com.techpower.treegreen.converter.ProductConverter;
-import com.techpower.treegreen.converter.UserConverter;
+import com.techpower.treegreen.converter.*;
 import com.techpower.treegreen.dto.OrderDTO;
 import com.techpower.treegreen.dto.OrderDetailDTO;
+import com.techpower.treegreen.dto.ProductDTO;
 import com.techpower.treegreen.entity.*;
 import com.techpower.treegreen.repository.*;
 import com.techpower.treegreen.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +23,6 @@ public class OrderService implements IOrderService {
     @Autowired
     private UserConverter userConverter;
     @Autowired
-    private PaymentMethodRepository paymentMethodRepository;
-    @Autowired
-    private PaymentMethodConverter paymentMethodConverter;
-    @Autowired
     private CartItemRepository cartItemRepository;
     @Autowired
     private OrderRepository orderRepository;
@@ -37,24 +32,20 @@ public class OrderService implements IOrderService {
     private OrderDetailConverter orderDetailConverter;
     @Autowired
     private ProductConverter productConverter;
+    @Autowired
+    private OrderConverter orderConverter;
+    @Autowired
+    private CategoryConverter categoryConverter;
 
+    @Transactional
     @Override
     public OrderDTO save(InputOrder input, long idCart) {
         CartEntity cartEntity = cartRepository.findOneById(idCart);
         UserEntity userEntity = cartEntity.getUser();
-        PaymentMethodEntity paymentMethodEntity = paymentMethodRepository.findOneByName(input.getPaymentMethod());
 
         OrderEntity orderEntity = orderRepository.save(new OrderEntity());
-        orderEntity.setUser(userEntity);
-        orderEntity.setPaymentMethod(paymentMethodEntity);
-        orderEntity.setStatus(StatusConstant.ORDER_WAIT_CONFIRM);
-        orderEntity.setAddress(input.getAddress());
-        orderEntity.setNumberPhone(input.getNumberPhone());
-//        orderEntity.setTotalPrice(0);
-        orderRepository.save(orderEntity);
 
         List<OrderDetailEntity> orderDetailEntities = new ArrayList<>();
-        List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
 
         List<CartItemEntity> cartItemEntities = cartItemRepository.findAllByCart(cartEntity);
         for (CartItemEntity cartItemEntity : cartItemEntities) {
@@ -68,20 +59,35 @@ public class OrderService implements IOrderService {
 
             orderDetailEntities.add(orderDetailEntity);
         }
+
+        double totalPrice = 0;
+        List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
         for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
             OrderDetailDTO orderDetailDTO = orderDetailConverter.toDTO(orderDetailEntity);
-            orderDetailDTO.setProduct(productConverter.toDTO(orderDetailEntity.getProduct()));
+            totalPrice = totalPrice + (orderDetailDTO.getPrice() * orderDetailDTO.getQuantity());
+            ProductDTO productDTO = productConverter.toDTO(orderDetailEntity.getProduct());
+            productDTO.setCategory(categoryConverter.toDTO(orderDetailEntity.getProduct().getCategory()));
+            orderDetailDTO.setProduct(productDTO);
             orderDetailDTOS.add(orderDetailDTO);
         }
 
-        return OrderDTO.builder()
-                .user(userConverter.toDTO(userEntity))
-                .paymentMethod(paymentMethodConverter.toDTO(paymentMethodEntity))
-                .orderDetails(orderDetailDTOS)
-                .status(StatusConstant.ORDER_WAIT_CONFIRM)
-                .address(input.getAddress())
-                .numberPhone(input.getNumberPhone())
-                .totalPrice(0)
-                .build();
+
+        cartEntity.setTotalPrice(0);
+        cartRepository.save(cartEntity);
+
+        orderEntity.setTotalPrice(totalPrice);
+        orderEntity.setUser(userEntity);
+        orderEntity.setPaymentMethod(input.getPaymentMethod());
+        orderEntity.setStatus(StatusConstant.ORDER_WAIT_CONFIRM);
+        orderEntity.setAddress(input.getAddress());
+        orderEntity.setNumberPhone(input.getNumberPhone());
+        orderRepository.save(orderEntity);
+
+        cartItemRepository.deleteAllByCart(cartEntity);
+
+        OrderDTO result = orderConverter.toDTO(orderEntity);
+        result.setUser(userConverter.toDTO(userEntity));
+        result.setOrderDetails(orderDetailDTOS);
+        return result;
     }
 }

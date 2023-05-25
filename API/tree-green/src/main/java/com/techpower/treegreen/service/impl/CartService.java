@@ -84,6 +84,24 @@ public class CartService implements ICartService {
     }
 
     @Override
+    public CartDTO updateQuantity(long idUser, long idProduct, int quantity) {
+        CartEntity cartEntity = cartRepository.findOneByUser(userRepository.findOneById(idUser));
+        ProductEntity productEntity = productRepository.findOneById(idProduct);
+        CartItemEntity cartItemEntity = cartItemRepository.findOneByCartAndProduct(cartEntity, productEntity);
+        cartItemEntity.setQuantity(quantity);
+        cartItemRepository.save(cartItemEntity);
+
+        List<CartItemDTO> cartItemDTOS = new ArrayList<>();
+        for (CartItemEntity cartItem : cartItemRepository.findAllByCart(cartEntity)) {
+            cartItemDTOS.add(cartItemConverter.toDTO(cartItem));
+        }
+
+        CartDTO result = cartConverter.toDTO(cartRepository.save(cartEntity));
+        result.setCartItems(cartItemDTOS);
+        return result;
+    }
+
+    @Override
     public boolean deleteCartItem(long idUser, long idProduct) {
         CartItemEntity cartItem = cartItemRepository.findOneByCartAndProduct(
                 cartRepository.findOneByUser(userRepository.findOneById(idUser)),

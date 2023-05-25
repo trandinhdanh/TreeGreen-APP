@@ -39,7 +39,7 @@ public class CartAPI {
     public ResponseEntity<CartDTO> updateQuantity(@PathVariable("idUser") long idUser,
                                                   @PathVariable("idProduct") long idProduct,
                                                   @PathVariable("quantity") int quantity) {
-        CartDTO cartDTO = iCartService.addProductToCart(idUser, idProduct, quantity);
+        CartDTO cartDTO = iCartService.updateQuantity(idUser, idProduct, quantity);
         if (cartDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
