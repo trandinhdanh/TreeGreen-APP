@@ -1,7 +1,6 @@
 package com.techpower.treegreen.entity;
 
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,11 +15,13 @@ import java.util.List;
 @Table(name = "payment_method")
 @Getter
 @Setter
-public class PaymentMethodEntity extends BaseEntity{
+public class PaymentMethodEntity extends BaseEntity {
     @Column
     private String name;
     @Column
     private String description;
+    @Column
+    private String status;
     @OneToMany(mappedBy = "paymentMethod")
     private List<OrderEntity> orders = new ArrayList<>();
 }

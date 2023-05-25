@@ -18,5 +18,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsByPassword(String password);
 
-    List<UserEntity> findAllByRoles_Code(String code);
+    List<UserEntity> findByRoles_CodeOrderByStatus(String code);
 }

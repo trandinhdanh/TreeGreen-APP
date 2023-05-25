@@ -6,7 +6,7 @@ import com.techpower.treegreen.api.output.OutputAuthentication;
 import com.techpower.treegreen.api.input.InputRegistrationUser;
 import com.techpower.treegreen.constant.ImageConstant;
 import com.techpower.treegreen.constant.RoleConstant;
-import com.techpower.treegreen.constant.UserConstant;
+import com.techpower.treegreen.constant.StatusConstant;
 import com.techpower.treegreen.converter.UserConverter;
 import com.techpower.treegreen.entity.CartEntity;
 import com.techpower.treegreen.entity.RoleEntity;
@@ -72,7 +72,7 @@ public class AuthenticationService implements IAuthenticationService {
         var user = UserEntity.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .status(UserConstant.ACTIVE)
+                .status(StatusConstant.ACTIVE)
                 .fullName(request.getFullName())
                 .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.USER))
@@ -102,7 +102,7 @@ public class AuthenticationService implements IAuthenticationService {
         var user = UserEntity.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .status(UserConstant.ACTIVE)
+                .status(StatusConstant.ACTIVE)
                 .fullName(request.getFullName())
                 .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.SELLER))
