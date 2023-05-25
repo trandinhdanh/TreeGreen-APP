@@ -6,6 +6,7 @@ public interface ICartService {
     public CartDTO getCart(long idUser);
 
     public CartDTO addProductToCart(long idUser, long idProduct, int quantity);
+    public CartDTO updateQuantity(long idUser, long idProduct, int quantity);
 
     public boolean deleteCartItem(long idUser, long idProduct);
 
