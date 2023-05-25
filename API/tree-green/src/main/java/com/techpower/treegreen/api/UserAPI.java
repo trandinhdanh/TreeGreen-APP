@@ -31,9 +31,10 @@ public class UserAPI {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> delete(@PathVariable("id") long id) {
-        UserDTO deletedUser = iUserService.delete(id);
+    @PutMapping("/{id}/{status}")
+    public ResponseEntity<UserDTO> lock(@PathVariable("id") long id,
+                                          @PathVariable("status") long status) {
+        UserDTO deletedUser = iUserService.lock(id, status);
         if (deletedUser != null) {
             return ResponseEntity.ok(deletedUser);
         } else {

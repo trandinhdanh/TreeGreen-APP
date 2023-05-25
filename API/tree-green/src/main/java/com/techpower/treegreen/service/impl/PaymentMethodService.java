@@ -5,14 +5,14 @@ import com.techpower.treegreen.converter.PaymentMethodConverter;
 import com.techpower.treegreen.dto.PaymentMethodDTO;
 import com.techpower.treegreen.entity.PaymentMethodEntity;
 import com.techpower.treegreen.repository.PaymentMethodRepository;
-import com.techpower.treegreen.service.IPaymentService;
+import com.techpower.treegreen.service.IPaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PaymentService implements IPaymentService {
+public class PaymentMethodService implements IPaymentMethodService {
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
     @Autowired
@@ -53,9 +53,14 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public PaymentMethodDTO delete(long id) {
+    public PaymentMethodDTO delete(long id, long status) {
         PaymentMethodEntity paymentMethodEntity = paymentMethodRepository.findOneById(id);
-        paymentMethodEntity.setStatus(StatusConstant.NON_ACTIVE);
+        if (status == 1) {
+            paymentMethodEntity.setStatus(StatusConstant.ACTIVE);
+        }
+        if (status == 0) {
+            paymentMethodEntity.setStatus(StatusConstant.NON_ACTIVE);
+        }
         return paymentMethodConverter.toDTO(paymentMethodRepository.save(paymentMethodEntity));
     }
 }

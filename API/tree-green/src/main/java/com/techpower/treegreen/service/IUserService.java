@@ -8,7 +8,7 @@ import java.util.List;
 public interface IUserService {
     public List<UserDTO> getAllUser(String role);
 
-    public UserDTO delete(long id);
+    public UserDTO lock(long id,long status);
 
     public UserDTO changePassword(InputChangePassword changePassword);
 

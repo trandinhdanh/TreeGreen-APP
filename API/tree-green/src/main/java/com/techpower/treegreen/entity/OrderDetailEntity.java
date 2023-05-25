@@ -10,9 +10,9 @@ import javax.persistence.*;
 @Table(name = "order_detail")
 @Getter
 @Setter
-public class OrderDetailEntity extends BaseEntity{
+public class OrderDetailEntity extends BaseEntity {
     @ManyToOne
-@JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
     @ManyToOne
     @JoinColumn(name = "order_id")
