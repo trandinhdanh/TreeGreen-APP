@@ -75,7 +75,8 @@ export default function SiteBarManager() {
         </li>
       </>
       : 
-      <li>
+     <>
+       <li>
           <Link
             to="/manager/user"
             href="#"
@@ -87,6 +88,19 @@ export default function SiteBarManager() {
             </span>
           </Link>
         </li>
+      <li>
+          <Link
+            to="/manager/category"
+            href="#"
+            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+          >
+            <IoPersonOutline className="text-[20px]" />
+            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+              Category
+            </span>
+          </Link>
+        </li>
+     </>
       }
         
       </>

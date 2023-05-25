@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.time.temporal.ChronoUnit.DAYS;
 @Service
 public class JWTUtil {
     private static final String SECRET_KEY = "66556A586E3272357538782F413F4428472B4B6150645367566B597033733676";
@@ -57,8 +58,8 @@ public class JWTUtil {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setIssuedAt(Date.from(Instant.now()))
+                .setExpiration(Date.from(Instant.now().plus(2,DAYS)))
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
                 .compact();
     }

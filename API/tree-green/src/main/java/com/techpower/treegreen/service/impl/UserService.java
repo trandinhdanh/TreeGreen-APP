@@ -37,10 +37,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO delete(long id) {
+    public UserDTO lock(long id, long status) {
         UserEntity userEntity = userRepository.findOneById(id);
         if (userEntity != null) {
-            userEntity.setStatus(StatusConstant.NON_ACTIVE);
+            if (status == 1) {
+                userEntity.setStatus(StatusConstant.ACTIVE);
+            }
+            if (status == 0) {
+                userEntity.setStatus(StatusConstant.NON_ACTIVE);
+            }
             return userConverter.toDTO(userRepository.save(userEntity));
         } else
             return null;

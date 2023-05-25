@@ -4,7 +4,7 @@ import com.techpower.treegreen.dto.PaymentMethodDTO;
 
 import java.util.List;
 
-public interface IPaymentService {
+public interface IPaymentMethodService {
     public List<PaymentMethodDTO> getAll();
 
     public PaymentMethodDTO getDetail(long id);
@@ -13,6 +13,6 @@ public interface IPaymentService {
 
     public PaymentMethodDTO update(PaymentMethodDTO dto);
 
-    public PaymentMethodDTO delete(long id);
+    public PaymentMethodDTO delete(long id,long status);
 
 }
