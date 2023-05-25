@@ -3,12 +3,17 @@ import { Form, Input, Upload, Button, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { productService } from '../../../services/productService';
+import { localStorageService } from '../../../services/localStorageService';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../../Redux/loading/loadingSlice';
 
 export default function ProductNewManagerPage() {
   const [form] = Form.useForm();
+  const dispatch = useDispatch()
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [user,setUser] = useState(localStorageService.get("USER"))
   const onFinish = (values) => {
     console.log('Form submitted:', values);
     const formData = new FormData();
@@ -24,12 +29,15 @@ export default function ProductNewManagerPage() {
     selectedImages.forEach((file, index) => {
       formData.append(`images`, file);
     });
-
-    productService.create(formData)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
+    dispatch(setLoading(true)); 
+    productService.create(user.userDTO.id,formData)
+    .then((res) => {
+    dispatch(setLoading(false)); 
+    form.resetFields()
+    console.log(res);
+  })
+  .catch((err) => {
+        dispatch(setLoading(false)); 
         console.log(err);
       });
   };

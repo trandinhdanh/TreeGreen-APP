@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {Button,Space, InputNumber } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addItemToCart } from '../../../Redux/cart/cartList';
 
 export default function DetailProductIInfo(props) {
   const [quantityItem , setQuantityItem] = useState(1)
@@ -9,7 +8,6 @@ export default function DetailProductIInfo(props) {
 const dispatch = useDispatch();
 //chưa thêm nhiều sản phẩm được
   const handleAddToCart = () => {
-    dispatch(addItemToCart({...props.data,quantity : quantityItem}));
   };
   return (
     <div className='p-7'>
@@ -22,6 +20,7 @@ const dispatch = useDispatch();
          </div>
          <div className='space-y-2 text-gray-400 mt-5'>
             <h3 className='text-[12px]'>Mã Sản phẩm: <span className='text-[#000]'>{props.data.code}</span></h3>
+            <h3 className='text-[12px]'>Loại Sản phẩm: <span className='text-[#000]'>{props.data.category?.name}</span></h3>
             <h3 className='text-[12px]'>Người bán: <span className='text-[#000]'>{props.data.createBy}</span></h3>
             <h3 className='text-[12px]'>Số Lượng: <span className='text-[#000]'>{props.data.quantity}</span></h3>
             <h3 className='text-[12px]'>Số lượt xem: <span className='text-[#000]'>{props.data.productView}</span></h3>

@@ -30,11 +30,8 @@ export default function SellerManagement() {
   const handleDeleteSeller = async () => {
     try {
       const items = await userService.delete(selectedSeller.id);
-      console.log('Seller deleted successfully');
-      // Handle successful deletion
     } catch (error) {
       console.error('Failed to delete seller:', error);
-      // Handle error when deleting seller
     }
     setModalVisible(false);
   };
@@ -45,7 +42,12 @@ export default function SellerManagement() {
         <Column title="ID" dataIndex="id" key="id" />
         <Column title="Username" dataIndex="username" key="username" />
         <Column title="Full Name" dataIndex="fullName" key="fullName" />
-        <Column title="Status" dataIndex="status" key="status" />
+        <Column
+          title="Status"
+          dataIndex="status"
+          key="status"
+          render={(status) => <Tag color="green">{status}</Tag>}
+        />
         <Column
           title="Action"
           key="action"

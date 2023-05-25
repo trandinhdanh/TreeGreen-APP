@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL, getAuthConfig } from "../utils/baseURL";
+import { message } from "antd";
 
 
 export let productService = {
@@ -19,6 +20,14 @@ export let productService = {
       console.log(error);      
   }
   },
+  getProductByShop: async (userName) => { 
+    try {
+      const response = await axios.get(BASE_URL + `/api/v1/products/shop/${userName}`);
+      return response.data
+  } catch (error) {
+      console.log(error);      
+  }
+  },
 
   // create: async (values) => {
     //   try {
@@ -28,29 +37,34 @@ export let productService = {
   //     console.log(error);
   //   }
   // },
-  create: async (values) => {
+  create: async (idUser,values) => {
     try {
-      const response = await axios.post(BASE_URL + `/api/v1/products`,values,{
+      const response = await axios.post(BASE_URL + `/api/v1/products/${idUser}`,values,{
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })
+      message.success("Create Product Success")
       console.log(response);
     } catch (error) {
+      message.error("Create Product Error")
       console.log(error);
     }
   },
-  delete: async (values) => {
-    console.log(values);
-    try {
-      const response = await axios.delete(BASE_URL + `/api/v1/products`,values,{
-        ...getAuthConfig(),
-        'Content-Type': 'multipart/form-data'
-      })
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  },
+delete: async (values) => {
+  console.log(values);
+  try {
+    const response = await axios.delete(BASE_URL + `/api/v1/products`, {
+      ...getAuthConfig(),
+      data: values, 
+    });
+    message.success("Delete Product Success")
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+      message.success("Create Product Success")
+      message.error("Delete Product Fail")
+  }
+},
     getCategory: async () => {
     try {
         const response = await axios.get(BASE_URL + "/api/v1/categorys");

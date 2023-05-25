@@ -1,49 +1,47 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllProduct } from '../../../Redux/products/productList';
 import { Table, Tag, Space, Pagination,Modal } from 'antd';
 import {AiOutlineEdit,AiOutlineDelete} from 'react-icons/ai'
 import "./ProductManagerPage.scss"
 import {IoIosAddCircleOutline} from "react-icons/io"
-import productList from '../../../Redux/products/productList';
 import { productService } from '../../../services/productService';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { localStorageService } from '../../../services/localStorageService';
 export default function ProductManagerPage() {
   const { Column } = Table;
-  const dispatch = useDispatch();
   const navigate = useNavigate()
-  const [page, setPage] = useState(1); // state để lưu trang hiện tại
   const [pageSize, setPageSize] = useState(3); // state để lưu số sản phẩm trên 1 trang
   const [idsProduct, setIdsProduct] = useState([]);
-  const products = useSelector((state) => state.products.productList.allProduct); 
-  useEffect(() => { 
-    dispatch(getAllProduct());
-  }, [dispatch]) 
+  const [products, setProducts] = useState([])
+  const [reloadPage, setReloadPage] = useState(false); // B
+  useEffect(() => {
+    const id = localStorageService.get('USER').userDTO.id
+    const getProductByUserName = async () => {
+      try {
+        const items = await productService.getProductByShop(id);
+        setProducts(items);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProductByUserName();
+  }, [reloadPage]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const onSelectChange = (selectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    setSelectedRowKeys(selectedRowKeys);
-    setSelectAll(false); // Thêm dòng này để đảm bảo rằng chỉ một sản phẩm được chọn
-  };
-  
-  const rowSelection = {
-    selectedRowKeys: selectAll ? products.map((product) => product.key) : selectedRowKeys,
-    onChange: onSelectChange,
-  };
+
   //open model confim delete 
   const handleDelete = (record) => {
+    const ids = [record.id]
+    setIdsProduct(ids)
     setSelectedProduct(record);
     setModalVisible(true);
   };
   
   const handleDeleteProduct = async () => {
+    console.log(idsProduct);
     try {
-      await productService.delete([25]);
+      await productService.delete(idsProduct);
       console.log('Products deleted successfully');
+      setReloadPage(!reloadPage)
       // Xử lý khi xóa sản phẩm thành công
     } catch (error) {
       console.error('Failed to delete products:', error);
@@ -61,7 +59,6 @@ export default function ProductManagerPage() {
         <button onClick={() => { navigate('/manager/product-add') }} className="text-white bg-primary font-medium rounded-lg text-sm px-4 py-2 flex items-center hover:scale-110 transition-all">Add <IoIosAddCircleOutline className='ml-2 text-[20px]'/> </button>
       </div>
       <Table 
-        rowSelection={rowSelection} 
         dataSource={products} 
         pagination={{
             total: products?.length,

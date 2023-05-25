@@ -8,7 +8,6 @@ import { BASE_URL } from '../../utils/baseURL';
 
 const initialState = {
   accessToken: null,
-  isloading: false,
   isLoggedIn: !!localStorageService.get('USER'),
   registerSuccess: false,
   isRegisterAccountSuccess: false,
@@ -61,7 +60,6 @@ const authSlice = createSlice({
     reset: (state) => {
       return {
         ...state,
-        isLoading: false,
       };
     },
   },
@@ -70,13 +68,11 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         return {
           ...state,
-          isLoading: true,
         };
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
           return {
               ...state,
-              isLoading: false,
               accessToken: payload.token,
               isLoggedIn: !!payload,
             };
@@ -84,7 +80,6 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         return {
           ...state,
-          isLoading: false,
           accessToken: payload.token,
           isLoggedIn: false,
         };
@@ -92,37 +87,14 @@ const authSlice = createSlice({
       .addCase(logoutUser.pending, (state) => {
         return {
           ...state,
-          isLoading: true,
         };
       })
       .addCase(logoutUser.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          isLoading: false,
           isLoggedIn: false,
         };
       })
-      // .addCase(registerUser.pending, (state) => {
-      //   return {
-      //     ...state,
-      //     isLoading: true,
-      //   };
-      // })
-      // .addCase(registerUser.fulfilled, (state, { payload }) => {
-      //   return {
-      //     ...state,
-      //     isLoading: false,
-      //     registerSuccess: true,
-      //   };
-      // })
-      // .addCase(registerUser.rejected, (state, { payload }) => {
-      //   return {
-      //     ...state,
-      //     isLoading: false,
-      //     registerSuccess: false,
-      //     isRegisterAccountSuccess: true,
-      //   };
-      // });
   },
 });
 // Action creators are generated for each case reducer function

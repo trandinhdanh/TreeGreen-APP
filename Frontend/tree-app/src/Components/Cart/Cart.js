@@ -1,34 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import {AiOutlineClose} from 'react-icons/ai'
 import {BsTrash} from 'react-icons/bs'
-import { dataFake } from '../ProductHomPage/dataFake';
 import { InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCart, removeItemFromCart, updateItemQuantity } from '../../Redux/cart/cartList';
 import { useNavigate } from 'react-router-dom';
+import { localStorageService } from '../../services/localStorageService';
+import { cartService } from '../../services/cartService';
 export default function Cart({openCart,handleCartClick }) {
   const {t} = useTranslation();
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart.cartList.items); 
-  // useEffect(() => { 
-  //   dispatch(getAllProduct());
-  //  },[dispatch])
+  const [cart,setCart] = useState([])
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  useEffect(() => {
+    if(isLoggedIn){
+      const idUser = localStorageService.get('USER').userDTO.id;
+      const getAllProductInCart = async () => {
+        try {
+          const items = await cartService.getAllCart(idUser)
+          // setProducts(items);
+          setCart(items)
+          console.log(items);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getAllProductInCart();
+    }
+
+  }, []);
 
     const handleRemoveClick = (productId) => {
-     dispatch(removeItemFromCart(productId));
     };
     const handleRemoveAllClick = () => {
-      dispatch(clearCart());
      };
  
-    const totalPrice = cart.every(p => typeof p.price === 'number' && typeof p.quantity === 'number')
-    ? cart.reduce((acc, product) => acc + (product.quantity * product.price), 0)
-    : 0;
+
      
   const handleProductChange = (productId, quantity) => {
-    dispatch(updateItemQuantity({ id: productId, quantity }));
   }
   const handleClickOutsideCart = (event) => {
     if (event.target.classList.contains('cartModal')) {
@@ -57,31 +68,32 @@ export default function Cart({openCart,handleCartClick }) {
                       </tr>
                     </thead>
                     {
-                      cart.length === 0 
-                      ? <p className='text-[16px]  font-roboto'>{t('No Products')}</p>
-                      :  <>
-                        <tbody className=''>
-                      {cart.map(product => (
-                        <tr key={product.id} className="border-b-2">
-                          <td className="py-2 px-4 " ><img src={product.image} className='h-[100px] w-[100px] object-cover rounded-lg' /></td>
-                          <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} onChange={(value) => handleProductChange(product.id, value)}/></td>
-                          {/* <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} /></td> */}
-                          <td className="py-2 px-4 ">{product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</td>
-                          <td className="py-2 px-4"><BsTrash className='hover:scale-125 transition-all text-[18px] mx-auto' onClick={() => { handleRemoveClick(product.id) }} /></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                    <tfoot className=''>
-                      <tr className="">
-                        <td colSpan="2" className="py-2 px-4  text-right font-bold">Tổng cộng</td>
-                        <td className="py-2 px-4  font-bold">{totalPrice.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</td>
-                        <td className="py-2 px-4  font-bold text-center">
-                            <button onClick={() => { navigate("/payment"); handleCartClick() }} className="bg-primary text-white px-5 py-2 font-bold rounded-lg">{t('Pay')}</button>
-                        </td>
-                      </tr>
-                     
-                    </tfoot>
-                    </>
+                     isLoggedIn ? cart?.cartItems.length === 0 
+                     ? <p className='text-[16px]  font-roboto'>{t('No Products')}</p>
+                     :  <>
+                       <tbody className=''>
+                     {cart?.cartItems.map(product => (
+                       <tr key={product.id} className="border-b-2">
+                         <td className="py-2 px-4 " ><img src={product.image} className='h-[100px] w-[100px] object-cover rounded-lg' /></td>
+                         <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} onChange={(value) => handleProductChange(product.id, value)}/></td>
+                         {/* <td className="py-2 px-4 "><InputNumber min={1} defaultValue={product.quantity} /></td> */}
+                         <td className="py-2 px-4 ">{product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</td>
+                         <td className="py-2 px-4"><BsTrash className='hover:scale-125 transition-all text-[18px] mx-auto' onClick={() => { handleRemoveClick(product.id) }} /></td>
+                       </tr>
+                     ))
+                     }
+                   </tbody>
+                   <tfoot className=''>
+                     <tr className="">
+                       <td colSpan="2" className="py-2 px-4  text-right font-bold">Tổng cộng</td>
+                       <td className="py-2 px-4  font-bold">{cart?.totalPrice.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</td>
+                       <td className="py-2 px-4  font-bold text-center">
+                           <button onClick={() => { navigate("/payment"); handleCartClick() }} className="bg-primary text-white px-5 py-2 font-bold rounded-lg">{t('Pay')}</button>
+                       </td>
+                     </tr>
+                    
+                   </tfoot>
+                   </> : <p className='text-[16px]  font-roboto'>{t('Please Login')}</p>
                     }
                     
                   </table>
