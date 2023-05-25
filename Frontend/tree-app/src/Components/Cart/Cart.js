@@ -40,23 +40,21 @@ export default function Cart({ openCart, handleCartClick }) {
       console.log('Products deleted successfully');
       const updatedCart = await cartService.getAllCart(idUser);
       setCart(updatedCart);
-      // Xử lý khi xóa sản phẩm thành công
     } catch (error) {
       console.error('Failed to delete products:', error);
-      // Xử lý khi có lỗi xóa sản phẩm
     }
   };
 
   const handleRemoveAllClick = () => {};
-
   const handleProductChange = async (productId, quantity) => {
     setQuantityMap((prevState) => ({
       ...prevState,
       [productId]: quantity,
     }));
-
+  
     try {
-      await cartService.updateToCart(idUser, productId, quantity);
+      const response = await cartService.updateToCart(idUser, productId, quantity);
+      setCart(response.data.cartItems);
       console.log('Cart quantity updated successfully');
       // Xử lý khi cập nhật số lượng sản phẩm thành công
     } catch (error) {
@@ -64,7 +62,7 @@ export default function Cart({ openCart, handleCartClick }) {
       // Xử lý khi có lỗi cập nhật số lượng sản phẩm
     }
   };
-
+  
   const handleClickOutsideCart = (event) => {
     if (event.target.classList.contains('cartModal')) {
       handleCartClick();

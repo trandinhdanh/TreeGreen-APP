@@ -5,6 +5,7 @@ import "./LoginPage.scss";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Redux/auth/authSlice";
+import { localStorageService } from "../../services/localStorageService";
 export default function LoginPage() {
   const {t} = useTranslation();
   const dispatch = useDispatch()
@@ -17,7 +18,12 @@ export default function LoginPage() {
   };
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/"); // Chuyển hướng đến trang dashboard khi đăng nhập thành công
+      const role = localStorageService.get('USER').roles[0]
+      if(role === "USER"){
+        navigate("/"); 
+      }else{
+        navigate("/manager")
+      }
     }
   }, [isLoggedIn, navigate]);
   const onFinishFailed = (errorInfo) => {};

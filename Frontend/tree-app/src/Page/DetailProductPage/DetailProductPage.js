@@ -22,6 +22,7 @@ import { productService } from "../../services/productService";
 export default function DetailProductPage() {
   const { id } = useParams();
   const [itemProduct, setItemProduct] = useState({});
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     const getProduct = async (id) => {
@@ -50,7 +51,7 @@ export default function DetailProductPage() {
         </div>
         <div className="grid grid-cols-12"> 
             <div className="lg:col-span-5 md:col-span-6 sm:col-span-12 mb:col-span-12"><DetailProductImg data={itemProduct} /></div>
-            <div className="col-span-7 md:col-span-6 sm:col-span-12 mb:col-span-12"><DetailProductIInfo data={itemProduct}/></div>
+            <div className="col-span-7 md:col-span-6 sm:col-span-12 mb:col-span-12"><DetailProductIInfo isLoggedIn={isLoggedIn} data={itemProduct}/></div>
         </div>
         {/* <DetailProductSimilar data={itemProduct}/> */}
   </div>

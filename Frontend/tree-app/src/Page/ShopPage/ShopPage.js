@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Pagination } from 'antd';
 import FilterShopPage from '../../Components/FilterShopPage/FilterShopPage';
 import ProductItem from '../../Components/ProductHomPage/ProductItem';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiFilterAlt } from 'react-icons/bi';
+import { getAllProduct } from '../../Redux/products/productList';
 
 export default function ShopPage() {
   const { t } = useTranslation();
@@ -20,7 +21,6 @@ export default function ShopPage() {
 
   const products = useSelector((state) => state.products.productList.allProduct);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
   const handleIsFilter = () => {
     setIsFilter((current) => !current);
   };

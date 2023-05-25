@@ -6,6 +6,7 @@ import { getAllProduct } from '../../Redux/products/productList'
 import {BsArrowRightShort} from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { localStorageService } from '../../services/localStorageService'
+import LoadingSkeleton from '../LoadingSkeleton/LoadingSkeleton'
 export default function ProductHomPage() {
   const {t} = useTranslation();
   const [userID , setUserID] = useState()
@@ -26,17 +27,20 @@ export default function ProductHomPage() {
             <div className='productListBtn'>
                <Link to='/shop'> <h1 className='text-primary font-bold font-mono flex items-center uppercase'>{t('All Product')}<BsArrowRightShort className='ml-2'/></h1></Link>
             </div>
-            <div className='grid mb:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
-                {loading ? (
+            <div >
+              {loading ? (
                 <>
-                  <p>Loading...</p>
+                  <LoadingSkeleton />
                 </>
               ) : (
-                products?.slice(0, 8).map((item, i) => {
-                  return <ProductItem key={i} data={item} userID={userID} isLoggedIn={isLoggedIn} />;
-                })
+                <div className="grid mb:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                  {products?.slice(0, 8).map((item, i) => {
+                    return <ProductItem key={i} data={item} userID={userID} isLoggedIn={isLoggedIn} />;
+                  })}
+                </div>
               )}
             </div>
+
         </div>
     </div>
   )

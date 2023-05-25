@@ -7,17 +7,25 @@ import { openNotificationIcon } from '../NotificationIcon/NotificationIcon';
 import { cartService } from '../../services/cartService';
 import { localStorageService } from '../../services/localStorageService';
 export default function ProductItem(props) {
+  const [addingToCart, setAddingToCart] = useState(false);
 
   const navigate = useNavigate();
   const handleClick = async () => {
     if (props.isLoggedIn) {
       try {
-        const productID = props.data.id
-        console.log("userID" ,localStorageService.get('USER').userDTO.id);
-        console.log(productID);
-       const reponse = await cartService.addToCart(localStorageService.get('USER').userDTO.id, productID, 1);
+        setAddingToCart(true);
+
+        const productID = props.data.id;
+        const userID = localStorageService.get('USER').userDTO.id;
+
+        const response = await cartService.addToCart(userID, productID, 1);
+        
+        // Xử lý logic sau khi thêm sản phẩm vào giỏ hàng thành công
+
+        setAddingToCart(false);
       } catch (error) {
         console.log(error);
+        setAddingToCart(false);
       }
     } else {
       message.error('Please log in to add products to the cart');
@@ -31,7 +39,13 @@ export default function ProductItem(props) {
     <div className='overflow-hidden w-full h-full productItem my-3 hover:shadow-md transition-all rounded-lg'>
         <div className='productImg relative w-full'>
              <Image  style={{ height: '300px', width: '100%', objectFit: 'cover' }} src={`${props.data.image}`} className='object-cover'/>
-             <button onClick={handleClick} className='productItemIcon absolute bottom-0 left-[10px] p-5 text-primary hover:scale-125'><BsCartPlus className='text-[20px]'/></button>
+             <button
+      onClick={handleClick}
+      className={`productItemIcon absolute bottom-0 left-[10px] p-5 text-primary hover:scale-125 ${addingToCart ? 'disabled' : ''}`}
+      disabled={addingToCart}
+    >
+      <BsCartPlus className="text-[20px]" />
+    </button>
         </div>
         <Link to={`/product/${props.data.id}`}>
         <div className='productContent text-center my-3 font-roboto'>
