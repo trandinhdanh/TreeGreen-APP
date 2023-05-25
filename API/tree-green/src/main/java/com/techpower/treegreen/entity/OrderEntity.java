@@ -16,9 +16,8 @@ public class OrderEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "used_id")
     private UserEntity user;
-    @ManyToOne
-    @JoinColumn(name = "paymentmethod_id")
-    private PaymentMethodEntity paymentMethod;
+    @Column
+    private String paymentMethod;
     @Column
     private double totalPrice;
     @Column
