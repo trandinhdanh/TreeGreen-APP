@@ -16,10 +16,12 @@ import PaymentPage from '../Page/PaymentPage/PaymentPage'
 import ProductManagerPage from '../Page/Manager/ProductManagerPage/ProductManagerPage'
 import OderPage from '../Page/Manager/OderPage/OderPage'
 import RegisterSellerPage from '../Page/RegisterSellerPage/RegisterSellerPage'
-import ProductNewManagerPage from '../Page/Manager/ProductNewManagerPage/ProductNewManagerPage'
 import UserPage from '../Page/Manager/UserPage/UserPage'
 import BlogManagerPage from '../Page/Manager/BlogManagerPage/BlogManagerPage'
 import CategoryManager from '../Page/Manager/CategoryManager/CategoryManager'
+import ProductUpdateManagerPage from '../Page/Manager/ProductManagerPage/ProductUpdateManagerPage/ProductUpdateManagerPage'
+import ProductNewManagerPage from '../Page/Manager/ProductManagerPage/ProductNewManagerPage/ProductNewManagerPage'
+import NewBlogManagerPage from '../Page/Manager/BlogManagerPage/NewBlogManagerPage/NewBlogManagerPage'
 
 export default function Routers() {
   return (
@@ -38,10 +40,12 @@ export default function Routers() {
                 <Route path='/manager' element = {<ManagerLayout/>} >
                     <Route path="/manager" element={<ManagerPage/>} />
                     <Route path="/manager/product" element={<ProductManagerPage/>} />
+                    <Route path="/manager/product-add" element={<ProductNewManagerPage/>} />
+                    <Route path="/manager/product-update/:id" element={<ProductUpdateManagerPage/>} />
                     <Route path="/manager/order" element={<OderPage/>} />
                     <Route path="/manager/user" element={<UserPage/>} />
                     <Route path="/manager/blog" element={<BlogManagerPage/>} />
-                    <Route path="/manager/product-add" element={<ProductNewManagerPage/>} />
+                    <Route path="/manager/blog-add" element={<NewBlogManagerPage/>} />
                     <Route path="/manager/category" element={<CategoryManager/>} />
                 </Route>
 

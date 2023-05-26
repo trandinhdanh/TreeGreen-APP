@@ -67,7 +67,7 @@ export default function ProductManagerPage() {
           }}
         // Thêm pagination={false} để ẩn đi phân trang mặc định của Table
         >
-        <Column title="Mã sản phẩm" dataIndex="code" key="code" />
+        <Column title="Mã sản phẩm" dataIndex="id" key="id" />
         <Column title="Tên sản phẩm" dataIndex="name" key="name" />
         <Column
           title="Hình ảnh"
@@ -86,7 +86,7 @@ export default function ProductManagerPage() {
           key="action"
           render={(text, record) => (
             <Space size="middle">
-                <AiOutlineEdit className=' text-[20px] hover:scale-125 transition-all'/>
+                <AiOutlineEdit onClick={() => { navigate(`/manager/product-update/${record.id}`) }} className=' text-[20px] hover:scale-125 transition-all'/>
                 <AiOutlineDelete onClick={() => { 
                   handleDelete(record)
                  }} className='text-[20px] hover:scale-125 hover:text-red-700 transition-all'/>

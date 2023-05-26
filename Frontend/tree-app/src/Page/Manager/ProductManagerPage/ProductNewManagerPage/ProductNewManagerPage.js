@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { Form, Input, Upload, Button, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { productService } from '../../../services/productService';
-import { localStorageService } from '../../../services/localStorageService';
+import { productService } from '../../../../services/productService';
+import { localStorageService } from '../../../../services/localStorageService';
 import { useDispatch } from 'react-redux';
-import { setLoading } from '../../../Redux/loading/loadingSlice';
+import { setLoading } from '../../../../Redux/loading/loadingSlice';
 
 export default function ProductNewManagerPage() {
   const [form] = Form.useForm();
@@ -94,16 +94,26 @@ export default function ProductNewManagerPage() {
         </Form.Item>
 
         <Form.Item
-          label="Hình ảnh"
-          name="image"
-          labelCol={labelCol}
-          wrapperCol={wrapperCol}
-        >
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+      label="Hình ảnh"
+      name="image"
+      labelCol={labelCol}
+      wrapperCol={wrapperCol}
+      rules={[
+        () => ({
+          validator(_, value) {
+            if (selectedImage || value) {
+              return Promise.resolve();
+            }
+            return Promise.reject(new Error('Vui lòng chọn hình ảnh'));
+          },
+        }),
+      ]}
+    >
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+      />
         </Form.Item>
         <Form.Item
           label="Giá"

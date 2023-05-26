@@ -27,6 +27,7 @@ export default function UserNav() {
     setOpenCart(false);
   };
   const handleLogOut = () => { 
+    navigate("/login")
     dispatch(logoutUser())
   }
   const handleRole = () => { 

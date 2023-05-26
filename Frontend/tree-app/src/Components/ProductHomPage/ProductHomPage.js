@@ -10,17 +10,15 @@ import LoadingSkeleton from '../LoadingSkeleton/LoadingSkeleton'
 export default function ProductHomPage() {
   const {t} = useTranslation();
   const [userID , setUserID] = useState()
-  const dispatch = useDispatch();
   const products = useSelector((state) => state.products.productList.allProduct); 
   const loading = useSelector((state) => state.products.productList.loading); 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   useEffect(() => { 
-    dispatch(getAllProduct());
     if (isLoggedIn) {
       setUserID(localStorageService.get('USER').userDTO.id)
       console.log(userID);
     }
-   },[dispatch,userID])
+   },[userID])
   return (
     <div className=' h-full container mx-auto mb:px-5 sm:px-5 md:px-24 lg:px-24 my-10'>
         <div className='productContainer'>

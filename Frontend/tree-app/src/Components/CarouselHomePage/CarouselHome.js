@@ -27,9 +27,9 @@ export default function CarouselHome() {
       
       >
         
-      <SwiperSlide><CarouseItem imgSrc="http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/h3-slider-background-2.jpg" title="Send Tree Like You Mean It" des="Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris."/></SwiperSlide>
-      <SwiperSlide><CarouseItem imgSrc="http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/h3-slider-background-3.jpg" title="Send Tree Like You Mean It" des="Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris."/></SwiperSlide>
-      <SwiperSlide><CarouseItem imgSrc="http://mauweb.monamedia.net/fiorello/wp-content/uploads/2018/06/h3-slider-background.jpg" title="Send Tree Like You Mean It" des="Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris."/></SwiperSlide>
+      <SwiperSlide><CarouseItem imgSrc="https://res.cloudinary.com/dtsfnikj0/image/upload/v1685087449/h3-slider-background-2_jnckkc.jpg" title="Send Tree Like You Mean It" des="Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris."/></SwiperSlide>
+      <SwiperSlide><CarouseItem imgSrc="https://res.cloudinary.com/dtsfnikj0/image/upload/v1685087449/h3-slider-background-3_fsfgvb.jpg" title="Send Tree Like You Mean It" des="Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris."/></SwiperSlide>
+      <SwiperSlide><CarouseItem imgSrc="https://res.cloudinary.com/dtsfnikj0/image/upload/v1685087449/h3-slider-background_vr4kur.jpg" title="Send Tree Like You Mean It" des="Where flowers are our inspiration to create lasting memories. Whatever the occasion, our flowers will make it special cursus a sit amet mauris."/></SwiperSlide>
     </Swiper>
     </div>
   )

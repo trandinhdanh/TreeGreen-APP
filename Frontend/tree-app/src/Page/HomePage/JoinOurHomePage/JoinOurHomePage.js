@@ -17,7 +17,7 @@ export default function JoinOurHomePage() {
               </div>
             </div>
             <div className="lg:w-1/2 md:w-full">
-                <img className="w-full h-full rounded-r-[20px]" src="https://res.cloudinary.com/patch-gardens/image/upload/c_fill,h_1600,q_auto:good,w_1600/v1/cms/Jan_23_Unkillable-min.jpg" />
+                <img className="w-full h-full rounded-r-[20px]" src="https://res.cloudinary.com/dtsfnikj0/image/upload/v1685087450/Jan_23_Unkillable-min_bbp1u0.jpg" />
             </div>
         </div>
     </div>

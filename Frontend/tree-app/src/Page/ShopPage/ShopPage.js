@@ -41,7 +41,7 @@ export default function ShopPage() {
   };
 
   useEffect(() => {
-    const filtered = products.filter((product) => {
+    const filtered = products?.filter((product) => {
       return (
         (selectedCategory === '' || product.category.code === selectedCategory) && // Lọc theo category.code
         product.price >= valueProducts[0] &&
@@ -50,11 +50,11 @@ export default function ShopPage() {
       );
     });
 
-    setTotalProducts(filtered.length);
+    setTotalProducts(filtered?.length);
 
     const startIdx = (currentPage - 1) * pageSize;
     const endIdx = startIdx + pageSize;
-    setFilterProducts(filtered.slice(startIdx, endIdx));
+    setFilterProducts(filtered?.slice(startIdx, endIdx));
   }, [currentPage, pageSize, products, valueProducts, searchValue, selectedCategory]);
 
   return (
@@ -75,10 +75,10 @@ export default function ShopPage() {
         </div>
         <div className="lg:col-span-3 md:col-span-12 sm:col-span-12 mb:col-span-12 animate__fadeInRight animate__animated">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 mb:grid-cols-2 gap-5">
-            {filterProducts.length === 0 ? (
+            {filterProducts?.length === 0 ? (
               <p className="text-[16px] m-0 font-roboto">{t('No Products Found')}</p>
             ) : (
-              filterProducts.map((item, i) => {
+              filterProducts?.map((item, i) => {
                 return <ProductItem key={i} data={item} isLoggedIn={isLoggedIn} />;
               })
             )}

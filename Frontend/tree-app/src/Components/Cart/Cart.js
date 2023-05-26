@@ -53,8 +53,8 @@ export default function Cart({ openCart, handleCartClick }) {
     }));
   
     try {
-      const response = await cartService.updateToCart(idUser, productId, quantity);
-      setCart(response.data.cartItems);
+       await cartService.updateToCart(idUser, productId, quantity);
+      
       console.log('Cart quantity updated successfully');
       // Xử lý khi cập nhật số lượng sản phẩm thành công
     } catch (error) {
@@ -87,6 +87,7 @@ export default function Cart({ openCart, handleCartClick }) {
               <thead className="border-b-2">
                 <tr>
                   <th className="py-2 px-4">{t('Product')}</th>
+                  <th className="py-2 px-4">{t('Name')}</th>
                   <th className="py-2 px-4">{t('Quantity')}</th>
                   <th className="py-2 px-4">{t('Price')}</th>
                   <th className="py-2 px-4 text-center">
@@ -106,6 +107,9 @@ export default function Cart({ openCart, handleCartClick }) {
                         <tr key={product.id} className="border-b-2">
                           <td className="py-2 px-4">
                             <img src={product.product.image} className="h-[100px] w-[100px] object-cover rounded-lg" />
+                          </td>
+                          <td className="py-2 px-4">
+                           {product.product.name}
                           </td>
                           <td className="py-2 px-4">
                             <InputNumber

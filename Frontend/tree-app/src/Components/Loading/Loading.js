@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import './Loading.scss'
 export default function Loading() {
   let isLoading  = useSelector((state) => {return state.loading.isLoading;});
   return isLoading ? (

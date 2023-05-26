@@ -3,7 +3,7 @@ import { BASE_URL, getAuthConfig } from "../utils/baseURL";
 import { message } from "antd";
 
 
-export let productService = {
+export let blogService = {
   getAllProduct: async () => {
     try {
         const response = await axios.get(BASE_URL + "/api/v1/products");
@@ -29,14 +29,6 @@ export let productService = {
   }
   },
 
-  // create: async (values) => {
-    //   try {
-      //     const response = await https.post(`/product`,values)
-      //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
   create: async (idUser,values) => {
     try {
       const response = await axios.post(BASE_URL + `/api/v1/products/${idUser}`,values,{
