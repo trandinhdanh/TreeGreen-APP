@@ -35,6 +35,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/categorys").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/blogs/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/blogs").permitAll()
                 .antMatchers("/api/v1/carts/**").permitAll()
                 .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers( "/api/v1/products/**").access("hasAnyAuthority('SELLER')")
