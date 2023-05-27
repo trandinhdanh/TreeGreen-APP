@@ -6,18 +6,21 @@ import { localStorageService } from '../../services/localStorageService';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 import { useTranslation } from 'react-i18next';
 import { orderService } from '../../services/orderService';
+import { useNavigate } from 'react-router-dom';
 
 export default function PaymentPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate()
   const [customerInfo, setCustomerInfo] = useState({
     address: '',
-    phone: '',
+    numberPhone: '',
     paymentMethod: '',
   });
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [idUser, setIdUser] = useState();
   const [cart, setCart] = useState();
   const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     if (isLoggedIn) {
       setIdUser(localStorageService.get('USER').userDTO.id);
@@ -37,20 +40,18 @@ export default function PaymentPage() {
   const handleSubmit = async () => {
     console.log('Customer Info:', customerInfo);
     console.log('Cart:', cart);
-    
-    if (customerInfo.address && customerInfo.phone) {
+
+    if (customerInfo.address && customerInfo.numberPhone) {
       try {
         const response = await orderService.order(cart.id, customerInfo);
-        if (response.status === 200) {
-          openNotificationIcon('success', 'Success', 'Payment Success!');
-          // Thực hiện các hành động thành công khác, chẳng hạn như chuyển hướng đến trang thành công
-        } else {
-          openNotificationIcon('error', 'Error', 'Payment Failed!');
-          // Xử lý khi thất bại, ví dụ: hiển thị thông báo lỗi, v.v.
-        }
+        navigate('/')
       } catch (error) {
         console.error('Error:', error);
-        openNotificationIcon('error', 'Error', 'An error occurred while processing payment.');
+        openNotificationIcon(
+          'error',
+          'Error',
+          'An error occurred while processing payment.'
+        );
         // Xử lý khi có lỗi xảy ra trong quá trình gọi API
       }
     } else {
@@ -58,7 +59,6 @@ export default function PaymentPage() {
       message.error('Please fill in all required fields.');
     }
   };
-  
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -97,7 +97,14 @@ export default function PaymentPage() {
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
-      render: (text, record) => <>{record.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</>,
+      render: (text, record) => (
+        <>
+          {record.price.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          })}
+        </>
+      ),
     },
   ];
 
@@ -120,14 +127,25 @@ export default function PaymentPage() {
         ) : (
           <>
             <div className="p-8">
-              <h1 className='text-center font-bold text-primary uppercase mb-5'>Payment Order</h1>
+              <h1 className="text-center font-bold text-primary uppercase mb-5">
+                Payment Order
+              </h1>
               <Form layout="vertical" onFinish={handleSubmit}>
-              <Form.Item label="Address" rules={[{ required: true }]}>
-                <Input name="address" value={customerInfo.address} onChange={handleInput} />
-              </Form.Item>
-              <Form.Item label="Phone" rules={[{ required: true }]}>
-                <Input type='number' name="phone" value={customerInfo.phone} onChange={handleInput} />
-              </Form.Item>
+                <Form.Item label="Address" rules={[{ required: true }]}>
+                  <Input
+                    name="address"
+                    value={customerInfo.address}
+                    onChange={handleInput}
+                  />
+                </Form.Item>
+                <Form.Item label="Phone" rules={[{ required: true }]}>
+                  <Input
+                    type="number"
+                    name="numberPhone"
+                    value={customerInfo.numberPhone}
+                    onChange={handleInput}
+                  />
+                </Form.Item>
 
                 <Form.Item label="Payment Method">
                   <Radio.Group
@@ -136,9 +154,11 @@ export default function PaymentPage() {
                     onChange={handlePaymentMethodChange}
                   >
                     <Radio value="Cash on Delivery">Cash on Delivery</Radio>
-                    <Radio value="Credit Card" onClick={handlePaymentButtonClick}>
+                    <Radio
+                      value="Credit Card"
+                      onClick={handlePaymentButtonClick}
+                    >
                       Credit Card
-                      
                     </Radio>
                   </Radio.Group>
                 </Form.Item>
@@ -159,28 +179,35 @@ export default function PaymentPage() {
                 ]}
               >
                 <p>
-                  The selected payment method is currently not supported. Please choose another
-                  method.
+                  The selected payment method is currently not supported. Please
+                  choose another method.
                 </p>
               </Modal>
             </div>
-            <div className='py-8'>
-            <h1 className='text-center font-bold text-primary uppercase mb-5'>Cart Order</h1>
-            <Table
-              columns={columns}
-              dataSource={cartData}
-              pagination={false}
-              summary={() => (
-                <>
-                  <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={2} style={{ textAlign: 'right' }}>
-                      <p className="font-bold text-[16px]">Total:</p>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell>{cart?.totalPrice.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</Table.Summary.Cell>
-                  </Table.Summary.Row>
-                </>
-              )}
-            />
+            <div className="py-8">
+              <h1 className="text-center font-bold text-primary uppercase mb-5">
+                Cart Order
+              </h1>
+              <Table
+                columns={columns}
+                dataSource={cartData}
+                pagination={false}
+                summary={() => (
+                  <>
+                    <Table.Summary.Row>
+                      <Table.Summary.Cell colSpan={2} style={{ textAlign: 'right' }}>
+                        <p className="font-bold text-[16px]">Total:</p>
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell>
+                        {cart?.totalPrice.toLocaleString('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND',
+                        })}
+                      </Table.Summary.Cell>
+                    </Table.Summary.Row>
+                  </>
+                )}
+              />
             </div>
           </>
         )}

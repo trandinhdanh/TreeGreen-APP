@@ -1,23 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import { InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchCartItems, removeFromCart, updateCartItemQuantity } from '../../Redux/cart/cartSlice';
+import { fetchCartItems, removeFromCart, updateQuantity } from '../../Redux/cart/cartSlice';
+import { localStorageService } from '../../services/localStorageService';
 
 export default function Cart({ openCart, handleCartClick }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const cart = useSelector((state) => state.cart);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const idUser = useSelector((state) => state.auth.user?.id);
-
+const [idUser,setIdUser] = useState()
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(fetchCartItems(idUser));
+      setIdUser(localStorageService.get("USER").userDTO.id)
+      dispatch(fetchCartItems(4));
+      console.log(cart.cart.cartItems);
+      // cart?.cartItems.map((product) => { 
+      //     console.log(product);
+      //  })
     }
   }, [dispatch, isLoggedIn, idUser]);
 
@@ -32,7 +37,7 @@ export default function Cart({ openCart, handleCartClick }) {
 
   const handleProductChange = async (productId, quantity) => {
     try {
-      await dispatch(updateCartItemQuantity({ userId: idUser, productId, quantity }));
+      await dispatch(updateQuantity({ userId: idUser, productId, quantity }));
       console.log('Cart quantity updated successfully');
     } catch (error) {
       console.error('Failed to update cart quantity:', error);
@@ -75,7 +80,7 @@ export default function Cart({ openCart, handleCartClick }) {
               </thead>
               <tbody className="">
                 {isLoggedIn ? (
-                  cartItems.length === 0 ? (
+                  cart?.cart?.cartItems?.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="py-2 px-4 text-[16px] font-roboto">
                         {t('No Products')}
@@ -83,7 +88,8 @@ export default function Cart({ openCart, handleCartClick }) {
                     </tr>
                   ) : (
                     <>
-                      {cartItems.map((product) => (
+                      {cart?.cart?.cartItems?.map((product) => (
+                        
                         <tr key={product.id} className="border-b-2">
                           <td className="py-2 px-4">
                             <img src={product.product.image} className="h-[100px] w-[100px] object-cover rounded-lg" alt="Product" />
@@ -114,7 +120,7 @@ export default function Cart({ openCart, handleCartClick }) {
                           {t('Total')}
                         </td>
                         <td className="py-2 px-4 font-bold">
-                          {cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                          {cart?.cart?.totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                         </td>
                         <td className="py-2 px-4 font-bold text-center">
                           <button

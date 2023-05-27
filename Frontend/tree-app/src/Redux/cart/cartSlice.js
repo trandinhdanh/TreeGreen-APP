@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { cartService } from '../../services/cartService';
+import { message } from 'antd';
 
 export const fetchCartItems = createAsyncThunk(
   'cart/fetchCartItems',
   async (userId, { rejectWithValue }) => {
     try {
-      const items = await cartService.getCartItems(userId);
+      const items = await cartService.getAllCart(userId);
       return items;
     } catch (error) {
       return rejectWithValue(error);
@@ -15,30 +16,41 @@ export const fetchCartItems = createAsyncThunk(
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
-  async ({ userId, productId }) => {
-    await cartService.addToCart(userId, productId);
-    return productId;
+  async ({ userId, productId, quantity }) => {
+    try {
+   await cartService.addToCart(userId, productId, quantity);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 );
 
 export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
   async ({ userId, productId }) => {
-    await cartService.removeFromCart(userId, productId);
-    return productId;
+    try {
+      await cartService.deleteToCart(userId, productId);
+      return productId;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 );
 
-export const updateCartItemQuantity = createAsyncThunk(
-  'cart/updateCartItemQuantity',
+export const updateQuantity = createAsyncThunk(
+  'cart/updateQuantity',
   async ({ userId, productId, quantity }) => {
-    await cartService.updateCartItemQuantity(userId, productId, quantity);
-    return { productId, quantity };
+    try {
+      await cartService.updateToCart(userId, productId, quantity);
+      return { productId, quantity };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 );
 
 const initialState = {
-  cartItems: [],
+  cart: [], 
   loading: false,
   error: null,
 };
@@ -54,31 +66,63 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCartItems.fulfilled, (state, { payload }) => {
-        state.cartItems = payload;
+        state.cart = payload; // Sửa tại đây
         state.loading = false;
       })
       .addCase(fetchCartItems.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       })
+      .addCase(addToCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(addToCart.fulfilled, (state, { payload }) => {
-        state.cartItems.push(payload);
+        console.log(payload)
+        const updatedCartItems = [...state.cart.cartItems, payload.data];
+        state.cart = { ...state.cart, cartItems: updatedCartItems };
+        state.loading = false;
       })
-      .addCase(removeFromCart.fulfilled, (state, { payload }) => {
-        state.cartItems = state.cartItems.filter(
-          (item) => item.productId !== payload
-        );
+      .addCase(addToCart.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error.message;
       })
-      .addCase(updateCartItemQuantity.fulfilled, (state, { payload }) => {
+      .addCase(removeFromCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+    
+.addCase(removeFromCart.fulfilled, (state, { payload }) => {
+    const updatedCartItems = state.cart.cartItems.filter((item) => item.productId !== payload);
+    state.cart = { ...state.cart, cartItems: updatedCartItems };
+    state.loading = false;
+  })
+      .addCase(removeFromCart.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error.message;
+      })
+      .addCase(updateQuantity.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateQuantity.fulfilled, (state, { payload }) => {
         const { productId, quantity } = payload;
-        const itemIndex = state.cartItems.findIndex(
-          (item) => item.productId === productId
-        );
-        if (itemIndex !== -1) {
-          state.cartItems[itemIndex].quantity = quantity;
-        }
+        const updatedCartItems = state.cart.cartItems.map((item) => {
+          if (item.productId === productId) {
+            return { ...item, quantity: quantity };
+          }
+          return item;
+        });
+        state.cart = { ...state.cart, cartItems: updatedCartItems };
+        state.loading = false;
+      })
+      .addCase(updateQuantity.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error.message;
       });
   },
 });
+
+export const { reset } = cartSlice.actions;
 
 export default cartSlice.reducer;

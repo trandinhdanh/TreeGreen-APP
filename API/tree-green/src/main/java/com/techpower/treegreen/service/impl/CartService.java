@@ -98,6 +98,7 @@ public class CartService implements ICartService {
 
         CartDTO result = cartConverter.toDTO(cartRepository.save(cartEntity));
         result.setCartItems(cartItemDTOS);
+        autoUpdatePrice(idUser);
         return result;
     }
 

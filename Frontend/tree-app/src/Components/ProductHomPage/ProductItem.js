@@ -17,15 +17,13 @@ export default function ProductItem(props) {
     if (props.isLoggedIn) {
       try {
         setAddingToCart(true);
-  
+
         const productID = props.data.id;
-        const userID = localStorageService.get('USER').userDTO.id;
-  
-        await dispatch(addToCart({ userId: userID, productId: productID }));
-        
-        // Xử lý logic sau khi thêm sản phẩm vào giỏ hàng thành công
+
+        await dispatch(addToCart({ userId: props.userID, productId: productID, quantity: 1 }));
+
         openNotificationIcon('success', 'Add to cart', 'Product added to cart successfully');
-        
+
         setAddingToCart(false);
       } catch (error) {
         console.log(error);
