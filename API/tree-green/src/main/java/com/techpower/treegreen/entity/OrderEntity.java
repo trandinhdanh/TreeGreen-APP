@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "orders")
 @Getter
@@ -18,8 +17,10 @@ public class OrderEntity extends BaseEntity{
     @JoinColumn(name = "used_id")
     private UserEntity user;
     @ManyToOne
-    @JoinColumn(name = "paymentmethod_id")
-    private PaymentMethodEntity paymentMethod;
+    @JoinColumn(name = "shop_id")
+    private ShopEntity shop;
+    @Column
+    private String paymentMethod;
     @Column
     private double totalPrice;
     @Column

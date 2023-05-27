@@ -5,6 +5,7 @@ import "./LoginPage.scss";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Redux/auth/authSlice";
+import { localStorageService } from "../../services/localStorageService";
 export default function LoginPage() {
   const {t} = useTranslation();
   const dispatch = useDispatch()
@@ -17,7 +18,12 @@ export default function LoginPage() {
   };
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/"); // Chuyển hướng đến trang dashboard khi đăng nhập thành công
+      const role = localStorageService.get('USER').roles[0]
+      if(role === "USER"){
+        navigate("/"); 
+      }else{
+        navigate("/manager")
+      }
     }
   }, [isLoggedIn, navigate]);
   const onFinishFailed = (errorInfo) => {};
@@ -111,7 +117,7 @@ export default function LoginPage() {
         <div className="rightLogin h-full w-1/2 md:hidden sm:hidden mb:hidden lg:block">
           <img
             className="w-full h-full object-cover rounded-tl-3xl rounded-bl-3xl "
-            src="https://images.pexels.com/photos/1903965/pexels-photo-1903965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src="https://res.cloudinary.com/dtsfnikj0/image/upload/v1685087448/pexels-photo-1903965_fapoja.jpg"
             alt=""
           />
         </div>

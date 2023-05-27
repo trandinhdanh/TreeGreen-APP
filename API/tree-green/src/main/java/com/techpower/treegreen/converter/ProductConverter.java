@@ -36,7 +36,7 @@ public class ProductConverter {
         return dto;
     }
 
-    public ProductEntity toEntity(ProductDTO dto){
+    public ProductEntity toEntity(ProductDTO dto) {
         ProductEntity entity = new ProductEntity();
         entity.setName(dto.getName());
         entity.setCode(dto.getCode());
@@ -47,10 +47,14 @@ public class ProductConverter {
         entity.setDescription(dto.getDescription());
         return entity;
     }
+
     public ProductEntity toEntity(ProductDTO dto, ProductEntity entity) {
+        entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setCode(dto.getCode());
-        entity.setImage(dto.getImage());
+        if (dto.getImages() != null) {
+            entity.setImage(dto.getImage());
+        }
         entity.setPrice(dto.getPrice());
         entity.setQuantity(dto.getQuantity());
         entity.setShortDescription(dto.getShortDescription());

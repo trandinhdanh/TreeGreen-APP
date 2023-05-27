@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthAPI {
     @Autowired
     private AuthenticationService authenticationService;
@@ -25,34 +25,37 @@ public class AuthAPI {
 
     @PostMapping("/login")
     public ResponseEntity<OutputAuthentication> authenticate(@RequestBody InputAuthentication request) {
-//        if (!userRepository.existsByUsername(request.getUsername())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username does not exist!"));
-//        }
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        OutputAuthentication output = authenticationService.authenticate(request);
+        if (output != null) {
+            return ResponseEntity.ok(output);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
+
     @PostMapping("/register/u")
-    public ResponseEntity<OutputAuthentication> registerUser(@RequestBody InputRegistrationUser request) {
-//        if (!request.getPassword().equals(request.getConfirmPassword())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Password incorrect!"));
-//        }
-//        if (userRepository.existsByUsername(request.getUsername())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username available!"));
-//        }
+    public ResponseEntity<?> registerUser(@RequestBody InputRegistrationUser request) {
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body("Password incorrect!");
+        }
+        if (userRepository.existsByUsername(request.getUsername())) {
+            return ResponseEntity.badRequest().body("Username available!");
+        }
         return ResponseEntity.ok(authenticationService.registerUser(request));
     }
 
     @PostMapping("/register/s")
-    public ResponseEntity<OutputAuthentication> registerSeller(@RequestBody InputRegistrationSeller request) {
-//        if (!request.getPassword().equals(request.getConfirmPassword())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Password incorrect!"));
-//        }
-//        if (userRepository.existsByUsername(request.getUsername())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Username available!"));
-//        }
-//        if (shopRepository.existsByName(request.getShopName())) {
-//            return ResponseEntity.badRequest().body(new OutputAuthentication("Store name already exists!"));
-//        }
+    public ResponseEntity<?> registerSeller(@RequestBody InputRegistrationSeller request) {
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body("Password incorrect!");
+        }
+        if (userRepository.existsByUsername(request.getUsername())) {
+            return ResponseEntity.badRequest().body("Username available!");
+        }
+        if (shopRepository.existsByName(request.getShopName())) {
+            return ResponseEntity.badRequest().body("Store name already exists!");
+        }
         return ResponseEntity.ok(authenticationService.registerSeller(request));
     }
 }

@@ -59,20 +59,22 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductDTO> getAllByShop(String username) {
-        UserEntity userEntity = userRepository.findOneByUsername(username);
-        ShopEntity shopEntity = shopRepository.findOneByUser(userEntity);
+    public List<ProductDTO> getAllByShop(long idUser) {
+        ShopEntity shopEntity = shopRepository.findOneByUser(userRepository.findOneById(idUser));
         List<ProductDTO> result = new ArrayList<>();
-        for (ProductEntity entity : productRepository.findAllByShop(shopEntity)) {
-            ProductDTO dto = productConverter.toDTO(entity);
-            dto.setCategory(categoryConverter.toDTO(entity.getCategory()));
-            result.add(dto);
+        List<ProductEntity> productEntities = productRepository.findAllByShop(shopEntity);
+        if (productEntities != null || !productEntities.isEmpty()) {
+            for (ProductEntity entity : productEntities) {
+                ProductDTO dto = productConverter.toDTO(entity);
+                dto.setCategory(categoryConverter.toDTO(entity.getCategory()));
+                result.add(dto);
+            }
         }
         return result;
     }
 
     @Override
-    public ProductDTO save(ProductDTO dto) {
+    public ProductDTO save(ProductDTO dto, long idUser) {
         ProductEntity entity = productConverter.toEntity(dto);
         CategoryEntity categoryEntity = categoryRepository.findByCode(dto.getCategory().getCode());
         entity.setCategory(categoryEntity);
@@ -91,6 +93,7 @@ public class ProductService implements IProductService {
             productImageRepository.save(productImageEntity);
         }
         entity.setImages(productImageRepository.findAllByProduct(entity));
+        entity.setShop(shopRepository.findOneByUser(userRepository.findOneById(idUser)));
         productRepository.save(entity);
         ProductDTO productDTO = productConverter.toDTO(entity);
         productDTO.setCategory(categoryConverter.toDTO(categoryEntity));

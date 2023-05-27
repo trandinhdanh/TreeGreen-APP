@@ -29,12 +29,14 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDTO save(CategoryDTO dto) {
+        dto.setCode(dto.getName().replaceAll("[^a-zA-Z0-9]", "-").toUpperCase());
         CategoryEntity entity = categoryConverter.toEntity(dto);
         return categoryConverter.toDTO(categoryRepository.save(entity));
     }
 
     @Override
     public CategoryDTO update(CategoryDTO dto) {
+        dto.setCode(dto.getName().replaceAll("[^a-zA-Z0-9]", "-").toUpperCase());
         CategoryEntity categoryEntityOld = categoryRepository.findOneById(dto.getId());
         CategoryEntity categoryEntityNew = categoryConverter.toEntity(dto, categoryEntityOld);
         return categoryConverter.toDTO(categoryRepository.save(categoryEntityNew));

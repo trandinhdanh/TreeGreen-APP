@@ -37,7 +37,7 @@ export default function RegisterPage() {
         <div className="rightLogin h-full w-1/2 md:hidden sm:hidden mb:hidden lg:block">
           <img
             className="w-full h-full object-cover rounded-r-3xl "
-            src="https://images.pexels.com/photos/1903965/pexels-photo-1903965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src="https://res.cloudinary.com/dtsfnikj0/image/upload/v1685087448/pexels-photo-1903965_fapoja.jpg"
             alt=""
           />
         </div>

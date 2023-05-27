@@ -1,11 +1,13 @@
 package com.techpower.treegreen.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cart_item")
 @Getter
@@ -20,5 +22,5 @@ public class CartItemEntity extends BaseEntity{
     @Column
     private int quantity;
     @Column
-    private double totalPrice;
+    private double price;
 }

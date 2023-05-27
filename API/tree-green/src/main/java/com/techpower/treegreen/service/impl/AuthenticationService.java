@@ -6,12 +6,13 @@ import com.techpower.treegreen.api.output.OutputAuthentication;
 import com.techpower.treegreen.api.input.InputRegistrationUser;
 import com.techpower.treegreen.constant.ImageConstant;
 import com.techpower.treegreen.constant.RoleConstant;
-import com.techpower.treegreen.constant.UserConstant;
+import com.techpower.treegreen.constant.StatusConstant;
 import com.techpower.treegreen.converter.UserConverter;
 import com.techpower.treegreen.entity.CartEntity;
 import com.techpower.treegreen.entity.RoleEntity;
 import com.techpower.treegreen.entity.ShopEntity;
 import com.techpower.treegreen.entity.UserEntity;
+import com.techpower.treegreen.jwt.JWTUtil;
 import com.techpower.treegreen.repository.CartRepository;
 import com.techpower.treegreen.repository.RoleRepository;
 import com.techpower.treegreen.repository.ShopRepository;
@@ -34,7 +35,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final ShopRepository shopRepository;
     private final PasswordEncoder passwordEncoder;
     private final CartRepository cartRepository;
-    private final JwtService jwtService;
+    private final JWTUtil jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserConverter userConverter;
 
@@ -47,6 +48,9 @@ public class AuthenticationService implements IAuthenticationService {
                 )
         );
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        if (user.getStatus().equals(StatusConstant.NON_ACTIVE)) {
+           return null;
+        }
         var jwtToken = jwtService.generateToken(user);
         List<String> roles = new ArrayList<>();
         String shopName = "";
@@ -71,7 +75,7 @@ public class AuthenticationService implements IAuthenticationService {
         var user = UserEntity.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .status(UserConstant.ACTIVE)
+                .status(StatusConstant.ACTIVE)
                 .fullName(request.getFullName())
                 .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.USER))
@@ -101,7 +105,7 @@ public class AuthenticationService implements IAuthenticationService {
         var user = UserEntity.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .status(UserConstant.ACTIVE)
+                .status(StatusConstant.ACTIVE)
                 .fullName(request.getFullName())
                 .avatar(ImageConstant.AVATAR_DEFAULT)
                 .roles(addRole(RoleConstant.SELLER))

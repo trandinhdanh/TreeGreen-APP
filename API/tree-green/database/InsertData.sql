@@ -12,6 +12,9 @@ INSERT INTO user_role(user_id,role_id) VALUES (1,1);
 INSERT INTO user_role(user_id,role_id) VALUES (2,2);
 INSERT INTO user_role(user_id,role_id) VALUES (3,3);
 
+INSERT INTO cart(user_id,total_price,createby,createdate,modifiedby,modifieddate)
+VALUES (3,0.0,'Developers',CURRENT_TIMESTAMP(),'Developers',CURRENT_TIMESTAMP());
+
 INSERT INTO shop(name,avatar,description,user_id,createby,createdate,modifiedby,modifieddate)
 VALUES ('Shop xanh Phan Rang','https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=626&ext=jpg','3 đời nhà tôi bán cây',2,'Developers',CURRENT_TIMESTAMP(),'Developers',CURRENT_TIMESTAMP());
 

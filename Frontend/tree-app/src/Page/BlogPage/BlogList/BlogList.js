@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { arr } from '../../HomePage/FromBlogHomePage/BlogFakedata';
 import './BlogList.scss';
 import { Link } from 'react-router-dom';
 import { Pagination } from 'antd';
 
-export default function BlogList() {
+export default function BlogList({blog}) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 3;
   const [displayedBlogs, setDisplayedBlogs] = useState([]);
@@ -12,9 +11,9 @@ export default function BlogList() {
   useEffect(() => {
     const startIdx = (currentPage - 1) * pageSize;
     const endIdx = startIdx + pageSize;
-    const paginatedBlogs = arr.slice(startIdx, endIdx);
+    const paginatedBlogs = blog?.slice(startIdx, endIdx);
     setDisplayedBlogs(paginatedBlogs);
-  }, [currentPage]);
+  }, [currentPage,blog]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -24,13 +23,13 @@ export default function BlogList() {
     <div>
       {displayedBlogs.map((item, i) => (
         <Link key={i} to={`/blog/${item.id}`}>
-          <div className='blogItem h-[150px] rounded-lg flex mb-5 p-5'>
+          <div className='blogItem h-[150px] rounded-lg flex justify-between mb-5 p-5'>
             <div>
-              <p className='m-0 pb-2'>{item.creater_At} - {item.timeCreate}</p>
+              <p className='m-0 pb-2'>{item.createBy} - {item.createDate}</p>
               <h1 className='font-bold font-montserrat text-[#292929] text-[12px]'>{item.title}</h1>
-              <p className='m-0'>{item.des}</p>
+              <p className='m-0'>{item.shortDescription}</p>
             </div>
-            <img className='w-2/5 object-cover rounded-lg' src={item.img} alt='Blog thumbnail' />
+            <img className='w-2/5 object-cover rounded-lg' src={item.image} alt='Blog thumbnail' />
           </div>
         </Link>
       ))}
@@ -38,7 +37,7 @@ export default function BlogList() {
         className='mt-5 flex justify-center'
         current={currentPage}
         pageSize={pageSize}
-        total={arr.length}
+        total={blog?.length}
         onChange={handlePageChange}
       />
     </div>

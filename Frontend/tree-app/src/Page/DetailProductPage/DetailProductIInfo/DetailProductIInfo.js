@@ -1,16 +1,32 @@
 import React, { useState } from 'react'
-import {Button,Space, InputNumber } from 'antd';
+import {Button,Space, InputNumber, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addItemToCart } from '../../../Redux/cart/cartList';
+import { localStorageService } from '../../../services/localStorageService';
+import { cartService } from '../../../services/cartService';
+import { useNavigate } from 'react-router-dom';
 
 export default function DetailProductIInfo(props) {
   const [quantityItem , setQuantityItem] = useState(1)
 
-const dispatch = useDispatch();
+const navigate = useNavigate();
 //chưa thêm nhiều sản phẩm được
-  const handleAddToCart = () => {
-    dispatch(addItemToCart({...props.data,quantity : quantityItem}));
-  };
+const handleClick = async () => {
+  if (props.isLoggedIn) {
+    try {
+      console.log(quantityItem);
+      const productID = props.data.id;
+      const userID = localStorageService.get('USER').userDTO.id;
+      const response = await cartService.addToCart(userID, productID, quantityItem);
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    message.error('Please log in to add products to the cart');
+    setTimeout(() => {
+      navigate('/login');
+    }, 3000);
+  }
+};
   return (
     <div className='p-7'>
           <h1 className='font-bold font-roboto uppercase text-[20px]'>{props.data.name}</h1>
@@ -18,10 +34,11 @@ const dispatch = useDispatch();
           <p className='font-roboto'>{props.data.description}</p>
          <div className='flex items-center my-3'>
               <InputNumber min={1} max={15} defaultValue={1} onChange={(value) => setQuantityItem(value)} />
-              <button className='ml-3 px-2 py-1 rounded hover:bg-primary transition-all bg-primary text-white uppercase font-bold font-sans text-[15px]' onClick={handleAddToCart}>Thêm vào giỏ</button>
+              <button className='ml-3 px-2 py-1 rounded hover:bg-primary transition-all bg-primary text-white uppercase font-bold font-sans text-[15px]' onClick={handleClick}>Thêm vào giỏ</button>
          </div>
          <div className='space-y-2 text-gray-400 mt-5'>
             <h3 className='text-[12px]'>Mã Sản phẩm: <span className='text-[#000]'>{props.data.code}</span></h3>
+            <h3 className='text-[12px]'>Loại Sản phẩm: <span className='text-[#000]'>{props.data.category?.name}</span></h3>
             <h3 className='text-[12px]'>Người bán: <span className='text-[#000]'>{props.data.createBy}</span></h3>
             <h3 className='text-[12px]'>Số Lượng: <span className='text-[#000]'>{props.data.quantity}</span></h3>
             <h3 className='text-[12px]'>Số lượt xem: <span className='text-[#000]'>{props.data.productView}</span></h3>
