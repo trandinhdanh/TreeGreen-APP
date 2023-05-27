@@ -25,5 +25,5 @@ public class BlogEntity extends BaseEntity {
     private List<BlogCommentEntity> comments = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "shop_id")
-    private ShopEntity shop;
+    private ShopEntity shop; 
 }
