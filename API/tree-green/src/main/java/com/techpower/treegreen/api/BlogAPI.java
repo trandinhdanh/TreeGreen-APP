@@ -29,7 +29,7 @@ public class BlogAPI {
             return ResponseEntity.ok(result);
         }
     }
-    @GetMapping("/{idUser}")
+    @GetMapping("/{idUser}/owner")
     public ResponseEntity<List<BlogDTO>> getByShop(@PathVariable("idUser") long idUser){
         List<BlogDTO> result = iBlogService.getAllBySeller(idUser);
         if(result == null){
@@ -38,6 +38,7 @@ public class BlogAPI {
             return ResponseEntity.ok(result);
         }
     }
+
     @GetMapping("/{idBlog}")
     public ResponseEntity<BlogDTO> getDetail(@PathVariable("idBlog") long idBlog){
         BlogDTO result = iBlogService.getBlogDetail(idBlog);

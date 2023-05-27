@@ -83,32 +83,42 @@ export default function OrderPage() {
         <ul>
           {details.map((detail) => (
             <li key={detail.id}>
-              Product: {detail.product} - Quantity: {detail.quantity} - Price: {detail.price}
+              Product: {detail.product.name} - Quantity: {detail.quantity} - Price: {detail.price}
             </li>
           ))}
         </ul>
       ),
     },
   ];
+
   const tableStyle = {
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     borderRadius: '8px',
     overflow: 'hidden',
   };
+
   return (
     <div className="container mx-auto mb:px-5 md:px-24 lg:px-24 py-20 ">
       <h1 className="text-3xl font-bold my-6 text-primary">Order List</h1>
       <div style={tableStyle}>
-      <Table
-        dataSource={orders}
-        columns={columns}
-        rowKey="id"
-        pagination={false}
-        expandable={{
-          expandedRowRender: (record) => record.orderDetails,
-          rowExpandable: (record) => record.orderDetails.length > 0,
-        }}
-      />
+        <Table
+          dataSource={orders}
+          columns={columns}
+          rowKey="id"
+          pagination={false}
+          expandable={{
+            expandedRowRender: (record) => (
+              <ul>
+                {record.orderDetails.map((detail) => (
+                  <li key={detail.id}>
+                    Product: {detail.product.name} - Quantity: {detail.quantity} - Price: {detail.price}
+                  </li>
+                ))}
+              </ul>
+            ),
+            rowExpandable: (record) => record.orderDetails.length > 0,
+          }}
+        />
       </div>
     </div>
   );

@@ -14,9 +14,9 @@ export let blogService = {
         console.log(error);      
     }
   },
-  getProductId: async (id) => { 
+  getBlogId: async (id) => { 
     try {
-      const response = await axios.get(BASE_URL + `/api/v1/products/${id}`);
+      const response = await axios.get(BASE_URL + `/api/v1/blogs/${id}`);
       return response.data
   } catch (error) {
       console.log(error);      

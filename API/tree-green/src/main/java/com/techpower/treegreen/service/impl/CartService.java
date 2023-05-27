@@ -2,10 +2,12 @@ package com.techpower.treegreen.service.impl;
 
 import com.techpower.treegreen.converter.CartConverter;
 import com.techpower.treegreen.converter.CartItemConverter;
+import com.techpower.treegreen.converter.CategoryConverter;
 import com.techpower.treegreen.converter.ProductConverter;
 import com.techpower.treegreen.dto.CartDTO;
 import com.techpower.treegreen.dto.CartItemDTO;
 import com.techpower.treegreen.dto.OrderDTO;
+import com.techpower.treegreen.dto.ProductDTO;
 import com.techpower.treegreen.entity.CartEntity;
 import com.techpower.treegreen.entity.CartItemEntity;
 import com.techpower.treegreen.entity.ProductEntity;
@@ -37,6 +39,8 @@ public class CartService implements ICartService {
     private CartItemConverter cartItemConverter;
     @Autowired
     private ProductConverter productConverter;
+    @Autowired
+    private CategoryConverter categoryConverter;
 //    private CartItemEntity cartItemEntity;
 //    private double totalPrice;
 
@@ -47,8 +51,10 @@ public class CartService implements ICartService {
         CartDTO cartDTO = cartConverter.toDTO(cartEntity);
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItemEntity cartItem : cartItemEntities) {
-            CartItemDTO itemDTO = cartItemConverter.toDTO(cartItem);
-            itemDTO.setProduct(productConverter.toDTO(cartItem.getProduct()));
+            CartItemDTO itemDTO= cartItemConverter.toDTO(cartItem);
+            ProductDTO productDTO = productConverter.toDTO(cartItem.getProduct());
+            productDTO.setCategory(categoryConverter.toDTO(cartItem.getProduct().getCategory()));
+            itemDTO.setProduct(productDTO);
             cartItemDTOS.add(itemDTO);
         }
         cartDTO.setCartItems(cartItemDTOS);
@@ -76,7 +82,11 @@ public class CartService implements ICartService {
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItemEntity cartItem : cartItemRepository.findAllByCart(cartEntity)) {
             totalPrice = totalPrice + (cartItem.getPrice() * cartItem.getQuantity());
-            cartItemDTOS.add(cartItemConverter.toDTO(cartItem));
+            CartItemDTO itemDTO= cartItemConverter.toDTO(cartItem);
+            ProductDTO productDTO = productConverter.toDTO(cartItem.getProduct());
+            productDTO.setCategory(categoryConverter.toDTO(cartItem.getProduct().getCategory()));
+            itemDTO.setProduct(productDTO);
+            cartItemDTOS.add(itemDTO);
         }
         cartEntity.setTotalPrice(totalPrice);
         CartDTO result = cartConverter.toDTO(cartRepository.save(cartEntity));
@@ -94,7 +104,11 @@ public class CartService implements ICartService {
 
         List<CartItemDTO> cartItemDTOS = new ArrayList<>();
         for (CartItemEntity cartItem : cartItemRepository.findAllByCart(cartEntity)) {
-            cartItemDTOS.add(cartItemConverter.toDTO(cartItem));
+            CartItemDTO itemDTO= cartItemConverter.toDTO(cartItem);
+            ProductDTO productDTO = productConverter.toDTO(cartItem.getProduct());
+            productDTO.setCategory(categoryConverter.toDTO(cartItem.getProduct().getCategory()));
+            itemDTO.setProduct(productDTO);
+            cartItemDTOS.add(itemDTO);
         }
 
         CartDTO result = cartConverter.toDTO(cartRepository.save(cartEntity));
