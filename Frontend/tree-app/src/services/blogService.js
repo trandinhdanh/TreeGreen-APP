@@ -4,9 +4,11 @@ import { message } from "antd";
 
 
 export let blogService = {
-  getAllProduct: async () => {
+  getAllBlog: async () => {
     try {
-        const response = await axios.get(BASE_URL + "/api/v1/products");
+        const response = await axios.get(BASE_URL + "/api/v1/blogs",{
+          ...getAuthConfig()
+        });
         return response.data
     } catch (error) {
         console.log(error);      

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, message } from 'antd';
 import "./ProductHomPage.scss"
 import {BsCartPlus} from "react-icons/bs"
@@ -13,23 +13,22 @@ export default function ProductItem(props) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [idUser, setIdUser] = useState()
+  useEffect(() => { 
+    if(props.isLoggedIn){
+      setIdUser(localStorageService.get('USER').userDTO.id)
+    }
+   },[idUser])
   const handleClick = async () => {
     if (props.isLoggedIn) {
-      try {
         setAddingToCart(true);
 
         const productID = props.data.id;
 
-        await dispatch(addToCart({ userId: props.userID, productId: productID, quantity: 1 }));
-
-        openNotificationIcon('success', 'Add to cart', 'Product added to cart successfully');
+        await dispatch(addToCart({ userId: idUser, productId: productID, quantity: 1 }));
 
         setAddingToCart(false);
-      } catch (error) {
-        console.log(error);
-        setAddingToCart(false);
-        openNotificationIcon('error', 'Add to cart', 'Failed to add product to cart');
-      }
+      
     } else {
       message.error('Please log in to add products to the cart');
       setTimeout(() => {
