@@ -72,4 +72,12 @@ public class OrderAPI {
         return ResponseEntity.ok(orderDTO);
     }
 
+    @PutMapping("/user/{idOrder}/cancel")
+    public ResponseEntity<OrderDTO> userCancelOrder(@PathVariable("idOrder") long idOrder) {
+        OrderDTO orderDTO = iOrderService.userCancelOrder(idOrder);
+        if (orderDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(orderDTO);
+    }
 }

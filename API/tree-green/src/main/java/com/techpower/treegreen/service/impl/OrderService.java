@@ -3,6 +3,7 @@ package com.techpower.treegreen.service.impl;
 import com.techpower.treegreen.api.input.InputOrder;
 import com.techpower.treegreen.constant.StatusConstant;
 import com.techpower.treegreen.converter.*;
+import com.techpower.treegreen.dto.CategoryDTO;
 import com.techpower.treegreen.dto.OrderDTO;
 import com.techpower.treegreen.dto.OrderDetailDTO;
 import com.techpower.treegreen.dto.ProductDTO;
@@ -119,7 +120,14 @@ public class OrderService implements IOrderService {
         for (OrderEntity orderEntity : orderEntities) {
             OrderDTO orderDTO = orderConverter.toDTO(orderEntity);
             orderDTO.setUser(userConverter.toDTO(userRepository.findOneById(idUser)));
-            List<OrderDetailDTO> orderDetailDTOS = orderDetailConverter.toDTOs(orderEntity.getOrderDetails());
+            List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
+            for (OrderDetailEntity orderDetailEntity : orderEntity.getOrderDetails()) {
+                OrderDetailDTO orderDetailDTO = orderDetailConverter.toDTO(orderDetailEntity);
+                ProductDTO productDTO = productConverter.toDTO(orderDetailEntity.getProduct());
+                productDTO.setCategory(categoryConverter.toDTO(orderDetailEntity.getProduct().getCategory()));
+                orderDetailDTO.setProduct(productDTO);
+                orderDetailDTOS.add(orderDetailDTO);
+            }
             orderDTO.setOrderDetails(orderDetailDTOS);
             result.add(orderDTO);
         }
@@ -135,7 +143,14 @@ public class OrderService implements IOrderService {
         for (OrderEntity orderEntity : orderEntities) {
             OrderDTO orderDTO = orderConverter.toDTO(orderEntity);
             orderDTO.setUser(userConverter.toDTO(orderEntity.getUser()));
-            List<OrderDetailDTO> orderDetailDTOS = orderDetailConverter.toDTOs(orderEntity.getOrderDetails());
+            List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
+            for (OrderDetailEntity orderDetailEntity : orderEntity.getOrderDetails()) {
+                OrderDetailDTO orderDetailDTO = orderDetailConverter.toDTO(orderDetailEntity);
+                ProductDTO productDTO = productConverter.toDTO(orderDetailEntity.getProduct());
+                productDTO.setCategory(categoryConverter.toDTO(orderDetailEntity.getProduct().getCategory()));
+                orderDetailDTO.setProduct(productDTO);
+                orderDetailDTOS.add(orderDetailDTO);
+            }
             orderDTO.setOrderDetails(orderDetailDTOS);
             result.add(orderDTO);
         }
@@ -177,6 +192,36 @@ public class OrderService implements IOrderService {
                 orderRepository.save(orderEntity);
             }
             return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
+        } else
+            return null;
+    }
+
+    @Override
+    public OrderDTO getDetail(long idOrder) {
+        OrderEntity orderEntity = orderRepository.findOneById(idOrder);
+        OrderDTO result = orderConverter.toDTO(orderEntity);
+        result.setUser(userConverter.toDTO(orderEntity.getUser()));
+        List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
+        for (OrderDetailEntity orderDetailEntity : orderEntity.getOrderDetails()) {
+            OrderDetailDTO orderDetailDTO = orderDetailConverter.toDTO(orderDetailEntity);
+            ProductDTO productDTO = productConverter.toDTO(orderDetailEntity.getProduct());
+            productDTO.setCategory(categoryConverter.toDTO(orderDetailEntity.getProduct().getCategory()));
+            orderDetailDTO.setProduct(productDTO);
+            orderDetailDTOS.add(orderDetailDTO);
+        }
+        result.setOrderDetails(orderDetailDTOS);
+        return result;
+    }
+
+    @Override
+    public OrderDTO userCancelOrder(long idOrder) {
+        OrderEntity orderEntity = orderRepository.findOneById(idOrder);
+        if (orderEntity != null) {
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_WAIT_CONFIRM)) {
+                orderEntity.setStatus(StatusConstant.ORDER_CANCEL);
+                orderRepository.save(orderEntity);
+            }
+            return getDetail(idOrder);
         } else
             return null;
     }
