@@ -23,4 +23,12 @@ public class OrderDetailConverter {
         dto.setQuantity(entity.getQuantity());
         return dto;
     }
+
+    public List<OrderDetailDTO> toDTOs(List<OrderDetailEntity> entities) {
+        List<OrderDetailDTO> dtos = new ArrayList<>();
+        for (OrderDetailEntity entity : entities) {
+            dtos.add(toDTO(entity));
+        }
+        return dtos;
+    }
 }

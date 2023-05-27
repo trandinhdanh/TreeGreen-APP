@@ -28,4 +28,6 @@ public class ShopEntity extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+    @OneToMany(mappedBy = "shop")
+    List<OrderEntity> orders = new ArrayList<>();
 }
