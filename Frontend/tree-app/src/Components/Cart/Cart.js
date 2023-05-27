@@ -1,68 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import { InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { localStorageService } from '../../services/localStorageService';
-import { cartService } from '../../services/cartService';
+import { fetchCartItems, removeFromCart, updateCartItemQuantity } from '../../Redux/cart/cartSlice';
 
 export default function Cart({ openCart, handleCartClick }) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const [idUser, setIdUser] = useState();
-  const [quantityMap, setQuantityMap] = useState({});
+  const idUser = useSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
     if (isLoggedIn) {
-      setIdUser(localStorageService.get('USER').userDTO.id);
-      const getAllProductInCart = async () => {
-        try {
-          const items = await cartService.getAllCart(idUser);
-          setCart(items);
-          console.log(items);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      getAllProductInCart();
+      dispatch(fetchCartItems(idUser));
     }
-  }, [idUser]);
+  }, [dispatch, isLoggedIn, idUser]);
 
-  const handleRemoveClick = async (idUser, productId) => {
-    console.log(productId);
+  const handleRemoveClick = async (productId) => {
     try {
-      await cartService.deleteToCart(idUser, productId);
-      console.log('Products deleted successfully');
-      const updatedCart = await cartService.getAllCart(idUser);
-      setCart(updatedCart);
+      await dispatch(removeFromCart({ userId: idUser, productId }));
+      console.log('Product deleted successfully');
     } catch (error) {
-      console.error('Failed to delete products:', error);
+      console.error('Failed to delete product:', error);
     }
   };
 
-  const handleRemoveAllClick = () => {};
   const handleProductChange = async (productId, quantity) => {
-    setQuantityMap((prevState) => ({
-      ...prevState,
-      [productId]: quantity,
-    }));
-  
     try {
-       await cartService.updateToCart(idUser, productId, quantity);
-      
+      await dispatch(updateCartItemQuantity({ userId: idUser, productId, quantity }));
       console.log('Cart quantity updated successfully');
-      // Xử lý khi cập nhật số lượng sản phẩm thành công
     } catch (error) {
       console.error('Failed to update cart quantity:', error);
-      // Xử lý khi có lỗi cập nhật số lượng sản phẩm
     }
   };
-  
+
   const handleClickOutsideCart = (event) => {
     if (event.target.classList.contains('cartModal')) {
       handleCartClick();
@@ -91,25 +67,29 @@ export default function Cart({ openCart, handleCartClick }) {
                   <th className="py-2 px-4">{t('Quantity')}</th>
                   <th className="py-2 px-4">{t('Price')}</th>
                   <th className="py-2 px-4 text-center">
-                    <button onClick={handleRemoveAllClick} className="">
+                    <button onClick={() => {}} className="">
                       {t('Remove All')}
                     </button>
                   </th>
                 </tr>
               </thead>
-              {isLoggedIn ? (
-                cart?.cartItems?.length === 0 ? (
-                  <p className="text-[16px] font-roboto">{t('No Products')}</p>
-                ) : (
-                  <>
-                    <tbody className="">
-                      {cart?.cartItems.map((product) => (
+              <tbody className="">
+                {isLoggedIn ? (
+                  cartItems.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="py-2 px-4 text-[16px] font-roboto">
+                        {t('No Products')}
+                      </td>
+                    </tr>
+                  ) : (
+                    <>
+                      {cartItems.map((product) => (
                         <tr key={product.id} className="border-b-2">
                           <td className="py-2 px-4">
-                            <img src={product.product.image} className="h-[100px] w-[100px] object-cover rounded-lg" />
+                            <img src={product.product.image} className="h-[100px] w-[100px] object-cover rounded-lg" alt="Product" />
                           </td>
                           <td className="py-2 px-4">
-                           {product.product.name}
+                            {product.product.name}
                           </td>
                           <td className="py-2 px-4">
                             <InputNumber
@@ -124,21 +104,17 @@ export default function Cart({ openCart, handleCartClick }) {
                           <td className="py-2 px-4">
                             <BsTrash
                               className="hover:scale-125 transition-all text-[18px] mx-auto"
-                              onClick={() => {
-                                handleRemoveClick(idUser, product.product.id);
-                              }}
+                              onClick={() => handleRemoveClick(product.product.id)}
                             />
                           </td>
                         </tr>
                       ))}
-                    </tbody>
-                    <tfoot className="">
-                      <tr className="">
+                      <tr>
                         <td colSpan="2" className="py-2 px-4 text-right font-bold">
                           {t('Total')}
                         </td>
                         <td className="py-2 px-4 font-bold">
-                          {cart?.totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                          {cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                         </td>
                         <td className="py-2 px-4 font-bold text-center">
                           <button
@@ -152,12 +128,16 @@ export default function Cart({ openCart, handleCartClick }) {
                           </button>
                         </td>
                       </tr>
-                    </tfoot>
-                  </>
-                )
-              ) : (
-                <p className="text-[16px] font-roboto">{t('Please Login')}</p>
-              )}
+                    </>
+                  )
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="py-2 px-4 text-[16px] font-roboto">
+                      {t('Please Login')}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
         </div>

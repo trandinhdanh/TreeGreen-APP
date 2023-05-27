@@ -6,26 +6,31 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { openNotificationIcon } from '../NotificationIcon/NotificationIcon';
 import { cartService } from '../../services/cartService';
 import { localStorageService } from '../../services/localStorageService';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/cart/cartSlice';
 export default function ProductItem(props) {
   const [addingToCart, setAddingToCart] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleClick = async () => {
     if (props.isLoggedIn) {
       try {
         setAddingToCart(true);
-
+  
         const productID = props.data.id;
         const userID = localStorageService.get('USER').userDTO.id;
-
-        const response = await cartService.addToCart(userID, productID, 1);
+  
+        await dispatch(addToCart({ userId: userID, productId: productID }));
         
         // Xử lý logic sau khi thêm sản phẩm vào giỏ hàng thành công
-
+        openNotificationIcon('success', 'Add to cart', 'Product added to cart successfully');
+        
         setAddingToCart(false);
       } catch (error) {
         console.log(error);
         setAddingToCart(false);
+        openNotificationIcon('error', 'Add to cart', 'Failed to add product to cart');
       }
     } else {
       message.error('Please log in to add products to the cart');
@@ -34,7 +39,6 @@ export default function ProductItem(props) {
       }, 3000);
     }
   };
-
   return (
     <div className='overflow-hidden w-full h-full productItem my-3 hover:shadow-md transition-all rounded-lg'>
         <div className='productImg relative w-full'>
