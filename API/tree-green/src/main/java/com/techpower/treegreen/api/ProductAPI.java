@@ -98,19 +98,19 @@ public class ProductAPI {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable("id") long id,
-                                                    @RequestParam("name") String name,
-                                                    @RequestParam("code") String code,
-                                                    @RequestParam("image") MultipartFile image,
-                                                    @RequestParam("price") double price,
-                                                    @RequestParam("quantity") Long quantity,
-                                                    @RequestParam("shortDescription") String shortDescription,
-                                                    @RequestParam("description") String description,
-                                                    @RequestParam("category") String category) {
+                                                    @RequestParam(value = "name", required = false) String name,
+                                                    @RequestParam(value = "code", required = false) String code,
+                                                    @RequestParam(value = "image", required = false) MultipartFile image,
+                                                    @RequestParam(value = "price", required = false) double price,
+                                                    @RequestParam(value = "quantity", required = false) Long quantity,
+                                                    @RequestParam(value = "shortDescription", required = false) String shortDescription,
+                                                    @RequestParam(value = "description", required = false) String description,
+                                                    @RequestParam(value = "category", required = false) String category) {
         ProductDTO dto = new ProductDTO();
         dto.setId(id);
         dto.setName(name);
         dto.setCode(code);
-        if (!image.isEmpty()) {
+        if (image != null) {
             dto.setImage(cloudinaryService.uploadImage(image));
         }
         dto.setPrice(price);
