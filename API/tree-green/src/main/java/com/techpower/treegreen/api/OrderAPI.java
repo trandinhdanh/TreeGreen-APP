@@ -44,4 +44,32 @@ public class OrderAPI {
         }
         return ResponseEntity.ok(orderDTO);
     }
+
+    @PutMapping("/seller/{idOrder}/status/confirm")
+    public ResponseEntity<List<OrderDTO>> updateStatusConfirm(@PathVariable("idOrder") long idOrder) {
+        List<OrderDTO> orderDTO = iOrderService.statusConfirm(idOrder);
+        if (orderDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(orderDTO);
+    }
+
+    @PutMapping("/seller/{idOrder}/status/done")
+    public ResponseEntity<List<OrderDTO>> updateStatusDone(@PathVariable("idOrder") long idOrder) {
+        List<OrderDTO> orderDTO = iOrderService.statusDone(idOrder);
+        if (orderDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(orderDTO);
+    }
+
+    @PutMapping("/seller/{idOrder}/status/cancel")
+    public ResponseEntity<List<OrderDTO>> updateStatusCancel(@PathVariable("idOrder") long idOrder) {
+        List<OrderDTO> orderDTO = iOrderService.statusCancel(idOrder);
+        if (orderDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(orderDTO);
+    }
+
 }

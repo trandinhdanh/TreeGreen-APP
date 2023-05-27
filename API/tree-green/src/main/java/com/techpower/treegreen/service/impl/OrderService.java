@@ -141,4 +141,43 @@ public class OrderService implements IOrderService {
         }
         return result;
     }
+
+    @Override
+    public List<OrderDTO> statusConfirm(long idOrder) {
+        OrderEntity orderEntity = orderRepository.findOneById(idOrder);
+        if (orderEntity != null) {
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_WAIT_CONFIRM)) {
+                orderEntity.setStatus(StatusConstant.ORDER_CONFIRM);
+                orderRepository.save(orderEntity);
+            }
+            return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
+        } else
+            return null;
+    }
+
+    @Override
+    public List<OrderDTO> statusDone(long idOrder) {
+        OrderEntity orderEntity = orderRepository.findOneById(idOrder);
+        if (orderEntity != null) {
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_CONFIRM)) {
+                orderEntity.setStatus(StatusConstant.ORDER_DONE);
+                orderRepository.save(orderEntity);
+            }
+            return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
+        } else
+            return null;
+    }
+
+    @Override
+    public List<OrderDTO> statusCancel(long idOrder) {
+        OrderEntity orderEntity = orderRepository.findOneById(idOrder);
+        if (orderEntity != null) {
+            if (!orderEntity.getStatus().equals(StatusConstant.ORDER_DONE)) {
+                orderEntity.setStatus(StatusConstant.ORDER_CANCEL);
+                orderRepository.save(orderEntity);
+            }
+            return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
+        } else
+            return null;
+    }
 }
