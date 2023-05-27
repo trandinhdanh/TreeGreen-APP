@@ -13,7 +13,7 @@ export default function BlogList({blog}) {
     const endIdx = startIdx + pageSize;
     const paginatedBlogs = blog?.slice(startIdx, endIdx);
     setDisplayedBlogs(paginatedBlogs);
-  }, [currentPage]);
+  }, [currentPage,blog]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

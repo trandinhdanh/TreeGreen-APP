@@ -22,6 +22,7 @@ import CategoryManager from '../Page/Manager/CategoryManager/CategoryManager'
 import ProductUpdateManagerPage from '../Page/Manager/ProductManagerPage/ProductUpdateManagerPage/ProductUpdateManagerPage'
 import ProductNewManagerPage from '../Page/Manager/ProductManagerPage/ProductNewManagerPage/ProductNewManagerPage'
 import NewBlogManagerPage from '../Page/Manager/BlogManagerPage/NewBlogManagerPage/NewBlogManagerPage'
+import OrderPage from '../Page/OrderPage/OrderPage'
 
 export default function Routers() {
   return (
@@ -36,6 +37,7 @@ export default function Routers() {
                     <Route path='/product/:id' element={<DetailProductPage/>} />
                     <Route path='/blog/:id' element={<BlogDetailPage/>} />
                     <Route path='/payment' element={<PaymentPage/>} />
+                    <Route path='/order' element={<OrderPage/>} />
                 </Route>
                 <Route path='/manager' element = {<ManagerLayout/>} >
                     <Route path="/manager" element={<ManagerPage/>} />

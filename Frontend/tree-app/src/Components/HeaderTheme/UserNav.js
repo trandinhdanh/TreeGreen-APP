@@ -35,7 +35,7 @@ export default function UserNav() {
      return ( 
      <>
       <Link
-         to={user.roles[0] === "SELLER" || user.roles[0] === "ADMIN" ? "/manager" : "/"}
+         to={user.roles[0] === "SELLER" || user.roles[0] === "ADMIN" ? "/manager" : "/order"}
         className="w-full text-black block h-full transition duration-100"
       >
         <li  className="dropdownItem  hover:bg-gray-200 transition duration-300">
