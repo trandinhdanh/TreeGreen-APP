@@ -5,6 +5,7 @@ import com.techpower.treegreen.converter.CartItemConverter;
 import com.techpower.treegreen.converter.ProductConverter;
 import com.techpower.treegreen.dto.CartDTO;
 import com.techpower.treegreen.dto.CartItemDTO;
+import com.techpower.treegreen.dto.OrderDTO;
 import com.techpower.treegreen.entity.CartEntity;
 import com.techpower.treegreen.entity.CartItemEntity;
 import com.techpower.treegreen.entity.ProductEntity;
@@ -98,6 +99,7 @@ public class CartService implements ICartService {
 
         CartDTO result = cartConverter.toDTO(cartRepository.save(cartEntity));
         result.setCartItems(cartItemDTOS);
+        autoUpdatePrice(idUser);
         return result;
     }
 
@@ -138,4 +140,5 @@ public class CartService implements ICartService {
         cartEntity.setTotalPrice(totalPrice);
         cartRepository.save(cartEntity);
     }
+
 }

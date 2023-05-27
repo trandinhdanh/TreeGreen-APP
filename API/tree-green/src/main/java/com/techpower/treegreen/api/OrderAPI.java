@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -16,11 +18,29 @@ public class OrderAPI {
     private IOrderService iOrderService;
 
     @PostMapping("/{idCart}")
-    public ResponseEntity<OrderDTO> order(@PathVariable("idCart") long idCart,
-                                          @RequestBody InputOrder inputOrder) {
-        OrderDTO orderDTO = iOrderService.save(inputOrder, idCart);
+    public ResponseEntity<List<OrderDTO>> order(@PathVariable("idCart") long idCart,
+                                                @RequestBody InputOrder inputOrder) {
+        List<OrderDTO> orderDTO = iOrderService.save(inputOrder, idCart);
         if (orderDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(orderDTO);
+    }
+
+    @GetMapping("/user/{idUser}")
+    public ResponseEntity<List<OrderDTO>> showOrdersOfUser(@PathVariable("idUser") long idUser) {
+        List<OrderDTO> orderDTO = iOrderService.showOrdersOfUser(idUser);
+        if (orderDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(orderDTO);
+    }
+
+    @GetMapping("/seller/{idUser}")
+    public ResponseEntity<List<OrderDTO>> showOrdersOfSeller(@PathVariable("idUser") long idUser) {
+        List<OrderDTO> orderDTO = iOrderService.showOrdersOfSeller(idUser);
+        if (orderDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(orderDTO);
     }

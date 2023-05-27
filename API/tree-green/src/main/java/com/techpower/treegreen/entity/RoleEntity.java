@@ -9,10 +9,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "role")
 @Getter
