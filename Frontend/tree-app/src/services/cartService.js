@@ -22,6 +22,7 @@ export let cartService = {
       })
       openNotificationIcon('success', 'Success', 'Add Product Success!');
       console.log(response);
+      return response.data
     } catch (error) {
       openNotificationIcon('error', 'Error', 'Failed to add product to cart!');
       console.log(error);
@@ -33,6 +34,7 @@ export let cartService = {
         ...getAuthConfig(),
       })
       console.log(response);
+      return response.data
     } catch (error) {
       console.log(error);
     }

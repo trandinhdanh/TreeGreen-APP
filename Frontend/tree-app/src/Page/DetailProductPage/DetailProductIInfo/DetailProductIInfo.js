@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Button,Space, InputNumber, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { localStorageService } from '../../../services/localStorageService';
 import { cartService } from '../../../services/cartService';
 import { useNavigate } from 'react-router-dom';
+import { addToCart } from '../../../Redux/cart/cartSlice';
 
 export default function DetailProductIInfo(props) {
   const [quantityItem , setQuantityItem] = useState(1)
-
+  const [userID,setUserId] = useState()
 const navigate = useNavigate();
-//chưa thêm nhiều sản phẩm được
+const dispatch = useDispatch();
+useEffect(() => { 
+  if(props.isLoggedIn){
+    setUserId(localStorageService.get('USER').userDTO.id)
+  }
+ },[userID])
 const handleClick = async () => {
   if (props.isLoggedIn) {
-    try {
-      console.log(quantityItem);
       const productID = props.data.id;
-      const userID = localStorageService.get('USER').userDTO.id;
-      const response = await cartService.addToCart(userID, productID, quantityItem);
-    } catch (error) {
-      console.log(error);
-    }
+      await dispatch(addToCart({ userId: userID, productId: productID, quantity: quantityItem }));
   } else {
     message.error('Please log in to add products to the cart');
     setTimeout(() => {
