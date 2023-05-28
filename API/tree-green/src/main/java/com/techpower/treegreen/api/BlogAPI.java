@@ -38,7 +38,7 @@ public class BlogAPI {
             return ResponseEntity.ok(result);
         }
     }
-
+ 
     @GetMapping("/{idBlog}")
     public ResponseEntity<BlogDTO> getDetail(@PathVariable("idBlog") long idBlog){
         BlogDTO result = iBlogService.getBlogDetail(idBlog);

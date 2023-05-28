@@ -14,7 +14,6 @@ import ManagerPage from '../Page/Manager/ManagerPage/ManagerPage'
 import RegisterPage from '../Page/RegisterPage/RegisterPage'
 import PaymentPage from '../Page/PaymentPage/PaymentPage'
 import ProductManagerPage from '../Page/Manager/ProductManagerPage/ProductManagerPage'
-import OderPage from '../Page/Manager/OderPage/OderPage'
 import RegisterSellerPage from '../Page/RegisterSellerPage/RegisterSellerPage'
 import UserPage from '../Page/Manager/UserPage/UserPage'
 import BlogManagerPage from '../Page/Manager/BlogManagerPage/BlogManagerPage'
@@ -23,6 +22,7 @@ import ProductUpdateManagerPage from '../Page/Manager/ProductManagerPage/Product
 import ProductNewManagerPage from '../Page/Manager/ProductManagerPage/ProductNewManagerPage/ProductNewManagerPage'
 import NewBlogManagerPage from '../Page/Manager/BlogManagerPage/NewBlogManagerPage/NewBlogManagerPage'
 import OrderPage from '../Page/OrderPage/OrderPage'
+import OderManagerPage from '../Page/Manager/OderManagePage/OderManagerPage'
 
 export default function Routers() {
   return (
@@ -44,7 +44,7 @@ export default function Routers() {
                     <Route path="/manager/product" element={<ProductManagerPage/>} />
                     <Route path="/manager/product-add" element={<ProductNewManagerPage/>} />
                     <Route path="/manager/product-update/:id" element={<ProductUpdateManagerPage/>} />
-                    <Route path="/manager/order" element={<OderPage/>} />
+                    <Route path="/manager/order" element={<OderManagerPage/>} />
                     <Route path="/manager/user" element={<UserPage/>} />
                     <Route path="/manager/blog" element={<BlogManagerPage/>} />
                     <Route path="/manager/blog-add" element={<NewBlogManagerPage/>} />

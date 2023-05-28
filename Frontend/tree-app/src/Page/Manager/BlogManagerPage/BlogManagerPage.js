@@ -10,37 +10,37 @@ export default function BlogManagerPage() {
   const { Column } = Table;
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(3); // state để lưu số bài viết trên 1 trang
-  const [idsBlog, setIdsBlog] = useState([]);
+  const [idBlog, setIdBlog] = useState();
   const [blogs, setBlogs] = useState([]);
   const [reloadPage, setReloadPage] = useState(false);
   
   useEffect(() => {
     const id = localStorageService.get('USER').userDTO.id;
-    const getBlogsByUserId = async () => {
+    const getBlogsShop = async () => {
       try {
-        const items = await blogService.getBlogsByUserId(id);
+        const items = await blogService.getBlogByShop(id);
         setBlogs(items);
       } catch (error) {
         console.log(error);
       }
     };
-    getBlogsByUserId();
+    getBlogsShop();
   }, [reloadPage]);
   
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   const handleDelete = (record) => {
-    const ids = [record.id];
-    setIdsBlog(ids);
+    const id = record.id;
+    setIdBlog(id);
     setSelectedBlog(record);
     setModalVisible(true);
   };
   
   const handleDeleteBlog = async () => {
-    console.log(idsBlog);
+    console.log(idBlog);
     try {
-      await blogService.delete(idsBlog);
+      await blogService.delete(idBlog);
       console.log('Blogs deleted successfully');
       setReloadPage(!reloadPage);
       // Xử lý khi xóa bài viết thành công
@@ -73,13 +73,22 @@ export default function BlogManagerPage() {
         }}
       >
         <Column title="ID" dataIndex="id" key="id" />
-        <Column title="Title" dataIndex="title" key="title" />
         <Column
-          title="Content"
-          dataIndex="content"
-          key="content"
-          render={(content) => (
-            <div className="blog-content">{content}</div>
+          title="Image"
+          dataIndex="image"
+          key="image"
+          render={(image) => (
+            <img src={image} alt="Product Image"  className='w-[50px] h-[50px]'/>
+          )}
+        />
+        <Column title="Title" dataIndex="title" key="title" />
+     
+        <Column
+          title="Short Description"
+          dataIndex="shortDescription"
+          key="shortDescription"
+          render={(shortDescription) => (
+            <div className="blog-shortDescription">{shortDescription}</div>
           )}
         />
         
