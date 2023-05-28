@@ -13,12 +13,7 @@ export default function ProductHomPage() {
   const products = useSelector((state) => state.products.productList.allProduct); 
   const loading = useSelector((state) => state.products.productList.loading); 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  useEffect(() => { 
-    if (isLoggedIn) {
-      setUserID(localStorageService.get('USER').userDTO.id)
-      console.log(userID);
-    }
-   },[userID])
+
   return (
     <div className=' h-full container mx-auto mb:px-5 sm:px-5 md:px-24 lg:px-24 my-10'>
         <div className='productContainer'>
@@ -33,7 +28,7 @@ export default function ProductHomPage() {
               ) : (
                 <div className="grid mb:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {products?.slice(0, 8).map((item, i) => {
-                    return <ProductItem key={i} data={item} userID={userID} isLoggedIn={isLoggedIn} />;
+                    return <ProductItem key={i} data={item}  isLoggedIn={isLoggedIn} />;
                   })}
                 </div>
               )}

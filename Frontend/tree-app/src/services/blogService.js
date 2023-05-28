@@ -6,15 +6,13 @@ import { message } from "antd";
 export let blogService = {
   getAllBlog: async () => {
     try {
-        const response = await axios.get(BASE_URL + "/api/v1/blogs",{
-          ...getAuthConfig()
-        });
+        const response = await axios.get(BASE_URL + "/api/v1/blogs");
         return response.data
     } catch (error) {
         console.log(error);      
     }
   },
-  getBlogId: async (id) => { 
+  getBlogById: async (id) => { 
     try {
       const response = await axios.get(BASE_URL + `/api/v1/blogs/${id}`);
       return response.data
@@ -22,18 +20,31 @@ export let blogService = {
       console.log(error);      
   }
   },
-  getProductByShop: async (userName) => { 
+  getBlogByShop: async (id) => { 
     try {
-      const response = await axios.get(BASE_URL + `/api/v1/products/shop/${userName}`);
+      const response = await axios.get(BASE_URL + `/api/v1/blogs/${id}/owner`);
       return response.data
   } catch (error) {
       console.log(error);      
   }
   },
+  delete: async (id) => {
+    console.log(id);
+    try {
+      const response = await axios.delete(BASE_URL + `/api/v1/blogs/${id}`, {
+        ...getAuthConfig(),
+      });
+      message.success("Delete Blog Success")
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+        message.error("Delete Blog Fail")
+    }
+  },
 
   create: async (idUser,values) => {
     try {
-      const response = await axios.post(BASE_URL + `/api/v1/products/${idUser}`,values,{
+      const response = await axios.post(BASE_URL + `/api/v1/blogs/${idUser}`,values,{
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })
@@ -57,27 +68,6 @@ export let blogService = {
       console.log(error);
     }
   },
-delete: async (values) => {
-  console.log(values);
-  try {
-    const response = await axios.delete(BASE_URL + `/api/v1/products`, {
-      ...getAuthConfig(),
-      data: values, 
-    });
-    message.success("Delete Product Success")
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-      message.success("Create Product Success")
-      message.error("Delete Product Fail")
-  }
-},
-    getCategory: async () => {
-    try {
-        const response = await axios.get(BASE_URL + "/api/v1/categorys");
-        return response.data
-    } catch (error) {
-        console.log(error);      
-    }
-  },
+
+
 };

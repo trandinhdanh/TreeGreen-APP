@@ -15,6 +15,17 @@ export let orderService = {
       console.log(error);
     }
   },
+  getOrderBySeller : async (idUser) => {
+    try {
+      const response = await axios.get(BASE_URL + `/api/v1/orders/seller/${idUser}`,{
+        ...getAuthConfig(),
+      })
+      console.log(response);
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  },
   order: async (idCart,values) => {
     try {
       const response = await axios.post(BASE_URL + `/api/v1/orders/${idCart}`,values,{

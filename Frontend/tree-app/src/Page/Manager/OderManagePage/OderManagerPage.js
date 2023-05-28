@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Avatar, Tag } from 'antd';
-import { orderService } from '../../services/orderService';
-import { localStorageService } from '../../services/localStorageService';
+import { Button, Modal, Table, Tag } from 'antd';
+import { orderService } from '../../../services/orderService';
+import { localStorageService } from '../../../services/localStorageService';
 
-export default function OrderPage() {
+export default function OderManagerPage() {
   const [orders, setOrders] = useState([]);
   const [idUser, setIdUser] = useState(localStorageService.get('USER').userDTO.id);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     fetchOrders();
   }, [idUser]);
 
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleUpdate = (record) => { 
+    setIsModalOpen(true);
+   }
   const fetchOrders = async () => {
     try {
-      const response = await orderService.getOrderByUser(idUser);
+      const response = await orderService.getOrderBySeller(idUser);
       console.log(response);
       setOrders(response.data);
     } catch (error) {
@@ -23,26 +32,27 @@ export default function OrderPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Pending':
-        return 'green';
-      case 'Processing':
+      case 'ORDER_CONFIRM':
         return 'blue';
       case 'ORDER_WAIT_CONFIRM':
         return 'yellow';
-      case 'Delivered':
+      case 'ORDER_DONE':
         return 'green';
-      case 'Cancelled':
-        return 'red';
       default:
-        return '';
+        return 'red';
     }
   };
-
+  
   const columns = [
     {
       title: 'Order ID',
       dataIndex: 'id',
       key: 'id',
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'createBy',
+      key: 'createBy',
     },
     {
       title: 'Payment Method',
@@ -65,7 +75,15 @@ export default function OrderPage() {
       dataIndex: 'numberPhone',
       key: 'numberPhone',
     },
-    
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Button type="primary" onClick={() => handleUpdate(record)}>
+          Update
+        </Button>
+      ),
+    },
   ];
 
   const tableStyle = {
@@ -75,7 +93,7 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="container mx-auto mb:px-5 md:px-24 lg:px-24 py-20 ">
+    <div className="">
       <h1 className="text-3xl font-bold my-6 text-primary">Order List</h1>
       <div style={tableStyle}>
         <Table
@@ -100,6 +118,19 @@ export default function OrderPage() {
           }}
         />
       </div>
+      <Modal title="Update Status Order" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <div className='flex flex-col space-y-2 mx-20 py-5'>
+      <Button type="primary" style={{ background: '#E8AA42' }}>
+             ORDER_CONFIRM
+        </Button>
+        <Button type="primary" style={{ background: '#1B9C85' }}>
+             ORDER_DONE
+        </Button>
+        <Button type="primary" style={{ background: '#B70404' }}>
+             ORDER_CANCEL  
+        </Button>
+      </div>
+      </Modal>
     </div>
   );
 }

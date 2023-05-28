@@ -8,25 +8,27 @@ import { addToCart } from '../../../Redux/cart/cartSlice';
 
 export default function DetailProductIInfo(props) {
   const [quantityItem , setQuantityItem] = useState(1)
-  const [userID,setUserId] = useState()
-const navigate = useNavigate();
-const dispatch = useDispatch();
-useEffect(() => { 
-  if(props.isLoggedIn){
-    setUserId(localStorageService.get('USER').userDTO.id)
-  }
- },[userID])
-const handleClick = async () => {
-  if (props.isLoggedIn) {
-      const productID = props.data.id;
-      await dispatch(addToCart({ userId: userID, productId: productID, quantity: quantityItem }));
-  } else {
-    message.error('Please log in to add products to the cart');
-    setTimeout(() => {
-      navigate('/login');
-    }, 3000);
-  }
-};
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState()
+  useEffect(() => { 
+    if (props.isLoggedIn) {
+      const user = localStorageService.get("USER");
+      setUser(user);
+    }
+   },[props.isLoggedIn])
+  const handleClick = async () => {
+    if (props.isLoggedIn && user.roles[0] === "USER") {
+        const productID = props.data.id;
+        await dispatch(addToCart({ userId: user.userDTO.id, productId: productID, quantity: quantityItem }));
+    } else {
+      message.error('Please log USER in to add products to the cart');
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
+    }
+  };
   return (
     <div className='p-7'>
           <h1 className='font-bold font-roboto uppercase text-[20px]'>{props.data.name}</h1>

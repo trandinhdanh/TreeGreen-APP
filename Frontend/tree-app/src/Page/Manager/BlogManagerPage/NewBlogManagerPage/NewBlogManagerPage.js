@@ -3,15 +3,40 @@ import { Form, Input, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { blogService } from '../../../../services/blogService';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../../../Redux/loading/loadingSlice';
+import { localStorageService } from '../../../../services/localStorageService';
 
 export default function NewBlogManagerPage() {
   const [form] = Form.useForm();
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [shortDescription, setShortDescription] = useState('');
+  const [user,setUser] = useState(localStorageService.get("USER"))
 
+  const dispatch = useDispatch()
   const onFinish = (values) => {
     console.log('Form submitted:', values);
-    // Perform additional logic or API calls for submitting the blog post
+  
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('image', selectedImage);
+    formData.append('content', content);
+    formData.append('shortDescription', values.shortDescription);
+    dispatch(setLoading(true)); 
+      blogService.create(user.userDTO.id,formData)
+    .then((res) => {
+    dispatch(setLoading(false)); 
+    // form.resetFields()
+    console.log(res);
+  })
+  .catch((err) => {
+        dispatch(setLoading(false)); 
+        console.log(err);
+      });
+    
+   
   };
 
   const handleChangeContent = (value) => {
@@ -30,12 +55,25 @@ export default function NewBlogManagerPage() {
 
   return (
     <div className='w-full'>
-    <h1 className='uppercase font-bold text-primary text-[20px] text-center my-5'>new blog</h1>
+      <h1 className='uppercase font-bold text-primary text-[20px] text-center my-5'>new blog</h1>
       <Form form={form} onFinish={onFinish}>
         <Form.Item
           label="Title Blog"
           name="title"
           rules={[{ required: true, message: 'Please enter the title of the blog' }]}
+          labelCol={labelCol}
+          wrapperCol={wrapperCol}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Short Description"
+          name="shortDescription"
+          rules={[
+            { required: true, message: 'Please enter the short description' },
+            { max: 100, message: 'Short description must be less than 100 characters' },
+          ]}
           labelCol={labelCol}
           wrapperCol={wrapperCol}
         >

@@ -14,21 +14,24 @@ export default function Cart({ openCart, handleCartClick }) {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-const [idUser,setIdUser] = useState()
+  const [user, setUser] = useState();
+  
   useEffect(() => {
     if (isLoggedIn) {
-      setIdUser(localStorageService.get("USER").userDTO.id)
-      dispatch(fetchCartItems(4));
-      console.log(cart.cart.cartItems);
-      // cart?.cartItems.map((product) => { 
-      //     console.log(product);
-      //  })
+      const user = localStorageService.get("USER");
+      setUser(user);
     }
-  }, [dispatch, isLoggedIn, idUser]);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (user && user.roles[0] !== "ADMIN" && user.roles[0] !== "SELLER") {
+      dispatch(fetchCartItems(user.userDTO.id));
+    }
+  }, [dispatch, user]);
 
   const handleRemoveClick = async (productId) => {
     try {
-      await dispatch(removeFromCart({ userId: idUser, productId }));
+      await dispatch(removeFromCart({ userId: user.userDTO.id, productId }));
       console.log('Product deleted successfully');
     } catch (error) {
       console.error('Failed to delete product:', error);
@@ -37,7 +40,7 @@ const [idUser,setIdUser] = useState()
 
   const handleProductChange = async (productId, quantity) => {
     try {
-      await dispatch(updateQuantity({ userId: idUser, productId, quantity }));
+      await dispatch(updateQuantity({ userId: user.userDTO.id, productId, quantity }));
       console.log('Cart quantity updated successfully');
     } catch (error) {
       console.error('Failed to update cart quantity:', error);
@@ -79,7 +82,7 @@ const [idUser,setIdUser] = useState()
                 </tr>
               </thead>
               <tbody className="">
-                {isLoggedIn ? (
+                {isLoggedIn && user.roles[0] !== "ADMIN" && user.roles[0] !== "SELLER" ? (
                   cart?.cart?.cartItems?.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="py-2 px-4 text-[16px] font-roboto">
@@ -89,7 +92,6 @@ const [idUser,setIdUser] = useState()
                   ) : (
                     <>
                       {cart?.cart?.cartItems?.map((product) => (
-                        
                         <tr key={product.id} className="border-b-2">
                           <td className="py-2 px-4">
                             <img src={product.product.image} className="h-[100px] w-[100px] object-cover rounded-lg" alt="Product" />
@@ -139,7 +141,7 @@ const [idUser,setIdUser] = useState()
                 ) : (
                   <tr>
                     <td colSpan="5" className="py-2 px-4 text-[16px] font-roboto">
-                      {t('Please Login')}
+                      {t('You are not a buyer')}
                     </td>
                   </tr>
                 )}
