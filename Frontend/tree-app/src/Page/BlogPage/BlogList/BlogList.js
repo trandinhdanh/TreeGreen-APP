@@ -18,14 +18,20 @@ export default function BlogList({blog}) {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
+  const formatDateString = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
   return (
     <div>
       {displayedBlogs.map((item, i) => (
         <Link key={i} to={`/blog/${item.id}`}>
           <div className='blogItem h-[150px] rounded-lg flex justify-between mb-5 p-5'>
             <div>
-              <p className='m-0 pb-2'>{item.createBy} - {item.createDate}</p>
+              <p className='m-0 pb-2'> {item.createBy} - {formatDateString(item.createDate)}</p>
               <h1 className='font-bold font-montserrat text-[#292929] text-[12px]'>{item.title}</h1>
               <p className='m-0'>{item.shortDescription}</p>
             </div>
