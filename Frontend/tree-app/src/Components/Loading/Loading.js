@@ -4,15 +4,14 @@ import './Loading.scss'
 export default function Loading() {
   let isLoading  = useSelector((state) => {return state.loading.isLoading;});
   return isLoading ? (
-    <div class="fixed top-0 left-0 right-0 h-screen z-50 flex justify-center items-center bg-[#000000b0]">
-
-  <div class="loader bg-white p-5 rounded-full flex space-x-3">
-    <div class="w-5 h-5 bg-gray-800 rounded-full animate-bounce"></div>
-    <div class="w-5 h-5 bg-gray-800 rounded-full animate-bounce"></div>
-    <div class="w-5 h-5 bg-gray-800 rounded-full animate-bounce"></div>
-  </div>
-
+    <div class="fixed z-50 w-full h-screen bg-[#0004] flex items-center justify-center">
+	<div class="loader">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
 </div>
+</div>
+
   ) : (
     ""
   );

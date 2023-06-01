@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi";
 import { BsCart2 } from "react-icons/bs";
 import { TbWorld } from "react-icons/tb";
@@ -10,6 +10,8 @@ import Cart from "../Cart/Cart";
 import { localStorageService } from "../../services/localStorageService";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../Redux/auth/authSlice";
+import { Badge } from "antd";
+import { resetCart } from "../../Redux/cart/cartSlice";
 export default function UserNav() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -17,6 +19,7 @@ export default function UserNav() {
   const [openLanguage, setOpenLanguage] = useState(false);
   const [user,setUser] = useState(localStorageService.get("USER"))
   const [openCart, setOpenCart] = useState(false);
+  const cart = useSelector((state) => state.cart);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const { t, i18n } = useTranslation();
   const handleChangeLanguage = (lng) => {
@@ -28,8 +31,11 @@ export default function UserNav() {
   };
   const handleLogOut = () => { 
     navigate("/login")
+    dispatch(resetCart())
     dispatch(logoutUser())
+    
   }
+
   const handleRole = () => { 
     if(isLoggedIn){
      return ( 
@@ -139,10 +145,13 @@ export default function UserNav() {
           setOpenLanguage(false);
         }}
       >
-        {" "}
+      <Badge count={0 }>
         <BsCart2 className=" text-[20px]" />
+    </Badge>
+
       </div>
-      <Cart openCart={openCart} handleCartClick={handleCartClick} />
+         <Cart openCart={openCart} handleCartClick={handleCartClick} />
+   
 
       {/* DROPDOWN INFOR */}
       <div
