@@ -59,10 +59,10 @@ export default function Cart({ openCart, handleCartClick }) {
 
   return (
     <div
-      className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037]    `}
+      className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037]  `}
       onClick={handleClickOutsideCart}
     >
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] p-10 rounded-lg h-[80%] w-[80%] p-8 animate__animated animate__zoomIn">
+      <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] p-10 rounded-lg h-[80%] w-[80%] p-8 animate__animated animate__zoomIn">
         <AiOutlineClose className="absolute top-8 right-8 text-[20px]" onClick={handleCartClick} />
         <div className="contentCart text-left">
           <h1 className="font-bold text-[20px] font-roboto">{t('Your Cart')}</h1>
@@ -102,6 +102,7 @@ export default function Cart({ openCart, handleCartClick }) {
                           <td className="py-2 px-4">
                             <InputNumber
                               min={1}
+                              max={product.product.quantity}
                               defaultValue={product.quantity}
                               onChange={(value) => handleProductChange(product.product.id, value)}
                             />

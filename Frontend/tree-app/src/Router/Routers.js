@@ -23,6 +23,8 @@ import ProductNewManagerPage from '../Page/Manager/ProductManagerPage/ProductNew
 import NewBlogManagerPage from '../Page/Manager/BlogManagerPage/NewBlogManagerPage/NewBlogManagerPage'
 import OrderPage from '../Page/OrderPage/OrderPage'
 import OderManagerPage from '../Page/Manager/OderManagePage/OderManagerPage'
+import StatisticalManagerPage from '../Page/Manager/StatisticalManagerPage/StatisticalManagerPage'
+import ProfileUpdatePage from '../Page/ProfileUpdatePage/ProfileUpdatePage'
 
 export default function Routers() {
   return (
@@ -38,6 +40,7 @@ export default function Routers() {
                     <Route path='/blog/:id' element={<BlogDetailPage/>} />
                     <Route path='/payment' element={<PaymentPage/>} />
                     <Route path='/order' element={<OrderPage/>} />
+                    <Route path='/profile/:id' element={<ProfileUpdatePage/>} />
                 </Route>
                 <Route path='/manager' element = {<ManagerLayout/>} >
                     <Route path="/manager" element={<ManagerPage/>} />
@@ -49,6 +52,7 @@ export default function Routers() {
                     <Route path="/manager/blog" element={<BlogManagerPage/>} />
                     <Route path="/manager/blog-add" element={<NewBlogManagerPage/>} />
                     <Route path="/manager/category" element={<CategoryManager/>} />
+                    <Route path="/manager/statistical" element={<StatisticalManagerPage/>} />
                 </Route>
 
                 <Route path='/login' element = {<LoginPage/>} />

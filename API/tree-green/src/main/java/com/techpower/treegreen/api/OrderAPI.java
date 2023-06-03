@@ -3,6 +3,7 @@ package com.techpower.treegreen.api;
 import com.techpower.treegreen.api.input.InputOrder;
 import com.techpower.treegreen.dto.OrderDTO;
 import com.techpower.treegreen.service.IOrderService;
+import com.techpower.treegreen.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import java.util.List;
 public class OrderAPI {
     @Autowired
     private IOrderService iOrderService;
+    @Autowired
+    private IProductService iProductService;
 
     @PostMapping("/{idCart}")
     public ResponseEntity<List<OrderDTO>> order(@PathVariable("idCart") long idCart,

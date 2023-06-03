@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RiAccountCircleFill } from "react-icons/ri";
-import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineHome ,AiOutlineBarChart} from "react-icons/ai";
 import {
   IoBeerOutline,
   IoBagOutline,
@@ -34,9 +34,22 @@ export default function SiteBarManager() {
             </span>
           </Link>
         </li>
+        <li>
+          <Link
+            to="/manager/statistical"
+            href="#"
+            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+          >
+            <AiOutlineBarChart className="text-[20px]" />
+            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+                Statistical
+            </span>
+          </Link>
+        </li>
+        
       {user.roles[0] === "SELLER" ?
       <>
-              <li>
+        <li>
           <Link
             to="/manager/product"
             href="#"

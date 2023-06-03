@@ -3,7 +3,6 @@ package com.techpower.treegreen.service.impl;
 import com.techpower.treegreen.api.input.InputOrder;
 import com.techpower.treegreen.constant.StatusConstant;
 import com.techpower.treegreen.converter.*;
-import com.techpower.treegreen.dto.CategoryDTO;
 import com.techpower.treegreen.dto.OrderDTO;
 import com.techpower.treegreen.dto.OrderDetailDTO;
 import com.techpower.treegreen.dto.ProductDTO;
@@ -46,6 +45,8 @@ public class OrderService implements IOrderService {
     private ShopRepository shopRepository;
     @Autowired
     private StatisticalRepository statisticalRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Transactional
     @Override
@@ -102,7 +103,13 @@ public class OrderService implements IOrderService {
             orderEntity.setAddress(input.getAddress());
             orderEntity.setShop(shopEntity);
             orderEntity.setNumberPhone(input.getNumberPhone());
-            orderRepository.save(orderEntity);
+            OrderEntity order = orderRepository.save(orderEntity);
+
+            for (OrderDetailEntity orderDetailEntity : orderDetailRepository.findAllByOrder(order)) {
+                ProductEntity productEntity = orderDetailEntity.getProduct();
+                productEntity.setQuantity(productEntity.getQuantity() - orderDetailEntity.getQuantity());
+                productRepository.save(productEntity);
+            }
 
             OrderDTO orderDTO = orderConverter.toDTO(orderEntity);
             orderDTO.setUser(userConverter.toDTO(userEntity));
@@ -194,10 +201,10 @@ public class OrderService implements IOrderService {
                     quantity += orderDetailEntity.getQuantity();
                 }
                 statisticalAdmin.setQuantitySold(statisticalAdmin.getQuantitySold() + quantity);
-                statisticalAdmin.setReallyReceived(statisticalAdmin.getReallyReceived() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.2));
-                statisticalAdmin.setTotalRevenue(statisticalAdmin.getTotalRevenue() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.2));
+                statisticalAdmin.setReallyReceived(statisticalAdmin.getReallyReceived() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.1));
+                statisticalAdmin.setTotalRevenue(statisticalAdmin.getTotalRevenue() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.1));
                 statisticalSeller.setQuantitySold(statisticalSeller.getQuantitySold() + quantity);
-                statisticalSeller.setReallyReceived(statisticalSeller.getReallyReceived() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.8));
+                statisticalSeller.setReallyReceived(statisticalSeller.getReallyReceived() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.9));
                 statisticalSeller.setTotalRevenue(statisticalSeller.getTotalRevenue() + orderRepository.findOneById(idOrder).getTotalPrice());
                 statisticalRepository.save(statisticalAdmin);
                 statisticalRepository.save(statisticalSeller);
@@ -215,6 +222,12 @@ public class OrderService implements IOrderService {
             if (!orderEntity.getStatus().equals(StatusConstant.ORDER_DONE)) {
                 orderEntity.setStatus(StatusConstant.ORDER_CANCEL);
                 orderRepository.save(orderEntity);
+                List<OrderDetailEntity> orderDetailEntities = orderDetailRepository.findAllByOrder(orderEntity);
+                for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
+                    ProductEntity productEntity = orderDetailEntity.getProduct();
+                    productEntity.setQuantity(productEntity.getQuantity() + orderDetailEntity.getQuantity());
+                    productRepository.save(productEntity);
+                }
             }
             return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
         } else
@@ -245,6 +258,12 @@ public class OrderService implements IOrderService {
             if (orderEntity.getStatus().equals(StatusConstant.ORDER_WAIT_CONFIRM)) {
                 orderEntity.setStatus(StatusConstant.ORDER_CANCEL);
                 orderRepository.save(orderEntity);
+                List<OrderDetailEntity> orderDetailEntities = orderDetailRepository.findAllByOrder(orderEntity);
+                for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
+                    ProductEntity productEntity = orderDetailEntity.getProduct();
+                    productEntity.setQuantity(productEntity.getQuantity() + orderDetailEntity.getQuantity());
+                    productRepository.save(productEntity);
+                }
             }
             return getDetail(idOrder);
         } else

@@ -39,4 +39,57 @@ export let orderService = {
       message.success("Order error")
     }
   },
+  confirm: async (idOrder) => {
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/orders/seller/${idOrder}/status/confirm`,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
+      console.log(response);
+      message.success("Confirm Success")
+
+    } catch (error) {
+      console.log(error);
+      message.success("Confirm error")
+    }
+  },
+  done: async (idOrder) => {
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/orders/seller/${idOrder}/status/done`,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
+      console.log(response);
+      message.success("Confirm Success")
+
+    } catch (error) {
+      console.log(error);
+      message.success("Confirm error")
+    }
+  },
+  cancel: async (idOrder) => {
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/orders/seller/${idOrder}/status/cancel`,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
+      console.log(response);
+      message.success("Confirm Success")
+
+    } catch (error) {
+      console.log(error);
+      message.success("Confirm error")
+    }
+  },
+  getYear : async (idUser,year) => {
+    try {
+      const response = await axios.get(BASE_URL + `/api/v1/statisticals/${idUser}/${year}`,{
+        ...getAuthConfig(),
+      })
+      console.log(response);
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

@@ -78,7 +78,7 @@ export default function BlogManagerPage() {
           dataIndex="image"
           key="image"
           render={(image) => (
-            <img src={image} alt="Product Image"  className='w-[50px] h-[50px]'/>
+            <img src={image} alt="Product Image"  className='w-[70px] h-[70px] object-cover rounded-lg'/>
           )}
         />
         <Column title="Title" dataIndex="title" key="title" />
