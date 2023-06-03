@@ -48,11 +48,11 @@ export default function ProductItem(props) {
     return (
       <div className="overflow-hidden w-full h-full productItem my-3 hover:shadow-md transition-all rounded-lg">
         <div className="productImg relative w-full">
-          {props.data.productView > 10 && (
-          <p className="absolute top-0 left-3 z-10 px-4 py-2 bg-[#211e1e2a] rounded-md text-yellow-300">
+          {/* {props.data.productView > 10 && (
+          <p className="absolute top-0 left-0 z-10 px-4 py-2 bg-[#4848482a] rounded-md text-yellow-300">
             <AiFillStar className="text-[20px]"/>
           </p>
-          )}
+          )} */}
           <Image
             style={{ height: "300px", width: "100%", objectFit: "cover" }}
             src={`${props.data.image}`}
