@@ -48,6 +48,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private CartEntity cart;
     @OneToMany(mappedBy = "user")
     List<OrderEntity> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    List<StatisticalEntity> statisticals = new ArrayList<>();
 
     @Override
     public String getUsername() {

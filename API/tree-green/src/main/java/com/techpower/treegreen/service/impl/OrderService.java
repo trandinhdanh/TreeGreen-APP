@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +44,8 @@ public class OrderService implements IOrderService {
     private UserRepository userRepository;
     @Autowired
     private ShopRepository shopRepository;
+    @Autowired
+    private StatisticalRepository statisticalRepository;
 
     @Transactional
     @Override
@@ -177,6 +180,28 @@ public class OrderService implements IOrderService {
             if (orderEntity.getStatus().equals(StatusConstant.ORDER_CONFIRM)) {
                 orderEntity.setStatus(StatusConstant.ORDER_DONE);
                 orderRepository.save(orderEntity);
+                //xử lí thống kê - start
+                UserEntity admin = userRepository.findOneByUsername("admin");
+                UserEntity seller = orderRepository.findOneById(idOrder).getShop().getUser();
+                StatisticalEntity statisticalAdmin = statisticalRepository.findOneByUserAndYearAndMonth(
+                        admin, LocalDate.now().getYear(), LocalDate.now().getMonthValue()
+                );
+                StatisticalEntity statisticalSeller = statisticalRepository.findOneByUserAndYearAndMonth(
+                        seller, LocalDate.now().getYear(), LocalDate.now().getMonthValue()
+                );
+                int quantity = 0;
+                for (OrderDetailEntity orderDetailEntity : orderRepository.findOneById(idOrder).getOrderDetails()) {
+                    quantity += orderDetailEntity.getQuantity();
+                }
+                statisticalAdmin.setQuantitySold(statisticalAdmin.getQuantitySold() + quantity);
+                statisticalAdmin.setReallyReceived(statisticalAdmin.getReallyReceived() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.2));
+                statisticalAdmin.setTotalRevenue(statisticalAdmin.getTotalRevenue() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.2));
+                statisticalSeller.setQuantitySold(statisticalSeller.getQuantitySold() + quantity);
+                statisticalSeller.setReallyReceived(statisticalSeller.getReallyReceived() + (orderRepository.findOneById(idOrder).getTotalPrice() * 0.8));
+                statisticalSeller.setTotalRevenue(statisticalSeller.getTotalRevenue() + orderRepository.findOneById(idOrder).getTotalPrice());
+                statisticalRepository.save(statisticalAdmin);
+                statisticalRepository.save(statisticalSeller);
+                //xử lí thống kê - end
             }
             return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
         } else
