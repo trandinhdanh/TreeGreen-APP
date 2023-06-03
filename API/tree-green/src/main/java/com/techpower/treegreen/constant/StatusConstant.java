@@ -6,5 +6,5 @@ public class StatusConstant {
     public static final String ORDER_WAIT_CONFIRM = "ORDER_WAIT_CONFIRM";
     public static final String ORDER_CONFIRM = "ORDER_CONFIRM";
     public static final String ORDER_DONE = "ORDER_DONE";
-    public static final String ORDER_CANCEL = " ";
+    public static final String ORDER_CANCEL = "ORDER_CANCEL";
 }
