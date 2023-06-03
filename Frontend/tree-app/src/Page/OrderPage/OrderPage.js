@@ -23,18 +23,14 @@ export default function OrderPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Pending':
-        return 'green';
-      case 'Processing':
-        return 'blue';
-      case 'ORDER_WAIT_CONFIRM':
-        return 'yellow';
-      case 'Delivered':
-        return 'green';
-      case 'Cancelled':
-        return 'red';
+      case "ORDER_CONFIRM":
+        return "blue";
+      case "ORDER_WAIT_CONFIRM":
+        return "yellow";
+      case "ORDER_DONE":
+        return "green";
       default:
-        return '';
+        return "red";
     }
   };
 

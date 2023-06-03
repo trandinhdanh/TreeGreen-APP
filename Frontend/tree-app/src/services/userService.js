@@ -14,6 +14,19 @@ export let userService = {
         console.log(error);      
     }
   },
+  update: async (userName,values) => {
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/users/profile/${userName}`,values,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
+      message.success("Suscces. Please Login Again!!!")
+      console.log(response);
+    } catch (error) {
+      message.error("Fail")
+      console.log(error);
+    }
+  },
   lock: async (id) => { 
     try {
       const response = await axios.put(BASE_URL + `/api/v1/users/${id}/0`,{

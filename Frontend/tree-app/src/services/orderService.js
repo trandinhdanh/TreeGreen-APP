@@ -81,4 +81,15 @@ export let orderService = {
       message.success("Confirm error")
     }
   },
+  getYear : async (idUser,year) => {
+    try {
+      const response = await axios.get(BASE_URL + `/api/v1/statisticals/${idUser}/${year}`,{
+        ...getAuthConfig(),
+      })
+      console.log(response);
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

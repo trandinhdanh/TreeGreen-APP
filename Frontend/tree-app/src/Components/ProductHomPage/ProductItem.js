@@ -81,7 +81,7 @@ export default function ProductItem(props) {
   return (
     <>
       {props.data.quantity === 0 ? (
-        <Badge.Ribbon text={t('Sold Out')} color="volcano">
+        <Badge.Ribbon text={t('Sold Out')} className="mt-5" color="volcano">
           {displayItem()}
         </Badge.Ribbon>
       ) : (

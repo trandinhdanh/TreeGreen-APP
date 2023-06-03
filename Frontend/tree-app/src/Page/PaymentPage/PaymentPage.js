@@ -12,8 +12,8 @@ export default function PaymentPage() {
   const { t } = useTranslation();
   const navigate = useNavigate()
   const [customerInfo, setCustomerInfo] = useState({
-    address: '',
-    numberPhone: '',
+    address: localStorageService.get('USER').userDTO.address || '',
+    numberPhone: localStorageService.get('USER').userDTO.numberPhone || '',
     paymentMethod: '',
   });
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);

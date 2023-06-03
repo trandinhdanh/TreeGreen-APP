@@ -30,9 +30,9 @@ export default function UserNav() {
     setOpenCart(false);
   };
   const handleLogOut = () => { 
-    navigate("/login")
     dispatch(resetCart())
     dispatch(logoutUser())
+    navigate("/login")
     
   }
 
@@ -41,7 +41,7 @@ export default function UserNav() {
      return ( 
      <>
       <Link
-         to={user.roles[0] === "SELLER" || user.roles[0] === "ADMIN" ? "/manager" : "/order"}
+         to={user.roles[0] === "SELLER" || user.roles[0] === "ADMIN" ? "/manager" : `/profile/${user.userDTO.id}`}
         className="w-full text-black block h-full transition duration-100"
       >
         <li  className="dropdownItem  hover:bg-gray-200 transition duration-300">
@@ -49,6 +49,15 @@ export default function UserNav() {
         </li>
       </Link>
       {user.roles[0] === "USER" && (
+          <>
+          <Link
+          to="/order"
+          className="w-full block h-full transition duration-100"
+        >
+          <li className="dropdownItem hover:bg-gray-200 transition duration-300">
+            <p> {t("Order")}</p>
+          </li>
+        </Link>
           <Link
             to="/registerSeller"
             className="w-full block h-full transition duration-100"
@@ -57,6 +66,7 @@ export default function UserNav() {
               <p> {t("Become a seller")}</p>
             </li>
           </Link>
+          </>
         )}  
       <Link
         to=""

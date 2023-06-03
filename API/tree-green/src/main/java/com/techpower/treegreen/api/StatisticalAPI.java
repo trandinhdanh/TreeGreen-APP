@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/statisticals")
@@ -26,9 +28,9 @@ public class StatisticalAPI {
     }
 
     @GetMapping("/{idUser}/{year}")
-    public ResponseEntity<StatisticalDTO> getStatisticalByYear(@PathVariable("idUser") long idUser,
-                                                               @PathVariable("year") int year) {
-        StatisticalDTO statistical = iStatisticalService.getStatisticalByYear(idUser, year);
+    public ResponseEntity<List<StatisticalDTO>> getStatisticalByYear(@PathVariable("idUser") long idUser,
+                                                                     @PathVariable("year") int year) {
+        List<StatisticalDTO> statistical = iStatisticalService.getStatisticalByYear(idUser, year);
         if (statistical != null) {
             return ResponseEntity.ok(statistical);
         } else {
