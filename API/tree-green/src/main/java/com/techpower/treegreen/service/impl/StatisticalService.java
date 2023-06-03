@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,17 +34,15 @@ public class StatisticalService implements IStatisticalService {
     }
 
     @Override
-    public StatisticalDTO getStatisticalByYear(long idUser, int year) {
+    public List<StatisticalDTO> getStatisticalByYear(long idUser, int year) {
         UserEntity userEntity = userRepository.findOneById(idUser);
         List<StatisticalEntity> statisticalEntities = statisticalRepository.findAllByUserAndYear(
                 userEntity, year
         );
-        StatisticalDTO result = new StatisticalDTO();
-        result.setYear(LocalDate.now().getYear());
+        List<StatisticalDTO> result = new ArrayList<>();
         for (StatisticalEntity statistical : statisticalEntities) {
-            result.setQuantitySold(result.getQuantitySold() + statistical.getQuantitySold());
-            result.setTotalRevenue(result.getTotalRevenue() + statistical.getTotalRevenue());
-            result.setReallyReceived(result.getReallyReceived() + statistical.getReallyReceived());
+            StatisticalDTO statisticalDTO = statisticalConverter.toDTO(statistical);
+            result.add(statisticalDTO);
         }
         return result;
     }
