@@ -17,7 +17,7 @@ public class BlogEntity extends BaseEntity {
     private String title;
     @Column
     private String shortDescription;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
     @Column
     private String image;
