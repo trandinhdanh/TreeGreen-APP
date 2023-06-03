@@ -8,6 +8,7 @@ import com.techpower.treegreen.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +30,18 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDTO save(CategoryDTO dto) {
-        dto.setCode(dto.getName().replaceAll("[^a-zA-Z0-9]", "-").toUpperCase());
+        String code = Normalizer.normalize(dto.getName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").trim().toUpperCase()
+                .replace(" ", "-");
+        dto.setCode(code);
         CategoryEntity entity = categoryConverter.toEntity(dto);
         return categoryConverter.toDTO(categoryRepository.save(entity));
     }
 
     @Override
     public CategoryDTO update(CategoryDTO dto) {
-        dto.setCode(dto.getName().replaceAll("[^a-zA-Z0-9]", "-").toUpperCase());
+        String code = Normalizer.normalize(dto.getName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").trim().toUpperCase()
+                .replace(" ", "-");
+        dto.setCode(code);
         CategoryEntity categoryEntityOld = categoryRepository.findOneById(dto.getId());
         CategoryEntity categoryEntityNew = categoryConverter.toEntity(dto, categoryEntityOld);
         return categoryConverter.toDTO(categoryRepository.save(categoryEntityNew));

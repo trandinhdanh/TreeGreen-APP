@@ -8,15 +8,9 @@ import com.techpower.treegreen.constant.ImageConstant;
 import com.techpower.treegreen.constant.RoleConstant;
 import com.techpower.treegreen.constant.StatusConstant;
 import com.techpower.treegreen.converter.UserConverter;
-import com.techpower.treegreen.entity.CartEntity;
-import com.techpower.treegreen.entity.RoleEntity;
-import com.techpower.treegreen.entity.ShopEntity;
-import com.techpower.treegreen.entity.UserEntity;
+import com.techpower.treegreen.entity.*;
 import com.techpower.treegreen.jwt.JWTUtil;
-import com.techpower.treegreen.repository.CartRepository;
-import com.techpower.treegreen.repository.RoleRepository;
-import com.techpower.treegreen.repository.ShopRepository;
-import com.techpower.treegreen.repository.UserRepository;
+import com.techpower.treegreen.repository.*;
 import com.techpower.treegreen.service.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +33,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final JWTUtil jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserConverter userConverter;
+    private final StatisticalRepository statisticalRepository;
 
     @Override
     public OutputAuthentication authenticate(InputAuthentication request) {
@@ -48,8 +44,23 @@ public class AuthenticationService implements IAuthenticationService {
                 )
         );
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        //xử lí thống kê - start
+        if (statisticalRepository.findOneByUserAndYearAndMonth(
+                user, LocalDate.now().getYear(), LocalDate.now().getMonthValue()
+        ) == null && !user.getRoles().get(0).getCode().equals("USER")) {
+            StatisticalEntity statistical = StatisticalEntity.builder()
+                    .year(LocalDate.now().getYear())
+                    .month(LocalDate.now().getMonthValue())
+                    .quantitySold(0)
+                    .totalRevenue(0)
+                    .reallyReceived(0)
+                    .user(user)
+                    .build();
+            statisticalRepository.save(statistical);
+        }
+        //xử lí thống kê - end
         if (user.getStatus().equals(StatusConstant.NON_ACTIVE)) {
-           return null;
+            return null;
         }
         var jwtToken = jwtService.generateToken(user);
         List<String> roles = new ArrayList<>();
