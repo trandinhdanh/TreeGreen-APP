@@ -9,6 +9,7 @@ import { localStorageService } from "../../services/localStorageService";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../Redux/cart/cartSlice";
 import { useTranslation } from "react-i18next";
+import {AiFillStar} from "react-icons/ai"
 export default function ProductItem(props) {
   const [addingToCart, setAddingToCart] = useState(false);
   const {t} = useTranslation()
@@ -47,6 +48,11 @@ export default function ProductItem(props) {
     return (
       <div className="overflow-hidden w-full h-full productItem my-3 hover:shadow-md transition-all rounded-lg">
         <div className="productImg relative w-full">
+          {props.data.productView > 10 && (
+          <p className="absolute top-0 left-3 z-10 px-4 py-2 bg-[#211e1e2a] rounded-md text-yellow-300">
+            <AiFillStar className="text-[20px]"/>
+          </p>
+          )}
           <Image
             style={{ height: "300px", width: "100%", objectFit: "cover" }}
             src={`${props.data.image}`}
@@ -63,6 +69,7 @@ export default function ProductItem(props) {
               <BsCartPlus className="text-[20px]" />
             </button>
           )}
+          
         </div>
         <Link to={`/product/${props.data.id}`}>
           <div className="productContent text-center my-3 font-roboto">
@@ -80,7 +87,7 @@ export default function ProductItem(props) {
   };
   return (
     <>
-      {props.data.quantity === 0 ? (
+      {props.data.quantity < 1 ? (
         <Badge.Ribbon text={t('Sold Out')} className="mt-5" color="volcano">
           {displayItem()}
         </Badge.Ribbon>

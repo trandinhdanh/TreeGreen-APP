@@ -102,6 +102,7 @@ export default function Cart({ openCart, handleCartClick }) {
                           <td className="py-2 px-4">
                             <InputNumber
                               min={1}
+                              max={product.product.quantity}
                               defaultValue={product.quantity}
                               onChange={(value) => handleProductChange(product.product.id, value)}
                             />

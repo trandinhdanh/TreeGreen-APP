@@ -24,7 +24,7 @@ export default function BlogPage() {
               <BlogList blog={blog}/>
           </div>
           <div className='col-span-1 lg:block md:hidden sm:hidden mb:hidden animate__fadeInRight animate__animated'>
-              <BlogNew/>
+              <BlogNew blog={blog}/>
           </div>
       </div>
     </div>

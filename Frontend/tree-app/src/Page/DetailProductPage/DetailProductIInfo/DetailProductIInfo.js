@@ -47,7 +47,7 @@ export default function DetailProductIInfo(props) {
         })}
       </h1>
       <p className="font-roboto">{props.data.description}</p>
-      {props.data.quantity === 0 ? (
+      {props.data.quantity < 1? (
              <Space size={[0, 80]} wrap>
              <Tag  color="warning" className="px-5 ">
                <p className="font-bold text-[15px] text-[#E57C23]">{t('Sold Out')}</p>
@@ -57,7 +57,7 @@ export default function DetailProductIInfo(props) {
         <div className="flex items-center my-3">
           <InputNumber
             min={1}
-            max={15}
+            max={props.data.quantity}
             defaultValue={1}
             onChange={(value) => setQuantityItem(value)}
           />
