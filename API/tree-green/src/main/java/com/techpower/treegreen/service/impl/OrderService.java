@@ -46,6 +46,8 @@ public class OrderService implements IOrderService {
     private ShopRepository shopRepository;
     @Autowired
     private StatisticalRepository statisticalRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Transactional
     @Override
@@ -102,7 +104,13 @@ public class OrderService implements IOrderService {
             orderEntity.setAddress(input.getAddress());
             orderEntity.setShop(shopEntity);
             orderEntity.setNumberPhone(input.getNumberPhone());
-            orderRepository.save(orderEntity);
+            OrderEntity order = orderRepository.save(orderEntity);
+
+            for (OrderDetailEntity orderDetailEntity : orderDetailRepository.findAllByOrder(order)) {
+                ProductEntity productEntity = orderDetailEntity.getProduct();
+                productEntity.setQuantity(productEntity.getQuantity() - orderDetailEntity.getQuantity());
+                productRepository.save(productEntity);
+            }
 
             OrderDTO orderDTO = orderConverter.toDTO(orderEntity);
             orderDTO.setUser(userConverter.toDTO(userEntity));
@@ -215,6 +223,12 @@ public class OrderService implements IOrderService {
             if (!orderEntity.getStatus().equals(StatusConstant.ORDER_DONE)) {
                 orderEntity.setStatus(StatusConstant.ORDER_CANCEL);
                 orderRepository.save(orderEntity);
+                List<OrderDetailEntity> orderDetailEntities = orderDetailRepository.findAllByOrder(orderEntity);
+                for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
+                    ProductEntity productEntity = orderDetailEntity.getProduct();
+                    productEntity.setQuantity(productEntity.getQuantity() + orderDetailEntity.getQuantity());
+                    productRepository.save(productEntity);
+                }
             }
             return showOrdersOfSeller(orderRepository.findOneById(idOrder).getShop().getUser().getId());
         } else
