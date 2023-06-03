@@ -33,7 +33,7 @@ public class UserAPI {
 
     @PutMapping("/{id}/{status}")
     public ResponseEntity<UserDTO> lock(@PathVariable("id") long id,
-                                          @PathVariable("status") long status) {
+                                        @PathVariable("status") long status) {
         UserDTO deletedUser = iUserService.lock(id, status);
         if (deletedUser != null) {
             return ResponseEntity.ok(deletedUser);
@@ -54,11 +54,11 @@ public class UserAPI {
 
     @PutMapping("/profile/{username}")
     public ResponseEntity<UserDTO> update(@PathVariable("username") String username,
-                                          @RequestParam("avatar") MultipartFile avatar,
-                                          @RequestParam("fullName") String fullName,
-                                          @RequestParam("email") String email,
-                                          @RequestParam("numberPhone") String numberPhone,
-                                          @RequestParam("address") String address) {
+                                          @RequestParam(value = "avatar", required = false) MultipartFile avatar,
+                                          @RequestParam(value = "fullName", required = false) String fullName,
+                                          @RequestParam(value = "email", required = false) String email,
+                                          @RequestParam(value = "numberPhone", required = false) String numberPhone,
+                                          @RequestParam(value = "address", required = false) String address) {
         UserDTO user = UserDTO.builder()
                 .username(username)
                 .avatar(cloudinaryService.uploadImage(avatar))
