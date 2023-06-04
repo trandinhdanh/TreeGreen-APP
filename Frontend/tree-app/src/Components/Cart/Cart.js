@@ -120,7 +120,7 @@ export default function Cart({ openCart, handleCartClick }) {
                       ))}
                       <tr>
                         <td colSpan="2" className="py-2 px-4 text-right font-bold">
-                          {t('Total')}
+                          {t('Total Price')}
                         </td>
                         <td className="py-2 px-4 font-bold">
                           {cart?.cart?.totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}

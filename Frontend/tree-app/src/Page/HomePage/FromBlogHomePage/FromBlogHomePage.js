@@ -60,7 +60,7 @@ export default function FromBlogHomePage() {
               },
             }}
           >
-            {blog.map((item,i) => { 
+            {blog?.map((item,i) => { 
               return(
                 <SwiperSlide key={i} className="py-3">
                    <Link to={`/blog/${item.id}`}>

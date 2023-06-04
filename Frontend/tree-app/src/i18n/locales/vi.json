@@ -49,6 +49,12 @@
     "You have no products in your shopping cart" : "Bạn chưa có sản phẩm trong giỏ hàng",
     "Sold Out" : "Hết hàng",
     "Order" : "Đơn Hàng",
-    "Top" : "Yêu thích"
-
+    "Top" : "Yêu thích",
+    "Order List" : "Danh sách đặt hàng",
+    "Total Price" : "Tổng tiền",
+    "Payment Method" : "Phương thức",
+    "Status" : "Trạng thái", 
+    "Address" : "Địa chỉ",
+    "Phone Number" : "Số điện thoại",
+    "Cancel" : "Hủy"
 }

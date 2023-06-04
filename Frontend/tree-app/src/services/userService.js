@@ -49,5 +49,16 @@ export let userService = {
       message.error("error")  
   }
   },
+  changePassword: async (value) => { 
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/users/password`,value,{
+        ...getAuthConfig(),
+      });
+      return response.data
+  } catch (error) {
+      console.log(error);    
+      message.error("error")  
+  }
+  },
 
 };
