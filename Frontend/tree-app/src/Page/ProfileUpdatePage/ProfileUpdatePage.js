@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Modal, message } from 'antd';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,7 +15,8 @@ export default function ProfileUpdatePage() {
   const dispatch = useDispatch();
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [user, setUser] = useState(localStorageService.get('USER').userDTO);
-
+  const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+  const [changePasswordForm] = Form.useForm();
   useEffect(() => {
     const fetchUserProfile = async () => {
       form.setFieldsValue({
@@ -56,7 +57,25 @@ export default function ProfileUpdatePage() {
     console.log(file);
     setSelectedAvatar(file);
   };
-
+  const handleChangePassword = () => {
+    changePasswordForm.validateFields().then((values) => {
+      let request = {...values , username  : user.username }
+      userService.changePassword(request).then((res) => {
+        console.log('Change password form submitted:', request);
+              console.log(res);
+              message.success("Success")
+              changePasswordForm.resetFields()
+              setChangePasswordVisible(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              message.error("Error")
+            });
+      })
+      .catch((error) => {
+        message.error('Error in change password form:', error);
+      });
+  };
   const labelCol = { span: 4 };
   const wrapperCol = { span: 16 };
 
@@ -114,11 +133,56 @@ export default function ProfileUpdatePage() {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}>
+          <div className='flex justify-between'>
           <Button type='primary' htmlType='submit'>
             Update
           </Button>
+          <Button onClick={() => setChangePasswordVisible(true)}>Change Password</Button>
+          </div>
         </Form.Item>
       </Form>
+      
+    <Modal
+      title="Change Password"
+      visible={changePasswordVisible}
+      onCancel={() => setChangePasswordVisible(false)}
+      onOk={handleChangePassword}
+    >
+      <Form form={changePasswordForm}>
+        <Form.Item
+          label="Old Password"
+          name="passwordOld"
+          rules={[{ required: true, message: 'Please enter your old password' }]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="New Password"
+          name="passwordNew"
+          rules={[{ required: true, message: 'Please enter your new password' }]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Confirm New Password"
+          name="confirmPasswordNew"
+          dependencies={['passwordNew']}
+          rules={[
+            { required: true, message: 'Please confirm your new password' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('passwordNew') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject('The two passwords do not match');
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+      </Form>
+    </Modal>
     </div>
   );
 }
