@@ -51,7 +51,7 @@ public class BlogAPI {
                                        @RequestParam("title") String title,
                                        @RequestParam("shortDescription") String shortDescription,
                                        @RequestParam("content") String content,
-                                       @RequestParam("image") MultipartFile image){
+                                       @RequestParam(value = "image",required = false) MultipartFile image){
         BlogDTO blogDTO  = new BlogDTO();
         blogDTO.setTitle(title);
         blogDTO.setContent(content);
@@ -69,13 +69,15 @@ public class BlogAPI {
                                         @RequestParam("title") String title,
                                         @RequestParam("shortDescription") String shortDescription,
                                         @RequestParam("content") String content,
-                                        @RequestParam("image") MultipartFile image){
+                                        @RequestParam(value = "image",required = false) MultipartFile image){
         BlogDTO blogDTO  = new BlogDTO();
         blogDTO.setId(idBlog);
         blogDTO.setTitle(title);
         blogDTO.setContent(content);
         blogDTO.setShortDescription(shortDescription);
-        blogDTO.setImage(cloudinaryService.uploadImage(image));
+        if (image != null) {
+            blogDTO.setImage(cloudinaryService.uploadImage(image));
+        }
         BlogDTO result = iBlogService.update(blogDTO);
         if(result == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

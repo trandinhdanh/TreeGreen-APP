@@ -2,7 +2,6 @@ package com.techpower.treegreen.dto;
 
 import lombok.*;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
