@@ -9,8 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
-@Configuration//định nghĩa class này là config
-@EnableJpaAuditing(auditorAwareRef = "auditorProvider")//bật tính năng auditing
+@Configuration
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class JPAAuditingConfig {
     @Bean
     public AuditorAware<String> auditorProvider() {

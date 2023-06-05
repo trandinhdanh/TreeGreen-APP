@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RiAccountCircleFill } from "react-icons/ri";
-import { AiOutlineHome ,AiOutlineBarChart} from "react-icons/ai";
+import { AiOutlineHome, AiOutlineBarChart } from "react-icons/ai";
 import {
   IoBeerOutline,
   IoBagOutline,
   IoPersonOutline,
   IoPencil,
+  IoLogOutOutline,
 } from "react-icons/io5";
 import { localStorageService } from "../../services/localStorageService";
 import { message } from "antd";
+import { useDispatch } from "react-redux";
+import { resetCart } from "../../Redux/cart/cartSlice";
+import { logoutUser } from "../../Redux/auth/authSlice";
 export default function SiteBarManager() {
-  const navigate = useNavigate()
-    const [user,setUser] = useState(localStorageService.get("USER"))
-    useEffect(() => {
-      if (user.roles[0] === "USER") {
-        navigate("/"); 
-        message.error('Not Have Access')
-      }
-    }, [user.roles[0], navigate]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [user, setUser] = useState(localStorageService.get("USER"));
+  useEffect(() => {
+    if (user.roles[0] === "USER") {
+      navigate("/");
+      message.error("Not Have Access");
+    }
+  }, [user.roles[0], navigate]);
   const renderByUser = () => {
     return (
       <>
@@ -42,80 +47,79 @@ export default function SiteBarManager() {
           >
             <AiOutlineBarChart className="text-[20px]" />
             <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
-                Statistical
-            </span>
-          </Link>
-        </li>
-        
-      {user.roles[0] === "SELLER" ?
-      <>
-        <li>
-          <Link
-            to="/manager/product"
-            href="#"
-            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
-          >
-            <IoBeerOutline className="text-[20px]" />
-            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
-              Products
+              Statistical
             </span>
           </Link>
         </li>
 
-        <li>
-          <Link
-            to="/manager/order"
-            href="#"
-            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
-          >
-            <IoBagOutline className="text-[20px]" />
-            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
-              Order
-            </span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/manager/blog"
-            href="#"
-            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
-          >
-            <IoPencil className="text-[20px]" />
-            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
-              Blog
-            </span>
-          </Link>
-        </li>
-      </>
-      : 
-     <>
-       <li>
-          <Link
-            to="/manager/user"
-            href="#"
-            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
-          >
-            <IoPersonOutline className="text-[20px]" />
-            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
-              User
-            </span>
-          </Link>
-        </li>
-      <li>
-          <Link
-            to="/manager/category"
-            href="#"
-            className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
-          >
-            <IoPersonOutline className="text-[20px]" />
-            <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
-              Category
-            </span>
-          </Link>
-        </li>
-     </>
-      }
-        
+        {user.roles[0] === "SELLER" ? (
+          <>
+            <li>
+              <Link
+                to="/manager/product"
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+              >
+                <IoBeerOutline className="text-[20px]" />
+                <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+                  Products
+                </span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/manager/order"
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+              >
+                <IoBagOutline className="text-[20px]" />
+                <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+                  Order
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/manager/blog"
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+              >
+                <IoPencil className="text-[20px]" />
+                <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+                  Blog
+                </span>
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link
+                to="/manager/user"
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+              >
+                <IoPersonOutline className="text-[20px]" />
+                <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+                  User
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/manager/category"
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+              >
+                <IoPersonOutline className="text-[20px]" />
+                <span className="flex-1 ml-3 whitespace-nowrap text-[14px]">
+                  Category
+                </span>
+              </Link>
+            </li>
+          </>
+        )}
       </>
     );
   };
@@ -146,6 +150,22 @@ export default function SiteBarManager() {
                     <RiAccountCircleFill className=" text-[30px]" />
                     <span className="flex-1 ml-3 whitespace-nowrap text-[20px] font-bold">
                       {user.userDTO.username}
+                    </span>
+                  </Link>
+                  <Link
+                    to="/"
+                    href="#"
+                    className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
+                  >
+                    <IoLogOutOutline className="text-[20px]" />
+                    <span
+                      onClick={() => {
+                        dispatch(resetCart());
+                        dispatch(logoutUser());
+                      }}
+                      className="flex-1 ml-3 whitespace-nowrap text-[14px]"
+                    >
+                      Log Out
                     </span>
                   </Link>
                 </li>

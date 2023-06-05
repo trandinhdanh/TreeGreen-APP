@@ -7,7 +7,6 @@ import javax.persistence.Column;
 
 @Getter
 @Setter
-
 public class BlogDTO extends AbstractDTO {
     private String title;
     private String shortDescription;
