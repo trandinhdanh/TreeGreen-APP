@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { userService } from '../../../../services/userService';
 import { Table, Tag, Space, Modal, Button } from 'antd';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
-import { TbHandMiddleFinger } from 'react-icons/tb';
+import { MdSettingsBackupRestore } from 'react-icons/md';
 import './PersonTableManager.scss';
 
 export default function SellerManagement() {
@@ -74,7 +74,7 @@ export default function SellerManagement() {
             <Space size="middle">
               {record.status === 'NON_ACTIVE' ? (
                 // Hiển thị nút chỉnh sửa hoặc hành động tùy chọn khác
-                <TbHandMiddleFinger
+                <MdSettingsBackupRestore
                   onClick={() => handleEdit(record)}
                   className="text-[20px] hover:scale-125 hover:text-primary transition-all"
                 />

@@ -15,6 +15,7 @@ export let blogService = {
   getBlogById: async (id) => { 
     try {
       const response = await axios.get(BASE_URL + `/api/v1/blogs/${id}`);
+      console.log(response);
       return response.data
   } catch (error) {
       console.log(error);      
@@ -48,23 +49,23 @@ export let blogService = {
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })
-      message.success("Create Product Success")
+      message.success("Create Blogs Success")
       console.log(response);
     } catch (error) {
-      message.error("Create Product Error")
+      message.error("Create Blogs Error")
       console.log(error);
     }
   },
   update: async (id,values) => {
     try {
-      const response = await axios.put(BASE_URL + `/api/v1/products/${id}`,values,{
+      const response = await axios.put(BASE_URL + `/api/v1/blogs/${id}`,values,{
         ...getAuthConfig(),
         'Content-Type': 'multipart/form-data'
       })
-      message.success("Create Product Success")
+      message.success("Update Blogs Success")
       console.log(response);
     } catch (error) {
-      message.error("Create Product Error")
+      message.error("Update Blogs Error")
       console.log(error);
     }
   },

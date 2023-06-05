@@ -126,8 +126,31 @@ public class OrderService implements IOrderService {
         List<OrderEntity> orderEntities = orderRepository.findAllByUserOrderByStatus(
                 userRepository.findOneById(idUser)
         );
+
+        List<OrderEntity> orderEntitiesSorted = new ArrayList<>();
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_WAIT_CONFIRM)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_CONFIRM)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_CANCEL)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_DONE)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+
         List<OrderDTO> result = new ArrayList<>();
-        for (OrderEntity orderEntity : orderEntities) {
+        for (OrderEntity orderEntity : orderEntitiesSorted) {
             OrderDTO orderDTO = orderConverter.toDTO(orderEntity);
             orderDTO.setUser(userConverter.toDTO(userRepository.findOneById(idUser)));
             List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
@@ -149,8 +172,30 @@ public class OrderService implements IOrderService {
         List<OrderEntity> orderEntities = orderRepository.findAllByShopOrderByStatus(
                 shopRepository.findOneByUser(userRepository.findOneById(idUser))
         );
+        List<OrderEntity> orderEntitiesSorted = new ArrayList<>();
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_WAIT_CONFIRM)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_CONFIRM)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_DONE)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+        for (OrderEntity orderEntity : orderEntities){
+            if (orderEntity.getStatus().equals(StatusConstant.ORDER_CANCEL)){
+                orderEntitiesSorted.add(orderEntity);
+            }
+        }
+
         List<OrderDTO> result = new ArrayList<>();
-        for (OrderEntity orderEntity : orderEntities) {
+        for (OrderEntity orderEntity : orderEntitiesSorted) {
             OrderDTO orderDTO = orderConverter.toDTO(orderEntity);
             orderDTO.setUser(userConverter.toDTO(orderEntity.getUser()));
             List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();

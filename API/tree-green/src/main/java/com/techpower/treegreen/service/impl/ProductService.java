@@ -8,7 +8,6 @@ import com.techpower.treegreen.repository.*;
 import com.techpower.treegreen.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +75,7 @@ public class ProductService implements IProductService {
     @Override
     public ProductDTO save(ProductDTO dto, long idUser) {
         ProductEntity entity = productConverter.toEntity(dto);
-        CategoryEntity categoryEntity = categoryRepository.findByCode(dto.getCategory().getCode());
+        CategoryEntity categoryEntity = categoryRepository.findOneByCode(dto.getCategory().getCode());
         entity.setCategory(categoryEntity);
         productRepository.save(entity);
 
@@ -104,7 +103,7 @@ public class ProductService implements IProductService {
     @Override
     public ProductDTO update(ProductDTO dto) {
         ProductEntity productEntityOld = productRepository.findOneById(dto.getId());
-        CategoryEntity categoryEntity = categoryRepository.findByCode(dto.getCategory().getCode());
+        CategoryEntity categoryEntity = categoryRepository.findOneByCode(dto.getCategory().getCode());
         if (dto.getImage() == null) {
             dto.setImage(productEntityOld.getImage());
         }
