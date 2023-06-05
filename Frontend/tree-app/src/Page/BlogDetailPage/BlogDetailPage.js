@@ -22,7 +22,7 @@ export default function BlogDetailPage() {
   }, [id]);
 
   return (
-    <div className="container mx-auto lg:px-24 md:px-24 sm:px-24 mb:px-5 pt-24 pb-10 bg-white">
+    <div className="container mx-auto lg:px-56 md:px-24 sm:px-24 mb:px-5 pt-24 pb-10 bg-white">
       <div className="">
         <div className="col-span-3 shadow-lg p-10 animate__fadeInLeft animate__animated">
           <p className='m-0 pb-2'>{post?.createBy} - {post?.createDate}</p>

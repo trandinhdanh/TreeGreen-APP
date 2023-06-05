@@ -40,7 +40,7 @@ export default function ProductUpdateManagerPage() {
           quantity: response.quantity,
           shortDescription: response.shortDescription,
           description: response.description,
-          category: response.category.name,
+          category: response.category.code,
         });
         setSelectedImage(response.image);
         setSelectedImages(response.images);
@@ -71,7 +71,7 @@ export default function ProductUpdateManagerPage() {
         formData.append(`images`, file);
       });
     }
-
+    console.log(values.category);
     dispatch(setLoading(true));
     productService
       .update(id, formData)

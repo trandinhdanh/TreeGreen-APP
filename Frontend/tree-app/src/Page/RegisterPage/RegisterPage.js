@@ -9,12 +9,14 @@ import { loginUser } from "../../Redux/auth/authSlice";
 export default function RegisterPage() {
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const onFinish = async (values) => {
     try {
       const register = await authService.registerUser(values);
       const infoLogin = {username: values.username,password : values.password}
         dispatch(loginUser(infoLogin))
         console.log(values)
+        navigate('/')
       } catch (error) {
         console.log(error);
       }
@@ -89,7 +91,15 @@ export default function RegisterPage() {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your password!",
+                        message: 'Please input your password!',
+                      },
+                      {
+                        min: 6,
+                        message: 'Password must be at least 6 characters!',
+                      },
+                      {
+                        pattern: /^(?=.*\d)/,
+                        message: 'Password must contain at least one number!',
                       },
                     ]}
                   >

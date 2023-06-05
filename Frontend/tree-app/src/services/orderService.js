@@ -32,11 +32,9 @@ export let orderService = {
         ...getAuthConfig(),
       })
       console.log(response);
-      message.success("Order Success")
 
     } catch (error) {
       console.log(error);
-      message.success("Order error")
     }
   },
   confirm: async (idOrder) => {

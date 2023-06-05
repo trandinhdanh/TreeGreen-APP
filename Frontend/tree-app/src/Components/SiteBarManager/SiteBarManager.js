@@ -139,7 +139,7 @@ export default function SiteBarManager() {
               <div>
                 <li>
                   <Link
-                    to="/Manager/profile"
+                    to="/Manager"
                     href="#"
                     className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
                   >

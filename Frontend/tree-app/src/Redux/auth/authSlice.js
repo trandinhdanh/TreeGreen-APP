@@ -1,11 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { localStorageService } from '../../services/localStorageService';
-import { https } from '../../services/configAxios';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 import { BASE_URL } from '../../utils/baseURL';
-
+import { redirect } from "react-router-dom";
 const initialState = {
   accessToken: null,
   isLoggedIn: !!localStorageService.get('USER'),
