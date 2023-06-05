@@ -11,7 +11,7 @@ import {
 } from "react-icons/io5";
 import { localStorageService } from "../../services/localStorageService";
 import { message } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetCart } from "../../Redux/cart/cartSlice";
 import { logoutUser } from "../../Redux/auth/authSlice";
 export default function SiteBarManager() {
@@ -24,6 +24,12 @@ export default function SiteBarManager() {
       message.error("Not Have Access");
     }
   }, [user.roles[0], navigate]);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn == false) {
+     navigate('/login')
+    }
+  }, [isLoggedIn, navigate]);
   const renderByUser = () => {
     return (
       <>
@@ -153,7 +159,7 @@ export default function SiteBarManager() {
                     </span>
                   </Link>
                   <Link
-                    to="/"
+                    to=""
                     href="#"
                     className="flex items-center p-2 text-base font-normal text-gray-500 rounded-lg  hover:bg-gray-300 "
                   >
