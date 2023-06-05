@@ -2,8 +2,6 @@ package com.techpower.treegreen.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-
-
 @Getter
 @Setter
 public class OrderDetailDTO extends AbstractDTO {
