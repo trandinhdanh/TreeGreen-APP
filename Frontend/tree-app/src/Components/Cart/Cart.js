@@ -59,10 +59,10 @@ export default function Cart({ openCart, handleCartClick }) {
 
   return (
     <div
-      className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037]    `}
+      className={`cartModal ${openCart ? 'block' : 'hidden'} fixed top-0 left-0 right-0 h-full bg-[#00000037]  `}
       onClick={handleClickOutsideCart}
     >
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] p-10 rounded-lg h-[80%] w-[80%] p-8 animate__animated animate__zoomIn">
+      <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] p-10 rounded-lg h-[80%] w-[80%] p-8 animate__animated animate__zoomIn">
         <AiOutlineClose className="absolute top-8 right-8 text-[20px]" onClick={handleCartClick} />
         <div className="contentCart text-left">
           <h1 className="font-bold text-[20px] font-roboto">{t('Your Cart')}</h1>
@@ -120,7 +120,7 @@ export default function Cart({ openCart, handleCartClick }) {
                       ))}
                       <tr>
                         <td colSpan="2" className="py-2 px-4 text-right font-bold">
-                          {t('Total')}
+                          {t('Total Price')}
                         </td>
                         <td className="py-2 px-4 font-bold">
                           {cart?.cart?.totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}

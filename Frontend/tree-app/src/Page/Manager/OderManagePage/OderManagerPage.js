@@ -10,6 +10,9 @@ export default function OderManagerPage() {
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 3 });
+
   useEffect(() => {
     fetchOrders();
   }, [idUser]);
@@ -18,6 +21,7 @@ export default function OderManagerPage() {
     setIsModalOpen(false);
   };
   const handleUpdate = (record) => {
+    setSelectedOrderStatus(record.status)
     setSelectedOrder(record);
     setIsModalOpen(true);
   };
@@ -79,19 +83,25 @@ export default function OderManagerPage() {
     {
       title: "Actions",
       key: "actions",
-      render: (text, record) => (
-        <Button type="primary" onClick={() => handleUpdate(record)}>
-          Update
-        </Button>
-      ),
+      render: (text, record) => {
+        if (record.status === 'ORDER_WAIT_CONFIRM' || record.status === 'ORDER_CONFIRM') {
+          return (
+            <Button type="primary" onClick={() => handleUpdate(record)}>
+            Update
+          </Button>
+          )
+        }
+        return null;
+      },
     },
   ];
+   
   const handleConfirm = async (idOrder) => {
     try {
       const response = await orderService.confirm(idOrder);
       console.log(response);
-      setOrders(response.data);
       setIsModalOpen(false);
+      fetchOrders()
     } catch (error) {
       console.log(error);
     }
@@ -100,8 +110,9 @@ export default function OderManagerPage() {
     try {
       const response = await orderService.done(idOrder);
       console.log(response);
-      setOrders(response.data);
       setIsModalOpen(false);
+      fetchOrders()
+
     } catch (error) {
       console.log(error);
     }
@@ -110,8 +121,9 @@ export default function OderManagerPage() {
     try {
       const response = await orderService.cancel(idOrder);
       console.log(response);
-      setOrders(response.data);
       setIsModalOpen(false);
+      fetchOrders()
+
     } catch (error) {
       console.log(error);
     }
@@ -121,7 +133,46 @@ export default function OderManagerPage() {
     borderRadius: "8px",
     overflow: "hidden",
   };
+  const displayBtnModal = () => { 
+    switch (selectedOrderStatus) {
+      case "ORDER_WAIT_CONFIRM":
+       return (
 
+         <>
+        <Button
+        type="primary"
+        style={{ background: "#30A2FF" }}
+        onClick={() => handleConfirm(selectedOrder.id)}
+      >
+        ORDER_CONFIRM
+      </Button>
+      <Button
+            type="primary"
+            style={{ background: "#B70404" }}
+            onClick={() => handleCancelOrder(selectedOrder.id)}
+            >
+            ORDER_CANCEL
+          </Button>
+      </>
+            )
+      
+      default:
+        return (
+          <>
+           <Button
+            type="primary"
+            style={{ background: "#1B9C85" }}
+            onClick={() => handleDone(selectedOrder.id)}
+          >
+            ORDER_DONE
+          </Button>
+          </>
+        )
+    }
+   }
+   const handleTableChange = (pagination) => {
+    setPagination(pagination);
+  };
   return (
     <div className="">
       <h1 className="text-3xl font-bold my-6 text-primary">Order List</h1>
@@ -130,7 +181,8 @@ export default function OderManagerPage() {
           dataSource={orders}
           columns={columns}
           rowKey="id"
-          pagination={false}
+          pagination={pagination}
+          onChange={handleTableChange}
           expandable={{
             expandedRowRender: (record) => (
               <ul>
@@ -170,27 +222,7 @@ export default function OderManagerPage() {
         }
       >
         <div className="flex flex-col space-y-2 mx-20 py-5">
-          <Button
-            type="primary"
-            style={{ background: "#E8AA42" }}
-            onClick={() => handleConfirm(selectedOrder.id)}
-          >
-            ORDER_CONFIRM
-          </Button>
-          <Button
-            type="primary"
-            style={{ background: "#1B9C85" }}
-            onClick={() => handleDone(selectedOrder.id)}
-          >
-            ORDER_DONE
-          </Button>
-          <Button
-            type="primary"
-            style={{ background: "#B70404" }}
-            onClick={() => handleCancelOrder(selectedOrder.id)}
-          >
-            ORDER_CANCEL
-          </Button>
+          {displayBtnModal()}
         </div>
       </Modal>
     </div>

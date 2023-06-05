@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Form, Input, Radio, Button, message, Modal } from 'antd';
 import { cartService } from '../../services/cartService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { localStorageService } from '../../services/localStorageService';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 import { useTranslation } from 'react-i18next';
 import { orderService } from '../../services/orderService';
 import { useNavigate } from 'react-router-dom';
+import { getAllProduct } from '../../Redux/products/productList';
 
 export default function PaymentPage() {
   const { t } = useTranslation();
-  const navigate = useNavigate()
-  const [customerInfo, setCustomerInfo] = useState({
-    address: localStorageService.get('USER').userDTO.address || '',
-    numberPhone: localStorageService.get('USER').userDTO.numberPhone || '',
-    paymentMethod: '',
-  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [customerInfo, setCustomerInfo] = useState();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [idUser, setIdUser] = useState();
   const [cart, setCart] = useState();
@@ -23,6 +21,11 @@ export default function PaymentPage() {
 
   useEffect(() => {
     if (isLoggedIn) {
+      setCustomerInfo({
+        address: localStorageService.get('USER').userDTO.address || '',
+        numberPhone: localStorageService.get('USER').userDTO.numberPhone || '',
+        paymentMethod: '',
+      })
       setIdUser(localStorageService.get('USER').userDTO.id);
       const getAllProductInCart = async () => {
         try {
@@ -45,6 +48,7 @@ export default function PaymentPage() {
       try {
         const response = await orderService.order(cart.id, customerInfo);
         navigate('/')
+        dispatch(getAllProduct())
       } catch (error) {
         console.error('Error:', error);
         openNotificationIcon(
@@ -134,7 +138,7 @@ export default function PaymentPage() {
                 <Form.Item label="Address" rules={[{ required: true }]}>
                   <Input
                     name="address"
-                    value={customerInfo.address}
+                    value={customerInfo?.address}
                     onChange={handleInput}
                   />
                 </Form.Item>
@@ -142,7 +146,7 @@ export default function PaymentPage() {
                   <Input
                     type="number"
                     name="numberPhone"
-                    value={customerInfo.numberPhone}
+                    value={customerInfo?.numberPhone}
                     onChange={handleInput}
                   />
                 </Form.Item>
@@ -150,7 +154,7 @@ export default function PaymentPage() {
                 <Form.Item label="Payment Method">
                   <Radio.Group
                     name="paymentMethod"
-                    value={customerInfo.paymentMethod}
+                    value={customerInfo?.paymentMethod}
                     onChange={handlePaymentMethodChange}
                   >
                     <Radio value="Cash on Delivery">Cash on Delivery</Radio>

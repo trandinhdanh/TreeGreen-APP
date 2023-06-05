@@ -81,6 +81,18 @@ export let orderService = {
       message.success("Confirm error")
     }
   },
+  canceluser: async (idOrder) => {
+    try {
+      const response = await axios.put(BASE_URL + `/api/v1/orders/user/${idOrder}/cancel`,{
+        ...getAuthConfig(),
+        'Content-Type': 'multipart/form-data'
+      })
+      console.log(response);
+
+    } catch (error) {
+      console.log(error);
+    }
+  },
   getYear : async (idUser,year) => {
     try {
       const response = await axios.get(BASE_URL + `/api/v1/statisticals/${idUser}/${year}`,{

@@ -70,6 +70,17 @@ export default function ProductManagerPage() {
         <Column title="Mã sản phẩm" dataIndex="id" key="id" />
         <Column title="Tên sản phẩm" dataIndex="name" key="name" />
         <Column
+  title="Số Lượng"
+  dataIndex="quantity"
+  key="quantity"
+  render={(text) => {
+    if (text < 1) {
+      return <Tag color="red">Hết hàng</Tag>;
+    }
+    return text;
+  }}
+/>
+        <Column
           title="Hình ảnh"
           dataIndex="image"
           key="image"

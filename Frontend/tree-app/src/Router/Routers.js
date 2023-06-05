@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route,Routes } from 'react-router-dom'
 import HomePage from '../Page/HomePage/HomePage'
 import LoginPage from '../Page/LoginPage/LoginPage'
@@ -16,6 +16,7 @@ import PaymentPage from '../Page/PaymentPage/PaymentPage'
 import ProductManagerPage from '../Page/Manager/ProductManagerPage/ProductManagerPage'
 import RegisterSellerPage from '../Page/RegisterSellerPage/RegisterSellerPage'
 import UserPage from '../Page/Manager/UserPage/UserPage'
+import UserPageRouter from '../Router/Request/UserPage'
 import BlogManagerPage from '../Page/Manager/BlogManagerPage/BlogManagerPage'
 import CategoryManager from '../Page/Manager/CategoryManager/CategoryManager'
 import ProductUpdateManagerPage from '../Page/Manager/ProductManagerPage/ProductUpdateManagerPage/ProductUpdateManagerPage'
@@ -25,8 +26,13 @@ import OrderPage from '../Page/OrderPage/OrderPage'
 import OderManagerPage from '../Page/Manager/OderManagePage/OderManagerPage'
 import StatisticalManagerPage from '../Page/Manager/StatisticalManagerPage/StatisticalManagerPage'
 import ProfileUpdatePage from '../Page/ProfileUpdatePage/ProfileUpdatePage'
+import { useSelector } from 'react-redux'
 
 export default function Routers() {
+  const auth = useSelector((state) => state.auth.isLoggedIn);
+    useEffect(() => { 
+        console.log(auth);
+     },[])
   return (
     <div>
         <BrowserRouter>
@@ -42,6 +48,7 @@ export default function Routers() {
                     <Route path='/order' element={<OrderPage/>} />
                     <Route path='/profile/:id' element={<ProfileUpdatePage/>} />
                 </Route>
+                
                 <Route path='/manager' element = {<ManagerLayout/>} >
                     <Route path="/manager" element={<ManagerPage/>} />
                     <Route path="/manager/product" element={<ProductManagerPage/>} />

@@ -49,7 +49,12 @@
     "You have no products in your shopping cart" : "You have no products in your shopping cart",
     "Sold Out" : "Sold Out",
     "Order" : "Order",
-    "Top" : "Top"
-
-
+    "Top" : "Top",
+    "Order List" : "Order List",
+    "Total Price" : "Total Price",
+    "Payment Method"  :"Payment Method",
+    "Status" : "Status",
+    "Address" : "Address",
+    "Phone Number" : "Phone Number",
+    "Cancel" : "Cancel"
 }
