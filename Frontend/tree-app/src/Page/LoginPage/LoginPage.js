@@ -9,13 +9,13 @@ import { localStorageService } from "../../services/localStorageService";
 export default function LoginPage() {
   const {t} = useTranslation();
   const dispatch = useDispatch()
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const onFinish = (values) => {
     console.log(values)
     dispatch(loginUser(values))
     
   };
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   useEffect(() => {
     if (isLoggedIn) {
       const role = localStorageService.get('USER').roles[0]

@@ -27,6 +27,7 @@ import OderManagerPage from '../Page/Manager/OderManagePage/OderManagerPage'
 import StatisticalManagerPage from '../Page/Manager/StatisticalManagerPage/StatisticalManagerPage'
 import ProfileUpdatePage from '../Page/ProfileUpdatePage/ProfileUpdatePage'
 import { useSelector } from 'react-redux'
+import UpdateBlogManagerPage from '../Page/Manager/BlogManagerPage/UpdateBlogManagerPage/UpdateBlogManagerPage'
 
 export default function Routers() {
   const auth = useSelector((state) => state.auth.isLoggedIn);
@@ -58,6 +59,7 @@ export default function Routers() {
                     <Route path="/manager/user" element={<UserPage/>} />
                     <Route path="/manager/blog" element={<BlogManagerPage/>} />
                     <Route path="/manager/blog-add" element={<NewBlogManagerPage/>} />
+                    <Route path="/manager/blog-update/:id" element={<UpdateBlogManagerPage/>} />
                     <Route path="/manager/category" element={<CategoryManager/>} />
                     <Route path="/manager/statistical" element={<StatisticalManagerPage/>} />
                 </Route>

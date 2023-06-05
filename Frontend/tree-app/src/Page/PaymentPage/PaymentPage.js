@@ -18,7 +18,18 @@ export default function PaymentPage() {
   const [idUser, setIdUser] = useState();
   const [cart, setCart] = useState();
   const [showModal, setShowModal] = useState(false);
-
+  useEffect(() => {
+    if (isLoggedIn) {
+      const role = localStorageService.get('USER').roles[0]
+      if(role === "MANAGER" || role === "SELLER"){
+        message.error("No access")
+        navigate("/manager"); 
+      }
+    }else{
+      message.error("Please Login")
+      navigate('/login')
+    }
+  }, [isLoggedIn, navigate]);
   useEffect(() => {
     if (isLoggedIn) {
       setCustomerInfo({
@@ -46,8 +57,13 @@ export default function PaymentPage() {
 
     if (customerInfo.address && customerInfo.numberPhone) {
       try {
-        const response = await orderService.order(cart.id, customerInfo);
-        navigate('/')
+        await orderService.order(cart.id, customerInfo);
+        openNotificationIcon(
+          'success',
+          'Success',
+          'Payment Success! I Love You <3'
+        );
+        navigate('/order')
         dispatch(getAllProduct())
       } catch (error) {
         console.error('Error:', error);

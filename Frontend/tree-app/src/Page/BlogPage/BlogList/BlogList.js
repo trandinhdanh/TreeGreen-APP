@@ -30,12 +30,12 @@ export default function BlogList({blog}) {
       {displayedBlogs.map((item, i) => (
         <Link key={i} to={`/blog/${item.id}`}>
           <div className='blogItem h-[150px] rounded-lg flex justify-between mb-5 p-5'>
-            <div>
+            <div className='w-3/4'>
               <p className='m-0 pb-2'> {item.createBy} - {formatDateString(item.createDate)}</p>
               <h1 className='font-bold font-montserrat text-[#292929] text-[12px]'>{item.title}</h1>
               <p className='m-0'>{item.shortDescription}</p>
             </div>
-            <img className='w-2/5 object-cover rounded-lg' src={item.image} alt='Blog thumbnail' />
+            <img className='w-1/4 object-cover rounded-lg' src={item.image} alt='Blog thumbnail' />
           </div>
         </Link>
       ))}

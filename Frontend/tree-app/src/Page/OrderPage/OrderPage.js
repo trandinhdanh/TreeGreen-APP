@@ -138,7 +138,7 @@ export default function OrderPage() {
         />
       </div>
       <Modal
-        title="Xác nhận hủy đơn hàng"
+        title="Order Cancellation Confirmation"
         visible={isCancelModalVisible}
         onOk={handleCancel}
         onCancel={handleCancelModal}
