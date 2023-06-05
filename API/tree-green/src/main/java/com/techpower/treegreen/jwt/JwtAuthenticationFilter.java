@@ -22,17 +22,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    //phương thức này đưuọc gọi mỗi khi có yêu cầu gửi đến ứng dụng.
+    // Nó thực hiện việc xác thực và phân quyền dựa trên token JWT.
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+        //lấy ra giá trị của "Authorization" ở phần tiêu đề
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+        // jwt ban đầu sẽ là Bearer 546513132sa.dasdasdasdasdasd.....
         String jwt = authHeader.substring(7);
         String username = jwtUtil.extractUsername(jwt);
 

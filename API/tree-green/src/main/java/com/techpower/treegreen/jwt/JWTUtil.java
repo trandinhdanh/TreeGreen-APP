@@ -44,62 +44,36 @@ public class JWTUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-//    private Key getSignInkey() {
-//        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-//        return Keys.hmacShaKeyFor(keyBytes);
-//    }
-
     private Key getSignInkey() {
+        //tạo ra Key để mã hóa bằng cách sử dụng chuỗi bí mật(SECRET_KEY) và thuật toán hmacShaKeyFor
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
-
-
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
-
-    //    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-//        return Jwts
-//                .builder()
-//                .setClaims(extraClaims)
-//                .setSubject(userDetails.getUsername())
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-//                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
-//                .compact();
-//    }
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(Date.from(Instant.now()))
+        return Jwts.builder()
+                .setClaims(new HashMap<>()) //truyền thông tin bổ sung vào phần payload
+                .setSubject(userDetails.getUsername()) //xác thực người dùng
+                .setIssuedAt(Date.from(Instant.now()))//thời gian phát hành của token
                 .setExpiration(
                         Date.from(
                                 Instant.now().plus(2, DAYS)
                         )
-                )
-                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
-                .compact();
+                )//thời gian hết hạn của token 2 ngày
+                .signWith(getSignInkey(), SignatureAlgorithm.HS256)//thực hiện kí mã hóa bằng cách sử dụng pt getSignInkey và thuật toán HS256
+                .compact();// kết thúc và trả token
     }
 
-    private Date extractExpiration(String token) {
-        return extractClaims(token, Claims::getExpiration);
-    }
-
-    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInkey())
-                .build().parseClaimsJws(token)
-                .getBody();
-    }
-
-
+//    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+//        return Jwts
+//                .builder()
+//                .setClaims(extraClaims)
+//                .setSubject(userDetails.getUsername())
+//                .setIssuedAt(Date.from(Instant.now()))
+//                .setExpiration(
+//                        Date.from(
+//                                Instant.now().plus(2, DAYS)
+//                        )
+//                )
+//                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
+//                .compact();
+//    }
 }

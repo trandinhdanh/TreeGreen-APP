@@ -24,6 +24,7 @@ public class CrossConfig {
     private List<String> expectedHeaders;
 
     @Bean
+
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(allowedOrigins);
