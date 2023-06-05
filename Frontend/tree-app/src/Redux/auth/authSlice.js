@@ -4,6 +4,7 @@ import axios from 'axios';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 import { BASE_URL } from '../../utils/baseURL';
 import { redirect } from "react-router-dom";
+import { message } from 'antd';
 const initialState = {
   accessToken: null,
   isLoggedIn: !!localStorageService.get('USER'),
@@ -21,7 +22,13 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAP
     console.log(res)
     return res.data;
   } catch (error) {
-    openNotificationIcon('erorr', 'Erorr', 'Login Failed!');
+    if (error.response && error.response.status === 403) {
+      message.error('Forbidden: Access Denied');
+    } else if (error.response && error.response.status === 401) {
+      message.error('Unauthorized: Invalid credentials');
+    } else {
+      message.error('Login Failed');
+    }
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
@@ -34,7 +41,7 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunk
     openNotificationIcon('success', 'Success', 'Logout Success!');
     return user;
   } catch (error) {
-    openNotificationIcon('erorr', 'Erorr', 'Login Erorr!');
+    openNotificationIcon('erorr', 'Erorr', 'Logout Erorr!');
   }
 });
 
@@ -78,7 +85,6 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         return {
           ...state,
-          accessToken: payload.token,
           isLoggedIn: false,
         };
       })

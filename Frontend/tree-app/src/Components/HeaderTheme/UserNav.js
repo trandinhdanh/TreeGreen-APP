@@ -35,7 +35,11 @@ export default function UserNav() {
     navigate("/login")
     
   }
-
+  useEffect(() => {
+    if (isLoggedIn == false) {
+     navigate('/login')
+    }
+  }, [isLoggedIn, navigate]);
   const handleRole = () => { 
     if(isLoggedIn){
      return ( 
