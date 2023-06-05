@@ -41,14 +41,14 @@ export default function UserNav() {
      return ( 
      <>
       <Link
-         to={user?.roles[0] === "SELLER" || user?.roles[0] === "ADMIN" ? "/manager" : `/profile/${user.userDTO.id}`}
+         to={user?.roles[0] === "SELLER" || user?.roles[0] === "ADMIN" ? "/manager" : `/profile/${user?.userDTO?.id}`}
         className="w-full text-black block h-full transition duration-100"
       >
         <li  className="dropdownItem  hover:bg-gray-200 transition duration-300">
-          <p>{t('Welcome')}{user?.userDTO.fullName}</p>
+          <p>{t('Welcome')}{user?.userDTO?.fullName}</p>
         </li>
       </Link>
-      {user.roles[0] === "USER" && (
+      {user?.roles[0] === "USER" && (
           <>
           <Link
           to="/order"
