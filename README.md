@@ -20,4 +20,7 @@
 -	Quản lí hóa đơn: Người bán có thể xem các đơn hàng đã đặt hàng của shop mình, và chỉnh sửa trạng thái đơn hàng.
 -	Thống kê doanh thu: Admin và người bán sẽ có thể xem doanh thu của mình.
 
+## Video Demo:
+- https://youtu.be/bo9LSzgO6Vc
+
 
